@@ -40,6 +40,7 @@
     "fp/no-loops": ["warn"],
     "fp/no-this": ["warn"],
     "require-await": ["error"],
-    "consistent-return": ["off"]
+    "consistent-return": ["off"],
+    "no-undef": ["off"]
   }
 }

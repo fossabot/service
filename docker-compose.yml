@@ -18,10 +18,17 @@ services:
   postgres:
     image: postgres:10.3
     restart: always
+    ports:
+      - '6600:5432'
     environment:
       POSTGRES_USER: prisma
       POSTGRES_PASSWORD: prisma
     volumes:
       - postgres:/var/lib/postgresql/data
+  redis:
+    image: redis:alpine
+    restart: always
+    ports:
+      - '7700:6379'
 volumes:
   postgres: ~

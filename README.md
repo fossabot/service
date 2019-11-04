@@ -52,7 +52,11 @@ $ yarn
 $ yarn start:dev
 ```
 
-🙌 Awesome
+## Database diagram
+
+![Database digram](./images/database_diagram.png)
+
+Build with 🙌 and ❤️
 
 ## License
 

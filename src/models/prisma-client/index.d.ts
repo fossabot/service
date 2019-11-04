@@ -827,19 +827,19 @@ export type DateTimeOutput = string;
 
 export const models: Model[] = [
   {
-    name: 'Sex',
-    embedded: false,
-  },
-  {
-    name: 'User',
-    embedded: false,
-  },
-  {
     name: 'Role',
     embedded: false,
   },
   {
     name: 'Account',
+    embedded: false,
+  },
+  {
+    name: 'Sex',
+    embedded: false,
+  },
+  {
+    name: 'User',
     embedded: false,
   },
 ];
