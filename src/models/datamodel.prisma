@@ -1,33 +1,132 @@
 enum Role {
-  ADMIN
-  MANAGER
-  STAFF
+  Free
+  Premium
+}
+
+enum AccountStatus {
+  Pending
+  Active
+  Deactive
 }
 
 type Account {
   id: UUID! @id
   username: String! @unique
   password: String!
-  role: Role! @default(value: STAFF)
-  user: User @relation(name: "AccountUser", onDelete: CASCADE)
+  email: String! @unique
+  role: Role! @default(value: Free)
+  status: AccountStatus @default(value: Pending)
+  settings: Json
+  users: [User!]! @relation(name: "Account_User", onDelete: CASCADE)
+  posts: [Post!] @relation(name: "Account_Post", onDelete: CASCADE)
+  pets: [Pet!] @relation(name: "Account_Pet", onDelete: CASCADE)
+  images: [Image!] @relation(name: "Account_Image", onDelete: CASCADE)
+  comments: [Comment!] @relation(name: "Account_Comment")
+  reviews: [Review!] @relation(name: "Account_Review")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
-}
-
-enum Sex {
-  MALE
-  FEMALE
 }
 
 type User {
   id: UUID! @id
-  email: String @unique
   name: String!
-  phoneNumber: String
-  address: String
+  phoneNumber: String!
+  address: Json!
+  bio: String
   dob: DateTime
-  sex: Sex
+  avatar: String
+  settings: Json
+  account: Account! @relation(name: "Account_User")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
 
+enum PostStatus {
+  Pending
+  Active
+  Deactive
+}
+
+type Post {
+  id: UUID! @id
+  title: String!
+  description: String
+  location: String!
+  price: Int! @default(value: 0)
+  dueDate: DateTime!
+  settings: Json
+  status: PostStatus! @default(value: Active)
+  postTags: [PostTag!] @relation(name: "PostTag_Post", onDelete: CASCADE)
+  comments: [Comment!] @relation(name: "Post_Comment", onDelete: CASCADE)
+  reviews: [Review!] @relation(name: "Post_Review", onDelete: CASCADE)
+  account: Account! @relation(name: "Account_Post")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+enum PetType {
+  Dog
+  Cat
+  Bird
+  Fish
+  Snake
+  Hare
+  Hamster
+  Other
+}
+
+type Pet {
+  id: UUID! @id
+  type: PetType!
+  info: Json
+  post: Post! @relation(link: INLINE)
+  images: [Image!] @relation(name: "Pet_Image", onDelete: CASCADE)
+  account: Account! @relation(name: "Account_Pet")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Tag {
+  id: UUID! @id
+  title: String!
+  description: String
+  postTags: [PostTag!] @relation(name: "PostTag_Tag", onDelete: CASCADE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type PostTag {
+  id: UUID! @id
+  post: Post! @relation(name: "PostTag_Post")
+  tag: Tag! @relation(name: "PostTag_Tag")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Image {
+  id: UUID! @id
+  url: String!
+  pet: Pet! @relation(name: "Pet_Image")
+  account: Account! @relation(name: "Account_Image")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Comment {
+  id: UUID! @id
+  message: String!
+  post: Post! @relation(name: "Post_Comment")
+  createdBy: Account! @relation(name: "Account_Comment")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Review {
+  id: UUID! @id
+  message: String!
+  stars: Int!
+  post: Post! @relation(name: "Post_Review")
+  createdBy: Account! @relation(name: "Account_Review")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

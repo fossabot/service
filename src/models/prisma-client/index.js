@@ -9,15 +9,51 @@ var models = [
     embedded: false,
   },
   {
+    name: 'AccountStatus',
+    embedded: false,
+  },
+  {
     name: 'Account',
     embedded: false,
   },
   {
-    name: 'Sex',
+    name: 'User',
     embedded: false,
   },
   {
-    name: 'User',
+    name: 'PostStatus',
+    embedded: false,
+  },
+  {
+    name: 'Post',
+    embedded: false,
+  },
+  {
+    name: 'PetType',
+    embedded: false,
+  },
+  {
+    name: 'Pet',
+    embedded: false,
+  },
+  {
+    name: 'Tag',
+    embedded: false,
+  },
+  {
+    name: 'PostTag',
+    embedded: false,
+  },
+  {
+    name: 'Image',
+    embedded: false,
+  },
+  {
+    name: 'Comment',
+    embedded: false,
+  },
+  {
+    name: 'Review',
     embedded: false,
   },
 ];

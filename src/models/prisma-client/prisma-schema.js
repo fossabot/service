@@ -9,8 +9,64 @@ module.exports = {
         id: UUID!
         username: String!
         password: String!
+        email: String!
         role: Role!
-        user: User
+        status: AccountStatus
+        settings: Json
+        users(
+          where: UserWhereInput
+          orderBy: UserOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [User!]
+        posts(
+          where: PostWhereInput
+          orderBy: PostOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [Post!]
+        pets(
+          where: PetWhereInput
+          orderBy: PetOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [Pet!]
+        images(
+          where: ImageWhereInput
+          orderBy: ImageOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [Image!]
+        comments(
+          where: CommentWhereInput
+          orderBy: CommentOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [Comment!]
+        reviews(
+          where: ReviewWhereInput
+          orderBy: ReviewOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [Review!]
         createdAt: DateTime!
         updatedAt: DateTime!
       }
@@ -25,8 +81,136 @@ module.exports = {
         id: UUID
         username: String!
         password: String!
+        email: String!
         role: Role
-        user: UserCreateOneInput
+        status: AccountStatus
+        settings: Json
+        users: UserCreateManyWithoutAccountInput
+        posts: PostCreateManyWithoutAccountInput
+        pets: PetCreateManyWithoutAccountInput
+        images: ImageCreateManyWithoutAccountInput
+        comments: CommentCreateManyWithoutCreatedByInput
+        reviews: ReviewCreateManyWithoutCreatedByInput
+      }
+
+      input AccountCreateOneWithoutCommentsInput {
+        create: AccountCreateWithoutCommentsInput
+        connect: AccountWhereUniqueInput
+      }
+
+      input AccountCreateOneWithoutImagesInput {
+        create: AccountCreateWithoutImagesInput
+        connect: AccountWhereUniqueInput
+      }
+
+      input AccountCreateOneWithoutPetsInput {
+        create: AccountCreateWithoutPetsInput
+        connect: AccountWhereUniqueInput
+      }
+
+      input AccountCreateOneWithoutPostsInput {
+        create: AccountCreateWithoutPostsInput
+        connect: AccountWhereUniqueInput
+      }
+
+      input AccountCreateOneWithoutReviewsInput {
+        create: AccountCreateWithoutReviewsInput
+        connect: AccountWhereUniqueInput
+      }
+
+      input AccountCreateOneWithoutUsersInput {
+        create: AccountCreateWithoutUsersInput
+        connect: AccountWhereUniqueInput
+      }
+
+      input AccountCreateWithoutCommentsInput {
+        id: UUID
+        username: String!
+        password: String!
+        email: String!
+        role: Role
+        status: AccountStatus
+        settings: Json
+        users: UserCreateManyWithoutAccountInput
+        posts: PostCreateManyWithoutAccountInput
+        pets: PetCreateManyWithoutAccountInput
+        images: ImageCreateManyWithoutAccountInput
+        reviews: ReviewCreateManyWithoutCreatedByInput
+      }
+
+      input AccountCreateWithoutImagesInput {
+        id: UUID
+        username: String!
+        password: String!
+        email: String!
+        role: Role
+        status: AccountStatus
+        settings: Json
+        users: UserCreateManyWithoutAccountInput
+        posts: PostCreateManyWithoutAccountInput
+        pets: PetCreateManyWithoutAccountInput
+        comments: CommentCreateManyWithoutCreatedByInput
+        reviews: ReviewCreateManyWithoutCreatedByInput
+      }
+
+      input AccountCreateWithoutPetsInput {
+        id: UUID
+        username: String!
+        password: String!
+        email: String!
+        role: Role
+        status: AccountStatus
+        settings: Json
+        users: UserCreateManyWithoutAccountInput
+        posts: PostCreateManyWithoutAccountInput
+        images: ImageCreateManyWithoutAccountInput
+        comments: CommentCreateManyWithoutCreatedByInput
+        reviews: ReviewCreateManyWithoutCreatedByInput
+      }
+
+      input AccountCreateWithoutPostsInput {
+        id: UUID
+        username: String!
+        password: String!
+        email: String!
+        role: Role
+        status: AccountStatus
+        settings: Json
+        users: UserCreateManyWithoutAccountInput
+        pets: PetCreateManyWithoutAccountInput
+        images: ImageCreateManyWithoutAccountInput
+        comments: CommentCreateManyWithoutCreatedByInput
+        reviews: ReviewCreateManyWithoutCreatedByInput
+      }
+
+      input AccountCreateWithoutReviewsInput {
+        id: UUID
+        username: String!
+        password: String!
+        email: String!
+        role: Role
+        status: AccountStatus
+        settings: Json
+        users: UserCreateManyWithoutAccountInput
+        posts: PostCreateManyWithoutAccountInput
+        pets: PetCreateManyWithoutAccountInput
+        images: ImageCreateManyWithoutAccountInput
+        comments: CommentCreateManyWithoutCreatedByInput
+      }
+
+      input AccountCreateWithoutUsersInput {
+        id: UUID
+        username: String!
+        password: String!
+        email: String!
+        role: Role
+        status: AccountStatus
+        settings: Json
+        posts: PostCreateManyWithoutAccountInput
+        pets: PetCreateManyWithoutAccountInput
+        images: ImageCreateManyWithoutAccountInput
+        comments: CommentCreateManyWithoutCreatedByInput
+        reviews: ReviewCreateManyWithoutCreatedByInput
       }
 
       type AccountEdge {
@@ -41,8 +225,14 @@ module.exports = {
         username_DESC
         password_ASC
         password_DESC
+        email_ASC
+        email_DESC
         role_ASC
         role_DESC
+        status_ASC
+        status_DESC
+        settings_ASC
+        settings_DESC
         createdAt_ASC
         createdAt_DESC
         updatedAt_ASC
@@ -53,9 +243,18 @@ module.exports = {
         id: UUID!
         username: String!
         password: String!
+        email: String!
         role: Role!
+        status: AccountStatus
+        settings: Json
         createdAt: DateTime!
         updatedAt: DateTime!
+      }
+
+      enum AccountStatus {
+        Pending
+        Active
+        Deactive
       }
 
       type AccountSubscriptionPayload {
@@ -79,14 +278,181 @@ module.exports = {
       input AccountUpdateInput {
         username: String
         password: String
+        email: String
         role: Role
-        user: UserUpdateOneInput
+        status: AccountStatus
+        settings: Json
+        users: UserUpdateManyWithoutAccountInput
+        posts: PostUpdateManyWithoutAccountInput
+        pets: PetUpdateManyWithoutAccountInput
+        images: ImageUpdateManyWithoutAccountInput
+        comments: CommentUpdateManyWithoutCreatedByInput
+        reviews: ReviewUpdateManyWithoutCreatedByInput
       }
 
       input AccountUpdateManyMutationInput {
         username: String
         password: String
+        email: String
         role: Role
+        status: AccountStatus
+        settings: Json
+      }
+
+      input AccountUpdateOneRequiredWithoutCommentsInput {
+        create: AccountCreateWithoutCommentsInput
+        update: AccountUpdateWithoutCommentsDataInput
+        upsert: AccountUpsertWithoutCommentsInput
+        connect: AccountWhereUniqueInput
+      }
+
+      input AccountUpdateOneRequiredWithoutImagesInput {
+        create: AccountCreateWithoutImagesInput
+        update: AccountUpdateWithoutImagesDataInput
+        upsert: AccountUpsertWithoutImagesInput
+        connect: AccountWhereUniqueInput
+      }
+
+      input AccountUpdateOneRequiredWithoutPetsInput {
+        create: AccountCreateWithoutPetsInput
+        update: AccountUpdateWithoutPetsDataInput
+        upsert: AccountUpsertWithoutPetsInput
+        connect: AccountWhereUniqueInput
+      }
+
+      input AccountUpdateOneRequiredWithoutPostsInput {
+        create: AccountCreateWithoutPostsInput
+        update: AccountUpdateWithoutPostsDataInput
+        upsert: AccountUpsertWithoutPostsInput
+        connect: AccountWhereUniqueInput
+      }
+
+      input AccountUpdateOneRequiredWithoutReviewsInput {
+        create: AccountCreateWithoutReviewsInput
+        update: AccountUpdateWithoutReviewsDataInput
+        upsert: AccountUpsertWithoutReviewsInput
+        connect: AccountWhereUniqueInput
+      }
+
+      input AccountUpdateOneRequiredWithoutUsersInput {
+        create: AccountCreateWithoutUsersInput
+        update: AccountUpdateWithoutUsersDataInput
+        upsert: AccountUpsertWithoutUsersInput
+        connect: AccountWhereUniqueInput
+      }
+
+      input AccountUpdateWithoutCommentsDataInput {
+        username: String
+        password: String
+        email: String
+        role: Role
+        status: AccountStatus
+        settings: Json
+        users: UserUpdateManyWithoutAccountInput
+        posts: PostUpdateManyWithoutAccountInput
+        pets: PetUpdateManyWithoutAccountInput
+        images: ImageUpdateManyWithoutAccountInput
+        reviews: ReviewUpdateManyWithoutCreatedByInput
+      }
+
+      input AccountUpdateWithoutImagesDataInput {
+        username: String
+        password: String
+        email: String
+        role: Role
+        status: AccountStatus
+        settings: Json
+        users: UserUpdateManyWithoutAccountInput
+        posts: PostUpdateManyWithoutAccountInput
+        pets: PetUpdateManyWithoutAccountInput
+        comments: CommentUpdateManyWithoutCreatedByInput
+        reviews: ReviewUpdateManyWithoutCreatedByInput
+      }
+
+      input AccountUpdateWithoutPetsDataInput {
+        username: String
+        password: String
+        email: String
+        role: Role
+        status: AccountStatus
+        settings: Json
+        users: UserUpdateManyWithoutAccountInput
+        posts: PostUpdateManyWithoutAccountInput
+        images: ImageUpdateManyWithoutAccountInput
+        comments: CommentUpdateManyWithoutCreatedByInput
+        reviews: ReviewUpdateManyWithoutCreatedByInput
+      }
+
+      input AccountUpdateWithoutPostsDataInput {
+        username: String
+        password: String
+        email: String
+        role: Role
+        status: AccountStatus
+        settings: Json
+        users: UserUpdateManyWithoutAccountInput
+        pets: PetUpdateManyWithoutAccountInput
+        images: ImageUpdateManyWithoutAccountInput
+        comments: CommentUpdateManyWithoutCreatedByInput
+        reviews: ReviewUpdateManyWithoutCreatedByInput
+      }
+
+      input AccountUpdateWithoutReviewsDataInput {
+        username: String
+        password: String
+        email: String
+        role: Role
+        status: AccountStatus
+        settings: Json
+        users: UserUpdateManyWithoutAccountInput
+        posts: PostUpdateManyWithoutAccountInput
+        pets: PetUpdateManyWithoutAccountInput
+        images: ImageUpdateManyWithoutAccountInput
+        comments: CommentUpdateManyWithoutCreatedByInput
+      }
+
+      input AccountUpdateWithoutUsersDataInput {
+        username: String
+        password: String
+        email: String
+        role: Role
+        status: AccountStatus
+        settings: Json
+        posts: PostUpdateManyWithoutAccountInput
+        pets: PetUpdateManyWithoutAccountInput
+        images: ImageUpdateManyWithoutAccountInput
+        comments: CommentUpdateManyWithoutCreatedByInput
+        reviews: ReviewUpdateManyWithoutCreatedByInput
+      }
+
+      input AccountUpsertWithoutCommentsInput {
+        update: AccountUpdateWithoutCommentsDataInput!
+        create: AccountCreateWithoutCommentsInput!
+      }
+
+      input AccountUpsertWithoutImagesInput {
+        update: AccountUpdateWithoutImagesDataInput!
+        create: AccountCreateWithoutImagesInput!
+      }
+
+      input AccountUpsertWithoutPetsInput {
+        update: AccountUpdateWithoutPetsDataInput!
+        create: AccountCreateWithoutPetsInput!
+      }
+
+      input AccountUpsertWithoutPostsInput {
+        update: AccountUpdateWithoutPostsDataInput!
+        create: AccountCreateWithoutPostsInput!
+      }
+
+      input AccountUpsertWithoutReviewsInput {
+        update: AccountUpdateWithoutReviewsDataInput!
+        create: AccountCreateWithoutReviewsInput!
+      }
+
+      input AccountUpsertWithoutUsersInput {
+        update: AccountUpdateWithoutUsersDataInput!
+        create: AccountCreateWithoutUsersInput!
       }
 
       input AccountWhereInput {
@@ -132,11 +498,46 @@ module.exports = {
         password_not_starts_with: String
         password_ends_with: String
         password_not_ends_with: String
+        email: String
+        email_not: String
+        email_in: [String!]
+        email_not_in: [String!]
+        email_lt: String
+        email_lte: String
+        email_gt: String
+        email_gte: String
+        email_contains: String
+        email_not_contains: String
+        email_starts_with: String
+        email_not_starts_with: String
+        email_ends_with: String
+        email_not_ends_with: String
         role: Role
         role_not: Role
         role_in: [Role!]
         role_not_in: [Role!]
-        user: UserWhereInput
+        status: AccountStatus
+        status_not: AccountStatus
+        status_in: [AccountStatus!]
+        status_not_in: [AccountStatus!]
+        users_every: UserWhereInput
+        users_some: UserWhereInput
+        users_none: UserWhereInput
+        posts_every: PostWhereInput
+        posts_some: PostWhereInput
+        posts_none: PostWhereInput
+        pets_every: PetWhereInput
+        pets_some: PetWhereInput
+        pets_none: PetWhereInput
+        images_every: ImageWhereInput
+        images_some: ImageWhereInput
+        images_none: ImageWhereInput
+        comments_every: CommentWhereInput
+        comments_some: CommentWhereInput
+        comments_none: CommentWhereInput
+        reviews_every: ReviewWhereInput
+        reviews_some: ReviewWhereInput
+        reviews_none: ReviewWhereInput
         createdAt: DateTime
         createdAt_not: DateTime
         createdAt_in: [DateTime!]
@@ -161,9 +562,38 @@ module.exports = {
       input AccountWhereUniqueInput {
         id: UUID
         username: String
+        email: String
       }
 
       type AggregateAccount {
+        count: Int!
+      }
+
+      type AggregateComment {
+        count: Int!
+      }
+
+      type AggregateImage {
+        count: Int!
+      }
+
+      type AggregatePet {
+        count: Int!
+      }
+
+      type AggregatePost {
+        count: Int!
+      }
+
+      type AggregatePostTag {
+        count: Int!
+      }
+
+      type AggregateReview {
+        count: Int!
+      }
+
+      type AggregateTag {
         count: Int!
       }
 
@@ -175,7 +605,541 @@ module.exports = {
         count: Long!
       }
 
+      type Comment {
+        id: UUID!
+        message: String!
+        post: Post!
+        createdBy: Account!
+        createdAt: DateTime!
+        updatedAt: DateTime!
+      }
+
+      type CommentConnection {
+        pageInfo: PageInfo!
+        edges: [CommentEdge]!
+        aggregate: AggregateComment!
+      }
+
+      input CommentCreateInput {
+        id: UUID
+        message: String!
+        post: PostCreateOneWithoutCommentsInput!
+        createdBy: AccountCreateOneWithoutCommentsInput!
+      }
+
+      input CommentCreateManyWithoutCreatedByInput {
+        create: [CommentCreateWithoutCreatedByInput!]
+        connect: [CommentWhereUniqueInput!]
+      }
+
+      input CommentCreateManyWithoutPostInput {
+        create: [CommentCreateWithoutPostInput!]
+        connect: [CommentWhereUniqueInput!]
+      }
+
+      input CommentCreateWithoutCreatedByInput {
+        id: UUID
+        message: String!
+        post: PostCreateOneWithoutCommentsInput!
+      }
+
+      input CommentCreateWithoutPostInput {
+        id: UUID
+        message: String!
+        createdBy: AccountCreateOneWithoutCommentsInput!
+      }
+
+      type CommentEdge {
+        node: Comment!
+        cursor: String!
+      }
+
+      enum CommentOrderByInput {
+        id_ASC
+        id_DESC
+        message_ASC
+        message_DESC
+        createdAt_ASC
+        createdAt_DESC
+        updatedAt_ASC
+        updatedAt_DESC
+      }
+
+      type CommentPreviousValues {
+        id: UUID!
+        message: String!
+        createdAt: DateTime!
+        updatedAt: DateTime!
+      }
+
+      input CommentScalarWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
+        message: String
+        message_not: String
+        message_in: [String!]
+        message_not_in: [String!]
+        message_lt: String
+        message_lte: String
+        message_gt: String
+        message_gte: String
+        message_contains: String
+        message_not_contains: String
+        message_starts_with: String
+        message_not_starts_with: String
+        message_ends_with: String
+        message_not_ends_with: String
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [CommentScalarWhereInput!]
+        OR: [CommentScalarWhereInput!]
+        NOT: [CommentScalarWhereInput!]
+      }
+
+      type CommentSubscriptionPayload {
+        mutation: MutationType!
+        node: Comment
+        updatedFields: [String!]
+        previousValues: CommentPreviousValues
+      }
+
+      input CommentSubscriptionWhereInput {
+        mutation_in: [MutationType!]
+        updatedFields_contains: String
+        updatedFields_contains_every: [String!]
+        updatedFields_contains_some: [String!]
+        node: CommentWhereInput
+        AND: [CommentSubscriptionWhereInput!]
+        OR: [CommentSubscriptionWhereInput!]
+        NOT: [CommentSubscriptionWhereInput!]
+      }
+
+      input CommentUpdateInput {
+        message: String
+        post: PostUpdateOneRequiredWithoutCommentsInput
+        createdBy: AccountUpdateOneRequiredWithoutCommentsInput
+      }
+
+      input CommentUpdateManyDataInput {
+        message: String
+      }
+
+      input CommentUpdateManyMutationInput {
+        message: String
+      }
+
+      input CommentUpdateManyWithoutCreatedByInput {
+        create: [CommentCreateWithoutCreatedByInput!]
+        delete: [CommentWhereUniqueInput!]
+        connect: [CommentWhereUniqueInput!]
+        set: [CommentWhereUniqueInput!]
+        disconnect: [CommentWhereUniqueInput!]
+        update: [CommentUpdateWithWhereUniqueWithoutCreatedByInput!]
+        upsert: [CommentUpsertWithWhereUniqueWithoutCreatedByInput!]
+        deleteMany: [CommentScalarWhereInput!]
+        updateMany: [CommentUpdateManyWithWhereNestedInput!]
+      }
+
+      input CommentUpdateManyWithoutPostInput {
+        create: [CommentCreateWithoutPostInput!]
+        delete: [CommentWhereUniqueInput!]
+        connect: [CommentWhereUniqueInput!]
+        set: [CommentWhereUniqueInput!]
+        disconnect: [CommentWhereUniqueInput!]
+        update: [CommentUpdateWithWhereUniqueWithoutPostInput!]
+        upsert: [CommentUpsertWithWhereUniqueWithoutPostInput!]
+        deleteMany: [CommentScalarWhereInput!]
+        updateMany: [CommentUpdateManyWithWhereNestedInput!]
+      }
+
+      input CommentUpdateManyWithWhereNestedInput {
+        where: CommentScalarWhereInput!
+        data: CommentUpdateManyDataInput!
+      }
+
+      input CommentUpdateWithoutCreatedByDataInput {
+        message: String
+        post: PostUpdateOneRequiredWithoutCommentsInput
+      }
+
+      input CommentUpdateWithoutPostDataInput {
+        message: String
+        createdBy: AccountUpdateOneRequiredWithoutCommentsInput
+      }
+
+      input CommentUpdateWithWhereUniqueWithoutCreatedByInput {
+        where: CommentWhereUniqueInput!
+        data: CommentUpdateWithoutCreatedByDataInput!
+      }
+
+      input CommentUpdateWithWhereUniqueWithoutPostInput {
+        where: CommentWhereUniqueInput!
+        data: CommentUpdateWithoutPostDataInput!
+      }
+
+      input CommentUpsertWithWhereUniqueWithoutCreatedByInput {
+        where: CommentWhereUniqueInput!
+        update: CommentUpdateWithoutCreatedByDataInput!
+        create: CommentCreateWithoutCreatedByInput!
+      }
+
+      input CommentUpsertWithWhereUniqueWithoutPostInput {
+        where: CommentWhereUniqueInput!
+        update: CommentUpdateWithoutPostDataInput!
+        create: CommentCreateWithoutPostInput!
+      }
+
+      input CommentWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
+        message: String
+        message_not: String
+        message_in: [String!]
+        message_not_in: [String!]
+        message_lt: String
+        message_lte: String
+        message_gt: String
+        message_gte: String
+        message_contains: String
+        message_not_contains: String
+        message_starts_with: String
+        message_not_starts_with: String
+        message_ends_with: String
+        message_not_ends_with: String
+        post: PostWhereInput
+        createdBy: AccountWhereInput
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [CommentWhereInput!]
+        OR: [CommentWhereInput!]
+        NOT: [CommentWhereInput!]
+      }
+
+      input CommentWhereUniqueInput {
+        id: UUID
+      }
+
       scalar DateTime
+
+      type Image {
+        id: UUID!
+        url: String!
+        pet: Pet!
+        account: Account!
+        createdAt: DateTime!
+        updatedAt: DateTime!
+      }
+
+      type ImageConnection {
+        pageInfo: PageInfo!
+        edges: [ImageEdge]!
+        aggregate: AggregateImage!
+      }
+
+      input ImageCreateInput {
+        id: UUID
+        url: String!
+        pet: PetCreateOneWithoutImagesInput!
+        account: AccountCreateOneWithoutImagesInput!
+      }
+
+      input ImageCreateManyWithoutAccountInput {
+        create: [ImageCreateWithoutAccountInput!]
+        connect: [ImageWhereUniqueInput!]
+      }
+
+      input ImageCreateManyWithoutPetInput {
+        create: [ImageCreateWithoutPetInput!]
+        connect: [ImageWhereUniqueInput!]
+      }
+
+      input ImageCreateWithoutAccountInput {
+        id: UUID
+        url: String!
+        pet: PetCreateOneWithoutImagesInput!
+      }
+
+      input ImageCreateWithoutPetInput {
+        id: UUID
+        url: String!
+        account: AccountCreateOneWithoutImagesInput!
+      }
+
+      type ImageEdge {
+        node: Image!
+        cursor: String!
+      }
+
+      enum ImageOrderByInput {
+        id_ASC
+        id_DESC
+        url_ASC
+        url_DESC
+        createdAt_ASC
+        createdAt_DESC
+        updatedAt_ASC
+        updatedAt_DESC
+      }
+
+      type ImagePreviousValues {
+        id: UUID!
+        url: String!
+        createdAt: DateTime!
+        updatedAt: DateTime!
+      }
+
+      input ImageScalarWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
+        url: String
+        url_not: String
+        url_in: [String!]
+        url_not_in: [String!]
+        url_lt: String
+        url_lte: String
+        url_gt: String
+        url_gte: String
+        url_contains: String
+        url_not_contains: String
+        url_starts_with: String
+        url_not_starts_with: String
+        url_ends_with: String
+        url_not_ends_with: String
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [ImageScalarWhereInput!]
+        OR: [ImageScalarWhereInput!]
+        NOT: [ImageScalarWhereInput!]
+      }
+
+      type ImageSubscriptionPayload {
+        mutation: MutationType!
+        node: Image
+        updatedFields: [String!]
+        previousValues: ImagePreviousValues
+      }
+
+      input ImageSubscriptionWhereInput {
+        mutation_in: [MutationType!]
+        updatedFields_contains: String
+        updatedFields_contains_every: [String!]
+        updatedFields_contains_some: [String!]
+        node: ImageWhereInput
+        AND: [ImageSubscriptionWhereInput!]
+        OR: [ImageSubscriptionWhereInput!]
+        NOT: [ImageSubscriptionWhereInput!]
+      }
+
+      input ImageUpdateInput {
+        url: String
+        pet: PetUpdateOneRequiredWithoutImagesInput
+        account: AccountUpdateOneRequiredWithoutImagesInput
+      }
+
+      input ImageUpdateManyDataInput {
+        url: String
+      }
+
+      input ImageUpdateManyMutationInput {
+        url: String
+      }
+
+      input ImageUpdateManyWithoutAccountInput {
+        create: [ImageCreateWithoutAccountInput!]
+        delete: [ImageWhereUniqueInput!]
+        connect: [ImageWhereUniqueInput!]
+        set: [ImageWhereUniqueInput!]
+        disconnect: [ImageWhereUniqueInput!]
+        update: [ImageUpdateWithWhereUniqueWithoutAccountInput!]
+        upsert: [ImageUpsertWithWhereUniqueWithoutAccountInput!]
+        deleteMany: [ImageScalarWhereInput!]
+        updateMany: [ImageUpdateManyWithWhereNestedInput!]
+      }
+
+      input ImageUpdateManyWithoutPetInput {
+        create: [ImageCreateWithoutPetInput!]
+        delete: [ImageWhereUniqueInput!]
+        connect: [ImageWhereUniqueInput!]
+        set: [ImageWhereUniqueInput!]
+        disconnect: [ImageWhereUniqueInput!]
+        update: [ImageUpdateWithWhereUniqueWithoutPetInput!]
+        upsert: [ImageUpsertWithWhereUniqueWithoutPetInput!]
+        deleteMany: [ImageScalarWhereInput!]
+        updateMany: [ImageUpdateManyWithWhereNestedInput!]
+      }
+
+      input ImageUpdateManyWithWhereNestedInput {
+        where: ImageScalarWhereInput!
+        data: ImageUpdateManyDataInput!
+      }
+
+      input ImageUpdateWithoutAccountDataInput {
+        url: String
+        pet: PetUpdateOneRequiredWithoutImagesInput
+      }
+
+      input ImageUpdateWithoutPetDataInput {
+        url: String
+        account: AccountUpdateOneRequiredWithoutImagesInput
+      }
+
+      input ImageUpdateWithWhereUniqueWithoutAccountInput {
+        where: ImageWhereUniqueInput!
+        data: ImageUpdateWithoutAccountDataInput!
+      }
+
+      input ImageUpdateWithWhereUniqueWithoutPetInput {
+        where: ImageWhereUniqueInput!
+        data: ImageUpdateWithoutPetDataInput!
+      }
+
+      input ImageUpsertWithWhereUniqueWithoutAccountInput {
+        where: ImageWhereUniqueInput!
+        update: ImageUpdateWithoutAccountDataInput!
+        create: ImageCreateWithoutAccountInput!
+      }
+
+      input ImageUpsertWithWhereUniqueWithoutPetInput {
+        where: ImageWhereUniqueInput!
+        update: ImageUpdateWithoutPetDataInput!
+        create: ImageCreateWithoutPetInput!
+      }
+
+      input ImageWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
+        url: String
+        url_not: String
+        url_in: [String!]
+        url_not_in: [String!]
+        url_lt: String
+        url_lte: String
+        url_gt: String
+        url_gte: String
+        url_contains: String
+        url_not_contains: String
+        url_starts_with: String
+        url_not_starts_with: String
+        url_ends_with: String
+        url_not_ends_with: String
+        pet: PetWhereInput
+        account: AccountWhereInput
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [ImageWhereInput!]
+        OR: [ImageWhereInput!]
+        NOT: [ImageWhereInput!]
+      }
+
+      input ImageWhereUniqueInput {
+        id: UUID
+      }
+
+      scalar Json
 
       scalar Long
 
@@ -193,6 +1157,81 @@ module.exports = {
         ): Account!
         deleteAccount(where: AccountWhereUniqueInput!): Account
         deleteManyAccounts(where: AccountWhereInput): BatchPayload!
+        createComment(data: CommentCreateInput!): Comment!
+        updateComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
+        updateManyComments(
+          data: CommentUpdateManyMutationInput!
+          where: CommentWhereInput
+        ): BatchPayload!
+        upsertComment(
+          where: CommentWhereUniqueInput!
+          create: CommentCreateInput!
+          update: CommentUpdateInput!
+        ): Comment!
+        deleteComment(where: CommentWhereUniqueInput!): Comment
+        deleteManyComments(where: CommentWhereInput): BatchPayload!
+        createImage(data: ImageCreateInput!): Image!
+        updateImage(data: ImageUpdateInput!, where: ImageWhereUniqueInput!): Image
+        updateManyImages(data: ImageUpdateManyMutationInput!, where: ImageWhereInput): BatchPayload!
+        upsertImage(
+          where: ImageWhereUniqueInput!
+          create: ImageCreateInput!
+          update: ImageUpdateInput!
+        ): Image!
+        deleteImage(where: ImageWhereUniqueInput!): Image
+        deleteManyImages(where: ImageWhereInput): BatchPayload!
+        createPet(data: PetCreateInput!): Pet!
+        updatePet(data: PetUpdateInput!, where: PetWhereUniqueInput!): Pet
+        updateManyPets(data: PetUpdateManyMutationInput!, where: PetWhereInput): BatchPayload!
+        upsertPet(
+          where: PetWhereUniqueInput!
+          create: PetCreateInput!
+          update: PetUpdateInput!
+        ): Pet!
+        deletePet(where: PetWhereUniqueInput!): Pet
+        deleteManyPets(where: PetWhereInput): BatchPayload!
+        createPost(data: PostCreateInput!): Post!
+        updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
+        updateManyPosts(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
+        upsertPost(
+          where: PostWhereUniqueInput!
+          create: PostCreateInput!
+          update: PostUpdateInput!
+        ): Post!
+        deletePost(where: PostWhereUniqueInput!): Post
+        deleteManyPosts(where: PostWhereInput): BatchPayload!
+        createPostTag(data: PostTagCreateInput!): PostTag!
+        updatePostTag(data: PostTagUpdateInput!, where: PostTagWhereUniqueInput!): PostTag
+        upsertPostTag(
+          where: PostTagWhereUniqueInput!
+          create: PostTagCreateInput!
+          update: PostTagUpdateInput!
+        ): PostTag!
+        deletePostTag(where: PostTagWhereUniqueInput!): PostTag
+        deleteManyPostTags(where: PostTagWhereInput): BatchPayload!
+        createReview(data: ReviewCreateInput!): Review!
+        updateReview(data: ReviewUpdateInput!, where: ReviewWhereUniqueInput!): Review
+        updateManyReviews(
+          data: ReviewUpdateManyMutationInput!
+          where: ReviewWhereInput
+        ): BatchPayload!
+        upsertReview(
+          where: ReviewWhereUniqueInput!
+          create: ReviewCreateInput!
+          update: ReviewUpdateInput!
+        ): Review!
+        deleteReview(where: ReviewWhereUniqueInput!): Review
+        deleteManyReviews(where: ReviewWhereInput): BatchPayload!
+        createTag(data: TagCreateInput!): Tag!
+        updateTag(data: TagUpdateInput!, where: TagWhereUniqueInput!): Tag
+        updateManyTags(data: TagUpdateManyMutationInput!, where: TagWhereInput): BatchPayload!
+        upsertTag(
+          where: TagWhereUniqueInput!
+          create: TagCreateInput!
+          update: TagUpdateInput!
+        ): Tag!
+        deleteTag(where: TagWhereUniqueInput!): Tag
+        deleteManyTags(where: TagWhereInput): BatchPayload!
         createUser(data: UserCreateInput!): User!
         updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
         updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -222,6 +1261,1089 @@ module.exports = {
         endCursor: String
       }
 
+      type Pet {
+        id: UUID!
+        type: PetType!
+        info: Json
+        post: Post!
+        images(
+          where: ImageWhereInput
+          orderBy: ImageOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [Image!]
+        account: Account!
+        createdAt: DateTime!
+        updatedAt: DateTime!
+      }
+
+      type PetConnection {
+        pageInfo: PageInfo!
+        edges: [PetEdge]!
+        aggregate: AggregatePet!
+      }
+
+      input PetCreateInput {
+        id: UUID
+        type: PetType!
+        info: Json
+        post: PostCreateOneInput!
+        images: ImageCreateManyWithoutPetInput
+        account: AccountCreateOneWithoutPetsInput!
+      }
+
+      input PetCreateManyWithoutAccountInput {
+        create: [PetCreateWithoutAccountInput!]
+        connect: [PetWhereUniqueInput!]
+      }
+
+      input PetCreateOneWithoutImagesInput {
+        create: PetCreateWithoutImagesInput
+        connect: PetWhereUniqueInput
+      }
+
+      input PetCreateWithoutAccountInput {
+        id: UUID
+        type: PetType!
+        info: Json
+        post: PostCreateOneInput!
+        images: ImageCreateManyWithoutPetInput
+      }
+
+      input PetCreateWithoutImagesInput {
+        id: UUID
+        type: PetType!
+        info: Json
+        post: PostCreateOneInput!
+        account: AccountCreateOneWithoutPetsInput!
+      }
+
+      type PetEdge {
+        node: Pet!
+        cursor: String!
+      }
+
+      enum PetOrderByInput {
+        id_ASC
+        id_DESC
+        type_ASC
+        type_DESC
+        info_ASC
+        info_DESC
+        createdAt_ASC
+        createdAt_DESC
+        updatedAt_ASC
+        updatedAt_DESC
+      }
+
+      type PetPreviousValues {
+        id: UUID!
+        type: PetType!
+        info: Json
+        createdAt: DateTime!
+        updatedAt: DateTime!
+      }
+
+      input PetScalarWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
+        type: PetType
+        type_not: PetType
+        type_in: [PetType!]
+        type_not_in: [PetType!]
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [PetScalarWhereInput!]
+        OR: [PetScalarWhereInput!]
+        NOT: [PetScalarWhereInput!]
+      }
+
+      type PetSubscriptionPayload {
+        mutation: MutationType!
+        node: Pet
+        updatedFields: [String!]
+        previousValues: PetPreviousValues
+      }
+
+      input PetSubscriptionWhereInput {
+        mutation_in: [MutationType!]
+        updatedFields_contains: String
+        updatedFields_contains_every: [String!]
+        updatedFields_contains_some: [String!]
+        node: PetWhereInput
+        AND: [PetSubscriptionWhereInput!]
+        OR: [PetSubscriptionWhereInput!]
+        NOT: [PetSubscriptionWhereInput!]
+      }
+
+      enum PetType {
+        Dog
+        Cat
+        Bird
+        Fish
+        Snake
+        Hare
+        Hamster
+        Other
+      }
+
+      input PetUpdateInput {
+        type: PetType
+        info: Json
+        post: PostUpdateOneRequiredInput
+        images: ImageUpdateManyWithoutPetInput
+        account: AccountUpdateOneRequiredWithoutPetsInput
+      }
+
+      input PetUpdateManyDataInput {
+        type: PetType
+        info: Json
+      }
+
+      input PetUpdateManyMutationInput {
+        type: PetType
+        info: Json
+      }
+
+      input PetUpdateManyWithoutAccountInput {
+        create: [PetCreateWithoutAccountInput!]
+        delete: [PetWhereUniqueInput!]
+        connect: [PetWhereUniqueInput!]
+        set: [PetWhereUniqueInput!]
+        disconnect: [PetWhereUniqueInput!]
+        update: [PetUpdateWithWhereUniqueWithoutAccountInput!]
+        upsert: [PetUpsertWithWhereUniqueWithoutAccountInput!]
+        deleteMany: [PetScalarWhereInput!]
+        updateMany: [PetUpdateManyWithWhereNestedInput!]
+      }
+
+      input PetUpdateManyWithWhereNestedInput {
+        where: PetScalarWhereInput!
+        data: PetUpdateManyDataInput!
+      }
+
+      input PetUpdateOneRequiredWithoutImagesInput {
+        create: PetCreateWithoutImagesInput
+        update: PetUpdateWithoutImagesDataInput
+        upsert: PetUpsertWithoutImagesInput
+        connect: PetWhereUniqueInput
+      }
+
+      input PetUpdateWithoutAccountDataInput {
+        type: PetType
+        info: Json
+        post: PostUpdateOneRequiredInput
+        images: ImageUpdateManyWithoutPetInput
+      }
+
+      input PetUpdateWithoutImagesDataInput {
+        type: PetType
+        info: Json
+        post: PostUpdateOneRequiredInput
+        account: AccountUpdateOneRequiredWithoutPetsInput
+      }
+
+      input PetUpdateWithWhereUniqueWithoutAccountInput {
+        where: PetWhereUniqueInput!
+        data: PetUpdateWithoutAccountDataInput!
+      }
+
+      input PetUpsertWithoutImagesInput {
+        update: PetUpdateWithoutImagesDataInput!
+        create: PetCreateWithoutImagesInput!
+      }
+
+      input PetUpsertWithWhereUniqueWithoutAccountInput {
+        where: PetWhereUniqueInput!
+        update: PetUpdateWithoutAccountDataInput!
+        create: PetCreateWithoutAccountInput!
+      }
+
+      input PetWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
+        type: PetType
+        type_not: PetType
+        type_in: [PetType!]
+        type_not_in: [PetType!]
+        post: PostWhereInput
+        images_every: ImageWhereInput
+        images_some: ImageWhereInput
+        images_none: ImageWhereInput
+        account: AccountWhereInput
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [PetWhereInput!]
+        OR: [PetWhereInput!]
+        NOT: [PetWhereInput!]
+      }
+
+      input PetWhereUniqueInput {
+        id: UUID
+      }
+
+      type Post {
+        id: UUID!
+        title: String!
+        description: String
+        location: String!
+        price: Int!
+        dueDate: DateTime!
+        settings: Json
+        status: PostStatus!
+        postTags(
+          where: PostTagWhereInput
+          orderBy: PostTagOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [PostTag!]
+        comments(
+          where: CommentWhereInput
+          orderBy: CommentOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [Comment!]
+        reviews(
+          where: ReviewWhereInput
+          orderBy: ReviewOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [Review!]
+        account: Account!
+        createdAt: DateTime!
+        updatedAt: DateTime!
+      }
+
+      type PostConnection {
+        pageInfo: PageInfo!
+        edges: [PostEdge]!
+        aggregate: AggregatePost!
+      }
+
+      input PostCreateInput {
+        id: UUID
+        title: String!
+        description: String
+        location: String!
+        price: Int
+        dueDate: DateTime!
+        settings: Json
+        status: PostStatus
+        postTags: PostTagCreateManyWithoutPostInput
+        comments: CommentCreateManyWithoutPostInput
+        reviews: ReviewCreateManyWithoutPostInput
+        account: AccountCreateOneWithoutPostsInput!
+      }
+
+      input PostCreateManyWithoutAccountInput {
+        create: [PostCreateWithoutAccountInput!]
+        connect: [PostWhereUniqueInput!]
+      }
+
+      input PostCreateOneInput {
+        create: PostCreateInput
+        connect: PostWhereUniqueInput
+      }
+
+      input PostCreateOneWithoutCommentsInput {
+        create: PostCreateWithoutCommentsInput
+        connect: PostWhereUniqueInput
+      }
+
+      input PostCreateOneWithoutPostTagsInput {
+        create: PostCreateWithoutPostTagsInput
+        connect: PostWhereUniqueInput
+      }
+
+      input PostCreateOneWithoutReviewsInput {
+        create: PostCreateWithoutReviewsInput
+        connect: PostWhereUniqueInput
+      }
+
+      input PostCreateWithoutAccountInput {
+        id: UUID
+        title: String!
+        description: String
+        location: String!
+        price: Int
+        dueDate: DateTime!
+        settings: Json
+        status: PostStatus
+        postTags: PostTagCreateManyWithoutPostInput
+        comments: CommentCreateManyWithoutPostInput
+        reviews: ReviewCreateManyWithoutPostInput
+      }
+
+      input PostCreateWithoutCommentsInput {
+        id: UUID
+        title: String!
+        description: String
+        location: String!
+        price: Int
+        dueDate: DateTime!
+        settings: Json
+        status: PostStatus
+        postTags: PostTagCreateManyWithoutPostInput
+        reviews: ReviewCreateManyWithoutPostInput
+        account: AccountCreateOneWithoutPostsInput!
+      }
+
+      input PostCreateWithoutPostTagsInput {
+        id: UUID
+        title: String!
+        description: String
+        location: String!
+        price: Int
+        dueDate: DateTime!
+        settings: Json
+        status: PostStatus
+        comments: CommentCreateManyWithoutPostInput
+        reviews: ReviewCreateManyWithoutPostInput
+        account: AccountCreateOneWithoutPostsInput!
+      }
+
+      input PostCreateWithoutReviewsInput {
+        id: UUID
+        title: String!
+        description: String
+        location: String!
+        price: Int
+        dueDate: DateTime!
+        settings: Json
+        status: PostStatus
+        postTags: PostTagCreateManyWithoutPostInput
+        comments: CommentCreateManyWithoutPostInput
+        account: AccountCreateOneWithoutPostsInput!
+      }
+
+      type PostEdge {
+        node: Post!
+        cursor: String!
+      }
+
+      enum PostOrderByInput {
+        id_ASC
+        id_DESC
+        title_ASC
+        title_DESC
+        description_ASC
+        description_DESC
+        location_ASC
+        location_DESC
+        price_ASC
+        price_DESC
+        dueDate_ASC
+        dueDate_DESC
+        settings_ASC
+        settings_DESC
+        status_ASC
+        status_DESC
+        createdAt_ASC
+        createdAt_DESC
+        updatedAt_ASC
+        updatedAt_DESC
+      }
+
+      type PostPreviousValues {
+        id: UUID!
+        title: String!
+        description: String
+        location: String!
+        price: Int!
+        dueDate: DateTime!
+        settings: Json
+        status: PostStatus!
+        createdAt: DateTime!
+        updatedAt: DateTime!
+      }
+
+      input PostScalarWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
+        title: String
+        title_not: String
+        title_in: [String!]
+        title_not_in: [String!]
+        title_lt: String
+        title_lte: String
+        title_gt: String
+        title_gte: String
+        title_contains: String
+        title_not_contains: String
+        title_starts_with: String
+        title_not_starts_with: String
+        title_ends_with: String
+        title_not_ends_with: String
+        description: String
+        description_not: String
+        description_in: [String!]
+        description_not_in: [String!]
+        description_lt: String
+        description_lte: String
+        description_gt: String
+        description_gte: String
+        description_contains: String
+        description_not_contains: String
+        description_starts_with: String
+        description_not_starts_with: String
+        description_ends_with: String
+        description_not_ends_with: String
+        location: String
+        location_not: String
+        location_in: [String!]
+        location_not_in: [String!]
+        location_lt: String
+        location_lte: String
+        location_gt: String
+        location_gte: String
+        location_contains: String
+        location_not_contains: String
+        location_starts_with: String
+        location_not_starts_with: String
+        location_ends_with: String
+        location_not_ends_with: String
+        price: Int
+        price_not: Int
+        price_in: [Int!]
+        price_not_in: [Int!]
+        price_lt: Int
+        price_lte: Int
+        price_gt: Int
+        price_gte: Int
+        dueDate: DateTime
+        dueDate_not: DateTime
+        dueDate_in: [DateTime!]
+        dueDate_not_in: [DateTime!]
+        dueDate_lt: DateTime
+        dueDate_lte: DateTime
+        dueDate_gt: DateTime
+        dueDate_gte: DateTime
+        status: PostStatus
+        status_not: PostStatus
+        status_in: [PostStatus!]
+        status_not_in: [PostStatus!]
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [PostScalarWhereInput!]
+        OR: [PostScalarWhereInput!]
+        NOT: [PostScalarWhereInput!]
+      }
+
+      enum PostStatus {
+        Pending
+        Active
+        Deactive
+      }
+
+      type PostSubscriptionPayload {
+        mutation: MutationType!
+        node: Post
+        updatedFields: [String!]
+        previousValues: PostPreviousValues
+      }
+
+      input PostSubscriptionWhereInput {
+        mutation_in: [MutationType!]
+        updatedFields_contains: String
+        updatedFields_contains_every: [String!]
+        updatedFields_contains_some: [String!]
+        node: PostWhereInput
+        AND: [PostSubscriptionWhereInput!]
+        OR: [PostSubscriptionWhereInput!]
+        NOT: [PostSubscriptionWhereInput!]
+      }
+
+      type PostTag {
+        id: UUID!
+        post: Post!
+        tag: Tag!
+        createdAt: DateTime!
+        updatedAt: DateTime!
+      }
+
+      type PostTagConnection {
+        pageInfo: PageInfo!
+        edges: [PostTagEdge]!
+        aggregate: AggregatePostTag!
+      }
+
+      input PostTagCreateInput {
+        id: UUID
+        post: PostCreateOneWithoutPostTagsInput!
+        tag: TagCreateOneWithoutPostTagsInput!
+      }
+
+      input PostTagCreateManyWithoutPostInput {
+        create: [PostTagCreateWithoutPostInput!]
+        connect: [PostTagWhereUniqueInput!]
+      }
+
+      input PostTagCreateManyWithoutTagInput {
+        create: [PostTagCreateWithoutTagInput!]
+        connect: [PostTagWhereUniqueInput!]
+      }
+
+      input PostTagCreateWithoutPostInput {
+        id: UUID
+        tag: TagCreateOneWithoutPostTagsInput!
+      }
+
+      input PostTagCreateWithoutTagInput {
+        id: UUID
+        post: PostCreateOneWithoutPostTagsInput!
+      }
+
+      type PostTagEdge {
+        node: PostTag!
+        cursor: String!
+      }
+
+      enum PostTagOrderByInput {
+        id_ASC
+        id_DESC
+        createdAt_ASC
+        createdAt_DESC
+        updatedAt_ASC
+        updatedAt_DESC
+      }
+
+      type PostTagPreviousValues {
+        id: UUID!
+        createdAt: DateTime!
+        updatedAt: DateTime!
+      }
+
+      input PostTagScalarWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [PostTagScalarWhereInput!]
+        OR: [PostTagScalarWhereInput!]
+        NOT: [PostTagScalarWhereInput!]
+      }
+
+      type PostTagSubscriptionPayload {
+        mutation: MutationType!
+        node: PostTag
+        updatedFields: [String!]
+        previousValues: PostTagPreviousValues
+      }
+
+      input PostTagSubscriptionWhereInput {
+        mutation_in: [MutationType!]
+        updatedFields_contains: String
+        updatedFields_contains_every: [String!]
+        updatedFields_contains_some: [String!]
+        node: PostTagWhereInput
+        AND: [PostTagSubscriptionWhereInput!]
+        OR: [PostTagSubscriptionWhereInput!]
+        NOT: [PostTagSubscriptionWhereInput!]
+      }
+
+      input PostTagUpdateInput {
+        post: PostUpdateOneRequiredWithoutPostTagsInput
+        tag: TagUpdateOneRequiredWithoutPostTagsInput
+      }
+
+      input PostTagUpdateManyWithoutPostInput {
+        create: [PostTagCreateWithoutPostInput!]
+        delete: [PostTagWhereUniqueInput!]
+        connect: [PostTagWhereUniqueInput!]
+        set: [PostTagWhereUniqueInput!]
+        disconnect: [PostTagWhereUniqueInput!]
+        update: [PostTagUpdateWithWhereUniqueWithoutPostInput!]
+        upsert: [PostTagUpsertWithWhereUniqueWithoutPostInput!]
+        deleteMany: [PostTagScalarWhereInput!]
+      }
+
+      input PostTagUpdateManyWithoutTagInput {
+        create: [PostTagCreateWithoutTagInput!]
+        delete: [PostTagWhereUniqueInput!]
+        connect: [PostTagWhereUniqueInput!]
+        set: [PostTagWhereUniqueInput!]
+        disconnect: [PostTagWhereUniqueInput!]
+        update: [PostTagUpdateWithWhereUniqueWithoutTagInput!]
+        upsert: [PostTagUpsertWithWhereUniqueWithoutTagInput!]
+        deleteMany: [PostTagScalarWhereInput!]
+      }
+
+      input PostTagUpdateWithoutPostDataInput {
+        tag: TagUpdateOneRequiredWithoutPostTagsInput
+      }
+
+      input PostTagUpdateWithoutTagDataInput {
+        post: PostUpdateOneRequiredWithoutPostTagsInput
+      }
+
+      input PostTagUpdateWithWhereUniqueWithoutPostInput {
+        where: PostTagWhereUniqueInput!
+        data: PostTagUpdateWithoutPostDataInput!
+      }
+
+      input PostTagUpdateWithWhereUniqueWithoutTagInput {
+        where: PostTagWhereUniqueInput!
+        data: PostTagUpdateWithoutTagDataInput!
+      }
+
+      input PostTagUpsertWithWhereUniqueWithoutPostInput {
+        where: PostTagWhereUniqueInput!
+        update: PostTagUpdateWithoutPostDataInput!
+        create: PostTagCreateWithoutPostInput!
+      }
+
+      input PostTagUpsertWithWhereUniqueWithoutTagInput {
+        where: PostTagWhereUniqueInput!
+        update: PostTagUpdateWithoutTagDataInput!
+        create: PostTagCreateWithoutTagInput!
+      }
+
+      input PostTagWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
+        post: PostWhereInput
+        tag: TagWhereInput
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [PostTagWhereInput!]
+        OR: [PostTagWhereInput!]
+        NOT: [PostTagWhereInput!]
+      }
+
+      input PostTagWhereUniqueInput {
+        id: UUID
+      }
+
+      input PostUpdateDataInput {
+        title: String
+        description: String
+        location: String
+        price: Int
+        dueDate: DateTime
+        settings: Json
+        status: PostStatus
+        postTags: PostTagUpdateManyWithoutPostInput
+        comments: CommentUpdateManyWithoutPostInput
+        reviews: ReviewUpdateManyWithoutPostInput
+        account: AccountUpdateOneRequiredWithoutPostsInput
+      }
+
+      input PostUpdateInput {
+        title: String
+        description: String
+        location: String
+        price: Int
+        dueDate: DateTime
+        settings: Json
+        status: PostStatus
+        postTags: PostTagUpdateManyWithoutPostInput
+        comments: CommentUpdateManyWithoutPostInput
+        reviews: ReviewUpdateManyWithoutPostInput
+        account: AccountUpdateOneRequiredWithoutPostsInput
+      }
+
+      input PostUpdateManyDataInput {
+        title: String
+        description: String
+        location: String
+        price: Int
+        dueDate: DateTime
+        settings: Json
+        status: PostStatus
+      }
+
+      input PostUpdateManyMutationInput {
+        title: String
+        description: String
+        location: String
+        price: Int
+        dueDate: DateTime
+        settings: Json
+        status: PostStatus
+      }
+
+      input PostUpdateManyWithoutAccountInput {
+        create: [PostCreateWithoutAccountInput!]
+        delete: [PostWhereUniqueInput!]
+        connect: [PostWhereUniqueInput!]
+        set: [PostWhereUniqueInput!]
+        disconnect: [PostWhereUniqueInput!]
+        update: [PostUpdateWithWhereUniqueWithoutAccountInput!]
+        upsert: [PostUpsertWithWhereUniqueWithoutAccountInput!]
+        deleteMany: [PostScalarWhereInput!]
+        updateMany: [PostUpdateManyWithWhereNestedInput!]
+      }
+
+      input PostUpdateManyWithWhereNestedInput {
+        where: PostScalarWhereInput!
+        data: PostUpdateManyDataInput!
+      }
+
+      input PostUpdateOneRequiredInput {
+        create: PostCreateInput
+        update: PostUpdateDataInput
+        upsert: PostUpsertNestedInput
+        connect: PostWhereUniqueInput
+      }
+
+      input PostUpdateOneRequiredWithoutCommentsInput {
+        create: PostCreateWithoutCommentsInput
+        update: PostUpdateWithoutCommentsDataInput
+        upsert: PostUpsertWithoutCommentsInput
+        connect: PostWhereUniqueInput
+      }
+
+      input PostUpdateOneRequiredWithoutPostTagsInput {
+        create: PostCreateWithoutPostTagsInput
+        update: PostUpdateWithoutPostTagsDataInput
+        upsert: PostUpsertWithoutPostTagsInput
+        connect: PostWhereUniqueInput
+      }
+
+      input PostUpdateOneRequiredWithoutReviewsInput {
+        create: PostCreateWithoutReviewsInput
+        update: PostUpdateWithoutReviewsDataInput
+        upsert: PostUpsertWithoutReviewsInput
+        connect: PostWhereUniqueInput
+      }
+
+      input PostUpdateWithoutAccountDataInput {
+        title: String
+        description: String
+        location: String
+        price: Int
+        dueDate: DateTime
+        settings: Json
+        status: PostStatus
+        postTags: PostTagUpdateManyWithoutPostInput
+        comments: CommentUpdateManyWithoutPostInput
+        reviews: ReviewUpdateManyWithoutPostInput
+      }
+
+      input PostUpdateWithoutCommentsDataInput {
+        title: String
+        description: String
+        location: String
+        price: Int
+        dueDate: DateTime
+        settings: Json
+        status: PostStatus
+        postTags: PostTagUpdateManyWithoutPostInput
+        reviews: ReviewUpdateManyWithoutPostInput
+        account: AccountUpdateOneRequiredWithoutPostsInput
+      }
+
+      input PostUpdateWithoutPostTagsDataInput {
+        title: String
+        description: String
+        location: String
+        price: Int
+        dueDate: DateTime
+        settings: Json
+        status: PostStatus
+        comments: CommentUpdateManyWithoutPostInput
+        reviews: ReviewUpdateManyWithoutPostInput
+        account: AccountUpdateOneRequiredWithoutPostsInput
+      }
+
+      input PostUpdateWithoutReviewsDataInput {
+        title: String
+        description: String
+        location: String
+        price: Int
+        dueDate: DateTime
+        settings: Json
+        status: PostStatus
+        postTags: PostTagUpdateManyWithoutPostInput
+        comments: CommentUpdateManyWithoutPostInput
+        account: AccountUpdateOneRequiredWithoutPostsInput
+      }
+
+      input PostUpdateWithWhereUniqueWithoutAccountInput {
+        where: PostWhereUniqueInput!
+        data: PostUpdateWithoutAccountDataInput!
+      }
+
+      input PostUpsertNestedInput {
+        update: PostUpdateDataInput!
+        create: PostCreateInput!
+      }
+
+      input PostUpsertWithoutCommentsInput {
+        update: PostUpdateWithoutCommentsDataInput!
+        create: PostCreateWithoutCommentsInput!
+      }
+
+      input PostUpsertWithoutPostTagsInput {
+        update: PostUpdateWithoutPostTagsDataInput!
+        create: PostCreateWithoutPostTagsInput!
+      }
+
+      input PostUpsertWithoutReviewsInput {
+        update: PostUpdateWithoutReviewsDataInput!
+        create: PostCreateWithoutReviewsInput!
+      }
+
+      input PostUpsertWithWhereUniqueWithoutAccountInput {
+        where: PostWhereUniqueInput!
+        update: PostUpdateWithoutAccountDataInput!
+        create: PostCreateWithoutAccountInput!
+      }
+
+      input PostWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
+        title: String
+        title_not: String
+        title_in: [String!]
+        title_not_in: [String!]
+        title_lt: String
+        title_lte: String
+        title_gt: String
+        title_gte: String
+        title_contains: String
+        title_not_contains: String
+        title_starts_with: String
+        title_not_starts_with: String
+        title_ends_with: String
+        title_not_ends_with: String
+        description: String
+        description_not: String
+        description_in: [String!]
+        description_not_in: [String!]
+        description_lt: String
+        description_lte: String
+        description_gt: String
+        description_gte: String
+        description_contains: String
+        description_not_contains: String
+        description_starts_with: String
+        description_not_starts_with: String
+        description_ends_with: String
+        description_not_ends_with: String
+        location: String
+        location_not: String
+        location_in: [String!]
+        location_not_in: [String!]
+        location_lt: String
+        location_lte: String
+        location_gt: String
+        location_gte: String
+        location_contains: String
+        location_not_contains: String
+        location_starts_with: String
+        location_not_starts_with: String
+        location_ends_with: String
+        location_not_ends_with: String
+        price: Int
+        price_not: Int
+        price_in: [Int!]
+        price_not_in: [Int!]
+        price_lt: Int
+        price_lte: Int
+        price_gt: Int
+        price_gte: Int
+        dueDate: DateTime
+        dueDate_not: DateTime
+        dueDate_in: [DateTime!]
+        dueDate_not_in: [DateTime!]
+        dueDate_lt: DateTime
+        dueDate_lte: DateTime
+        dueDate_gt: DateTime
+        dueDate_gte: DateTime
+        status: PostStatus
+        status_not: PostStatus
+        status_in: [PostStatus!]
+        status_not_in: [PostStatus!]
+        postTags_every: PostTagWhereInput
+        postTags_some: PostTagWhereInput
+        postTags_none: PostTagWhereInput
+        comments_every: CommentWhereInput
+        comments_some: CommentWhereInput
+        comments_none: CommentWhereInput
+        reviews_every: ReviewWhereInput
+        reviews_some: ReviewWhereInput
+        reviews_none: ReviewWhereInput
+        account: AccountWhereInput
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [PostWhereInput!]
+        OR: [PostWhereInput!]
+        NOT: [PostWhereInput!]
+      }
+
+      input PostWhereUniqueInput {
+        id: UUID
+      }
+
       type Query {
         account(where: AccountWhereUniqueInput!): Account
         accounts(
@@ -242,6 +2364,139 @@ module.exports = {
           first: Int
           last: Int
         ): AccountConnection!
+        comment(where: CommentWhereUniqueInput!): Comment
+        comments(
+          where: CommentWhereInput
+          orderBy: CommentOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [Comment]!
+        commentsConnection(
+          where: CommentWhereInput
+          orderBy: CommentOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): CommentConnection!
+        image(where: ImageWhereUniqueInput!): Image
+        images(
+          where: ImageWhereInput
+          orderBy: ImageOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [Image]!
+        imagesConnection(
+          where: ImageWhereInput
+          orderBy: ImageOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): ImageConnection!
+        pet(where: PetWhereUniqueInput!): Pet
+        pets(
+          where: PetWhereInput
+          orderBy: PetOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [Pet]!
+        petsConnection(
+          where: PetWhereInput
+          orderBy: PetOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): PetConnection!
+        post(where: PostWhereUniqueInput!): Post
+        posts(
+          where: PostWhereInput
+          orderBy: PostOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [Post]!
+        postsConnection(
+          where: PostWhereInput
+          orderBy: PostOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): PostConnection!
+        postTag(where: PostTagWhereUniqueInput!): PostTag
+        postTags(
+          where: PostTagWhereInput
+          orderBy: PostTagOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [PostTag]!
+        postTagsConnection(
+          where: PostTagWhereInput
+          orderBy: PostTagOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): PostTagConnection!
+        review(where: ReviewWhereUniqueInput!): Review
+        reviews(
+          where: ReviewWhereInput
+          orderBy: ReviewOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [Review]!
+        reviewsConnection(
+          where: ReviewWhereInput
+          orderBy: ReviewOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): ReviewConnection!
+        tag(where: TagWhereUniqueInput!): Tag
+        tags(
+          where: TagWhereInput
+          orderBy: TagOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [Tag]!
+        tagsConnection(
+          where: TagWhereInput
+          orderBy: TagOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): TagConnection!
         user(where: UserWhereUniqueInput!): User
         users(
           where: UserWhereInput
@@ -264,153 +2519,81 @@ module.exports = {
         node(id: ID!): Node
       }
 
-      enum Role {
-        ADMIN
-        MANAGER
-        STAFF
-      }
-
-      enum Sex {
-        MALE
-        FEMALE
-      }
-
-      type Subscription {
-        account(where: AccountSubscriptionWhereInput): AccountSubscriptionPayload
-        user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-      }
-
-      type User {
+      type Review {
         id: UUID!
-        email: String
-        name: String!
-        phoneNumber: String
-        address: String
-        dob: DateTime
-        sex: Sex
+        message: String!
+        stars: Int!
+        post: Post!
+        createdBy: Account!
         createdAt: DateTime!
         updatedAt: DateTime!
       }
 
-      type UserConnection {
+      type ReviewConnection {
         pageInfo: PageInfo!
-        edges: [UserEdge]!
-        aggregate: AggregateUser!
+        edges: [ReviewEdge]!
+        aggregate: AggregateReview!
       }
 
-      input UserCreateInput {
+      input ReviewCreateInput {
         id: UUID
-        email: String
-        name: String!
-        phoneNumber: String
-        address: String
-        dob: DateTime
-        sex: Sex
+        message: String!
+        stars: Int!
+        post: PostCreateOneWithoutReviewsInput!
+        createdBy: AccountCreateOneWithoutReviewsInput!
       }
 
-      input UserCreateOneInput {
-        create: UserCreateInput
-        connect: UserWhereUniqueInput
+      input ReviewCreateManyWithoutCreatedByInput {
+        create: [ReviewCreateWithoutCreatedByInput!]
+        connect: [ReviewWhereUniqueInput!]
       }
 
-      type UserEdge {
-        node: User!
+      input ReviewCreateManyWithoutPostInput {
+        create: [ReviewCreateWithoutPostInput!]
+        connect: [ReviewWhereUniqueInput!]
+      }
+
+      input ReviewCreateWithoutCreatedByInput {
+        id: UUID
+        message: String!
+        stars: Int!
+        post: PostCreateOneWithoutReviewsInput!
+      }
+
+      input ReviewCreateWithoutPostInput {
+        id: UUID
+        message: String!
+        stars: Int!
+        createdBy: AccountCreateOneWithoutReviewsInput!
+      }
+
+      type ReviewEdge {
+        node: Review!
         cursor: String!
       }
 
-      enum UserOrderByInput {
+      enum ReviewOrderByInput {
         id_ASC
         id_DESC
-        email_ASC
-        email_DESC
-        name_ASC
-        name_DESC
-        phoneNumber_ASC
-        phoneNumber_DESC
-        address_ASC
-        address_DESC
-        dob_ASC
-        dob_DESC
-        sex_ASC
-        sex_DESC
+        message_ASC
+        message_DESC
+        stars_ASC
+        stars_DESC
         createdAt_ASC
         createdAt_DESC
         updatedAt_ASC
         updatedAt_DESC
       }
 
-      type UserPreviousValues {
+      type ReviewPreviousValues {
         id: UUID!
-        email: String
-        name: String!
-        phoneNumber: String
-        address: String
-        dob: DateTime
-        sex: Sex
+        message: String!
+        stars: Int!
         createdAt: DateTime!
         updatedAt: DateTime!
       }
 
-      type UserSubscriptionPayload {
-        mutation: MutationType!
-        node: User
-        updatedFields: [String!]
-        previousValues: UserPreviousValues
-      }
-
-      input UserSubscriptionWhereInput {
-        mutation_in: [MutationType!]
-        updatedFields_contains: String
-        updatedFields_contains_every: [String!]
-        updatedFields_contains_some: [String!]
-        node: UserWhereInput
-        AND: [UserSubscriptionWhereInput!]
-        OR: [UserSubscriptionWhereInput!]
-        NOT: [UserSubscriptionWhereInput!]
-      }
-
-      input UserUpdateDataInput {
-        email: String
-        name: String
-        phoneNumber: String
-        address: String
-        dob: DateTime
-        sex: Sex
-      }
-
-      input UserUpdateInput {
-        email: String
-        name: String
-        phoneNumber: String
-        address: String
-        dob: DateTime
-        sex: Sex
-      }
-
-      input UserUpdateManyMutationInput {
-        email: String
-        name: String
-        phoneNumber: String
-        address: String
-        dob: DateTime
-        sex: Sex
-      }
-
-      input UserUpdateOneInput {
-        create: UserCreateInput
-        update: UserUpdateDataInput
-        upsert: UserUpsertNestedInput
-        delete: Boolean
-        disconnect: Boolean
-        connect: UserWhereUniqueInput
-      }
-
-      input UserUpsertNestedInput {
-        update: UserUpdateDataInput!
-        create: UserCreateInput!
-      }
-
-      input UserWhereInput {
+      input ReviewScalarWhereInput {
         id: UUID
         id_not: UUID
         id_in: [UUID!]
@@ -425,20 +2608,516 @@ module.exports = {
         id_not_starts_with: UUID
         id_ends_with: UUID
         id_not_ends_with: UUID
-        email: String
-        email_not: String
-        email_in: [String!]
-        email_not_in: [String!]
-        email_lt: String
-        email_lte: String
-        email_gt: String
-        email_gte: String
-        email_contains: String
-        email_not_contains: String
-        email_starts_with: String
-        email_not_starts_with: String
-        email_ends_with: String
-        email_not_ends_with: String
+        message: String
+        message_not: String
+        message_in: [String!]
+        message_not_in: [String!]
+        message_lt: String
+        message_lte: String
+        message_gt: String
+        message_gte: String
+        message_contains: String
+        message_not_contains: String
+        message_starts_with: String
+        message_not_starts_with: String
+        message_ends_with: String
+        message_not_ends_with: String
+        stars: Int
+        stars_not: Int
+        stars_in: [Int!]
+        stars_not_in: [Int!]
+        stars_lt: Int
+        stars_lte: Int
+        stars_gt: Int
+        stars_gte: Int
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [ReviewScalarWhereInput!]
+        OR: [ReviewScalarWhereInput!]
+        NOT: [ReviewScalarWhereInput!]
+      }
+
+      type ReviewSubscriptionPayload {
+        mutation: MutationType!
+        node: Review
+        updatedFields: [String!]
+        previousValues: ReviewPreviousValues
+      }
+
+      input ReviewSubscriptionWhereInput {
+        mutation_in: [MutationType!]
+        updatedFields_contains: String
+        updatedFields_contains_every: [String!]
+        updatedFields_contains_some: [String!]
+        node: ReviewWhereInput
+        AND: [ReviewSubscriptionWhereInput!]
+        OR: [ReviewSubscriptionWhereInput!]
+        NOT: [ReviewSubscriptionWhereInput!]
+      }
+
+      input ReviewUpdateInput {
+        message: String
+        stars: Int
+        post: PostUpdateOneRequiredWithoutReviewsInput
+        createdBy: AccountUpdateOneRequiredWithoutReviewsInput
+      }
+
+      input ReviewUpdateManyDataInput {
+        message: String
+        stars: Int
+      }
+
+      input ReviewUpdateManyMutationInput {
+        message: String
+        stars: Int
+      }
+
+      input ReviewUpdateManyWithoutCreatedByInput {
+        create: [ReviewCreateWithoutCreatedByInput!]
+        delete: [ReviewWhereUniqueInput!]
+        connect: [ReviewWhereUniqueInput!]
+        set: [ReviewWhereUniqueInput!]
+        disconnect: [ReviewWhereUniqueInput!]
+        update: [ReviewUpdateWithWhereUniqueWithoutCreatedByInput!]
+        upsert: [ReviewUpsertWithWhereUniqueWithoutCreatedByInput!]
+        deleteMany: [ReviewScalarWhereInput!]
+        updateMany: [ReviewUpdateManyWithWhereNestedInput!]
+      }
+
+      input ReviewUpdateManyWithoutPostInput {
+        create: [ReviewCreateWithoutPostInput!]
+        delete: [ReviewWhereUniqueInput!]
+        connect: [ReviewWhereUniqueInput!]
+        set: [ReviewWhereUniqueInput!]
+        disconnect: [ReviewWhereUniqueInput!]
+        update: [ReviewUpdateWithWhereUniqueWithoutPostInput!]
+        upsert: [ReviewUpsertWithWhereUniqueWithoutPostInput!]
+        deleteMany: [ReviewScalarWhereInput!]
+        updateMany: [ReviewUpdateManyWithWhereNestedInput!]
+      }
+
+      input ReviewUpdateManyWithWhereNestedInput {
+        where: ReviewScalarWhereInput!
+        data: ReviewUpdateManyDataInput!
+      }
+
+      input ReviewUpdateWithoutCreatedByDataInput {
+        message: String
+        stars: Int
+        post: PostUpdateOneRequiredWithoutReviewsInput
+      }
+
+      input ReviewUpdateWithoutPostDataInput {
+        message: String
+        stars: Int
+        createdBy: AccountUpdateOneRequiredWithoutReviewsInput
+      }
+
+      input ReviewUpdateWithWhereUniqueWithoutCreatedByInput {
+        where: ReviewWhereUniqueInput!
+        data: ReviewUpdateWithoutCreatedByDataInput!
+      }
+
+      input ReviewUpdateWithWhereUniqueWithoutPostInput {
+        where: ReviewWhereUniqueInput!
+        data: ReviewUpdateWithoutPostDataInput!
+      }
+
+      input ReviewUpsertWithWhereUniqueWithoutCreatedByInput {
+        where: ReviewWhereUniqueInput!
+        update: ReviewUpdateWithoutCreatedByDataInput!
+        create: ReviewCreateWithoutCreatedByInput!
+      }
+
+      input ReviewUpsertWithWhereUniqueWithoutPostInput {
+        where: ReviewWhereUniqueInput!
+        update: ReviewUpdateWithoutPostDataInput!
+        create: ReviewCreateWithoutPostInput!
+      }
+
+      input ReviewWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
+        message: String
+        message_not: String
+        message_in: [String!]
+        message_not_in: [String!]
+        message_lt: String
+        message_lte: String
+        message_gt: String
+        message_gte: String
+        message_contains: String
+        message_not_contains: String
+        message_starts_with: String
+        message_not_starts_with: String
+        message_ends_with: String
+        message_not_ends_with: String
+        stars: Int
+        stars_not: Int
+        stars_in: [Int!]
+        stars_not_in: [Int!]
+        stars_lt: Int
+        stars_lte: Int
+        stars_gt: Int
+        stars_gte: Int
+        post: PostWhereInput
+        createdBy: AccountWhereInput
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [ReviewWhereInput!]
+        OR: [ReviewWhereInput!]
+        NOT: [ReviewWhereInput!]
+      }
+
+      input ReviewWhereUniqueInput {
+        id: UUID
+      }
+
+      enum Role {
+        Free
+        Premium
+      }
+
+      type Subscription {
+        account(where: AccountSubscriptionWhereInput): AccountSubscriptionPayload
+        comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
+        image(where: ImageSubscriptionWhereInput): ImageSubscriptionPayload
+        pet(where: PetSubscriptionWhereInput): PetSubscriptionPayload
+        post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
+        postTag(where: PostTagSubscriptionWhereInput): PostTagSubscriptionPayload
+        review(where: ReviewSubscriptionWhereInput): ReviewSubscriptionPayload
+        tag(where: TagSubscriptionWhereInput): TagSubscriptionPayload
+        user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+      }
+
+      type Tag {
+        id: UUID!
+        title: String!
+        description: String
+        postTags(
+          where: PostTagWhereInput
+          orderBy: PostTagOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [PostTag!]
+        createdAt: DateTime!
+        updatedAt: DateTime!
+      }
+
+      type TagConnection {
+        pageInfo: PageInfo!
+        edges: [TagEdge]!
+        aggregate: AggregateTag!
+      }
+
+      input TagCreateInput {
+        id: UUID
+        title: String!
+        description: String
+        postTags: PostTagCreateManyWithoutTagInput
+      }
+
+      input TagCreateOneWithoutPostTagsInput {
+        create: TagCreateWithoutPostTagsInput
+        connect: TagWhereUniqueInput
+      }
+
+      input TagCreateWithoutPostTagsInput {
+        id: UUID
+        title: String!
+        description: String
+      }
+
+      type TagEdge {
+        node: Tag!
+        cursor: String!
+      }
+
+      enum TagOrderByInput {
+        id_ASC
+        id_DESC
+        title_ASC
+        title_DESC
+        description_ASC
+        description_DESC
+        createdAt_ASC
+        createdAt_DESC
+        updatedAt_ASC
+        updatedAt_DESC
+      }
+
+      type TagPreviousValues {
+        id: UUID!
+        title: String!
+        description: String
+        createdAt: DateTime!
+        updatedAt: DateTime!
+      }
+
+      type TagSubscriptionPayload {
+        mutation: MutationType!
+        node: Tag
+        updatedFields: [String!]
+        previousValues: TagPreviousValues
+      }
+
+      input TagSubscriptionWhereInput {
+        mutation_in: [MutationType!]
+        updatedFields_contains: String
+        updatedFields_contains_every: [String!]
+        updatedFields_contains_some: [String!]
+        node: TagWhereInput
+        AND: [TagSubscriptionWhereInput!]
+        OR: [TagSubscriptionWhereInput!]
+        NOT: [TagSubscriptionWhereInput!]
+      }
+
+      input TagUpdateInput {
+        title: String
+        description: String
+        postTags: PostTagUpdateManyWithoutTagInput
+      }
+
+      input TagUpdateManyMutationInput {
+        title: String
+        description: String
+      }
+
+      input TagUpdateOneRequiredWithoutPostTagsInput {
+        create: TagCreateWithoutPostTagsInput
+        update: TagUpdateWithoutPostTagsDataInput
+        upsert: TagUpsertWithoutPostTagsInput
+        connect: TagWhereUniqueInput
+      }
+
+      input TagUpdateWithoutPostTagsDataInput {
+        title: String
+        description: String
+      }
+
+      input TagUpsertWithoutPostTagsInput {
+        update: TagUpdateWithoutPostTagsDataInput!
+        create: TagCreateWithoutPostTagsInput!
+      }
+
+      input TagWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
+        title: String
+        title_not: String
+        title_in: [String!]
+        title_not_in: [String!]
+        title_lt: String
+        title_lte: String
+        title_gt: String
+        title_gte: String
+        title_contains: String
+        title_not_contains: String
+        title_starts_with: String
+        title_not_starts_with: String
+        title_ends_with: String
+        title_not_ends_with: String
+        description: String
+        description_not: String
+        description_in: [String!]
+        description_not_in: [String!]
+        description_lt: String
+        description_lte: String
+        description_gt: String
+        description_gte: String
+        description_contains: String
+        description_not_contains: String
+        description_starts_with: String
+        description_not_starts_with: String
+        description_ends_with: String
+        description_not_ends_with: String
+        postTags_every: PostTagWhereInput
+        postTags_some: PostTagWhereInput
+        postTags_none: PostTagWhereInput
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [TagWhereInput!]
+        OR: [TagWhereInput!]
+        NOT: [TagWhereInput!]
+      }
+
+      input TagWhereUniqueInput {
+        id: UUID
+      }
+
+      type User {
+        id: UUID!
+        name: String!
+        phoneNumber: String!
+        address: Json!
+        bio: String
+        dob: DateTime
+        avatar: String
+        settings: Json
+        account: Account!
+        createdAt: DateTime!
+        updatedAt: DateTime!
+      }
+
+      type UserConnection {
+        pageInfo: PageInfo!
+        edges: [UserEdge]!
+        aggregate: AggregateUser!
+      }
+
+      input UserCreateInput {
+        id: UUID
+        name: String!
+        phoneNumber: String!
+        address: Json!
+        bio: String
+        dob: DateTime
+        avatar: String
+        settings: Json
+        account: AccountCreateOneWithoutUsersInput!
+      }
+
+      input UserCreateManyWithoutAccountInput {
+        create: [UserCreateWithoutAccountInput!]
+        connect: [UserWhereUniqueInput!]
+      }
+
+      input UserCreateWithoutAccountInput {
+        id: UUID
+        name: String!
+        phoneNumber: String!
+        address: Json!
+        bio: String
+        dob: DateTime
+        avatar: String
+        settings: Json
+      }
+
+      type UserEdge {
+        node: User!
+        cursor: String!
+      }
+
+      enum UserOrderByInput {
+        id_ASC
+        id_DESC
+        name_ASC
+        name_DESC
+        phoneNumber_ASC
+        phoneNumber_DESC
+        address_ASC
+        address_DESC
+        bio_ASC
+        bio_DESC
+        dob_ASC
+        dob_DESC
+        avatar_ASC
+        avatar_DESC
+        settings_ASC
+        settings_DESC
+        createdAt_ASC
+        createdAt_DESC
+        updatedAt_ASC
+        updatedAt_DESC
+      }
+
+      type UserPreviousValues {
+        id: UUID!
+        name: String!
+        phoneNumber: String!
+        address: Json!
+        bio: String
+        dob: DateTime
+        avatar: String
+        settings: Json
+        createdAt: DateTime!
+        updatedAt: DateTime!
+      }
+
+      input UserScalarWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
         name: String
         name_not: String
         name_in: [String!]
@@ -467,20 +3146,20 @@ module.exports = {
         phoneNumber_not_starts_with: String
         phoneNumber_ends_with: String
         phoneNumber_not_ends_with: String
-        address: String
-        address_not: String
-        address_in: [String!]
-        address_not_in: [String!]
-        address_lt: String
-        address_lte: String
-        address_gt: String
-        address_gte: String
-        address_contains: String
-        address_not_contains: String
-        address_starts_with: String
-        address_not_starts_with: String
-        address_ends_with: String
-        address_not_ends_with: String
+        bio: String
+        bio_not: String
+        bio_in: [String!]
+        bio_not_in: [String!]
+        bio_lt: String
+        bio_lte: String
+        bio_gt: String
+        bio_gte: String
+        bio_contains: String
+        bio_not_contains: String
+        bio_starts_with: String
+        bio_not_starts_with: String
+        bio_ends_with: String
+        bio_not_ends_with: String
         dob: DateTime
         dob_not: DateTime
         dob_in: [DateTime!]
@@ -489,10 +3168,208 @@ module.exports = {
         dob_lte: DateTime
         dob_gt: DateTime
         dob_gte: DateTime
-        sex: Sex
-        sex_not: Sex
-        sex_in: [Sex!]
-        sex_not_in: [Sex!]
+        avatar: String
+        avatar_not: String
+        avatar_in: [String!]
+        avatar_not_in: [String!]
+        avatar_lt: String
+        avatar_lte: String
+        avatar_gt: String
+        avatar_gte: String
+        avatar_contains: String
+        avatar_not_contains: String
+        avatar_starts_with: String
+        avatar_not_starts_with: String
+        avatar_ends_with: String
+        avatar_not_ends_with: String
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [UserScalarWhereInput!]
+        OR: [UserScalarWhereInput!]
+        NOT: [UserScalarWhereInput!]
+      }
+
+      type UserSubscriptionPayload {
+        mutation: MutationType!
+        node: User
+        updatedFields: [String!]
+        previousValues: UserPreviousValues
+      }
+
+      input UserSubscriptionWhereInput {
+        mutation_in: [MutationType!]
+        updatedFields_contains: String
+        updatedFields_contains_every: [String!]
+        updatedFields_contains_some: [String!]
+        node: UserWhereInput
+        AND: [UserSubscriptionWhereInput!]
+        OR: [UserSubscriptionWhereInput!]
+        NOT: [UserSubscriptionWhereInput!]
+      }
+
+      input UserUpdateInput {
+        name: String
+        phoneNumber: String
+        address: Json
+        bio: String
+        dob: DateTime
+        avatar: String
+        settings: Json
+        account: AccountUpdateOneRequiredWithoutUsersInput
+      }
+
+      input UserUpdateManyDataInput {
+        name: String
+        phoneNumber: String
+        address: Json
+        bio: String
+        dob: DateTime
+        avatar: String
+        settings: Json
+      }
+
+      input UserUpdateManyMutationInput {
+        name: String
+        phoneNumber: String
+        address: Json
+        bio: String
+        dob: DateTime
+        avatar: String
+        settings: Json
+      }
+
+      input UserUpdateManyWithoutAccountInput {
+        create: [UserCreateWithoutAccountInput!]
+        delete: [UserWhereUniqueInput!]
+        connect: [UserWhereUniqueInput!]
+        set: [UserWhereUniqueInput!]
+        disconnect: [UserWhereUniqueInput!]
+        update: [UserUpdateWithWhereUniqueWithoutAccountInput!]
+        upsert: [UserUpsertWithWhereUniqueWithoutAccountInput!]
+        deleteMany: [UserScalarWhereInput!]
+        updateMany: [UserUpdateManyWithWhereNestedInput!]
+      }
+
+      input UserUpdateManyWithWhereNestedInput {
+        where: UserScalarWhereInput!
+        data: UserUpdateManyDataInput!
+      }
+
+      input UserUpdateWithoutAccountDataInput {
+        name: String
+        phoneNumber: String
+        address: Json
+        bio: String
+        dob: DateTime
+        avatar: String
+        settings: Json
+      }
+
+      input UserUpdateWithWhereUniqueWithoutAccountInput {
+        where: UserWhereUniqueInput!
+        data: UserUpdateWithoutAccountDataInput!
+      }
+
+      input UserUpsertWithWhereUniqueWithoutAccountInput {
+        where: UserWhereUniqueInput!
+        update: UserUpdateWithoutAccountDataInput!
+        create: UserCreateWithoutAccountInput!
+      }
+
+      input UserWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
+        name: String
+        name_not: String
+        name_in: [String!]
+        name_not_in: [String!]
+        name_lt: String
+        name_lte: String
+        name_gt: String
+        name_gte: String
+        name_contains: String
+        name_not_contains: String
+        name_starts_with: String
+        name_not_starts_with: String
+        name_ends_with: String
+        name_not_ends_with: String
+        phoneNumber: String
+        phoneNumber_not: String
+        phoneNumber_in: [String!]
+        phoneNumber_not_in: [String!]
+        phoneNumber_lt: String
+        phoneNumber_lte: String
+        phoneNumber_gt: String
+        phoneNumber_gte: String
+        phoneNumber_contains: String
+        phoneNumber_not_contains: String
+        phoneNumber_starts_with: String
+        phoneNumber_not_starts_with: String
+        phoneNumber_ends_with: String
+        phoneNumber_not_ends_with: String
+        bio: String
+        bio_not: String
+        bio_in: [String!]
+        bio_not_in: [String!]
+        bio_lt: String
+        bio_lte: String
+        bio_gt: String
+        bio_gte: String
+        bio_contains: String
+        bio_not_contains: String
+        bio_starts_with: String
+        bio_not_starts_with: String
+        bio_ends_with: String
+        bio_not_ends_with: String
+        dob: DateTime
+        dob_not: DateTime
+        dob_in: [DateTime!]
+        dob_not_in: [DateTime!]
+        dob_lt: DateTime
+        dob_lte: DateTime
+        dob_gt: DateTime
+        dob_gte: DateTime
+        avatar: String
+        avatar_not: String
+        avatar_in: [String!]
+        avatar_not_in: [String!]
+        avatar_lt: String
+        avatar_lte: String
+        avatar_gt: String
+        avatar_gte: String
+        avatar_contains: String
+        avatar_not_contains: String
+        avatar_starts_with: String
+        avatar_not_starts_with: String
+        avatar_ends_with: String
+        avatar_not_ends_with: String
+        account: AccountWhereInput
         createdAt: DateTime
         createdAt_not: DateTime
         createdAt_in: [DateTime!]
@@ -516,7 +3393,6 @@ module.exports = {
 
       input UserWhereUniqueInput {
         id: UUID
-        email: String
       }
 
       scalar UUID
