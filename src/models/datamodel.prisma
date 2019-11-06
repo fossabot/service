@@ -17,12 +17,15 @@ type Account {
   role: Role! @default(value: Free)
   status: AccountStatus @default(value: Pending)
   settings: Json
-  users: [User!]! @relation(name: "Account_User", onDelete: CASCADE)
+  users: [User!] @relation(name: "Account_User", onDelete: CASCADE)
   posts: [Post!] @relation(name: "Account_Post", onDelete: CASCADE)
   pets: [Pet!] @relation(name: "Account_Pet", onDelete: CASCADE)
   images: [Image!] @relation(name: "Account_Image", onDelete: CASCADE)
   comments: [Comment!] @relation(name: "Account_Comment")
   reviews: [Review!] @relation(name: "Account_Review")
+  petImages: [PetImage!] @relation(name: "Account_PetImage", onDelete: CASCADE)
+  like: [Like!] @relation(name: "Account_Like", onDelete: CASCADE)
+  reports: [Report!] @relation(name: "Account_Report", onDelete: CASCADE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
@@ -34,7 +37,7 @@ type User {
   address: Json!
   bio: String
   dob: DateTime
-  avatar: String
+  avatar: Image @relation(link: INLINE)
   settings: Json
   account: Account! @relation(name: "Account_User")
   createdAt: DateTime! @createdAt
@@ -43,8 +46,9 @@ type User {
 
 enum PostStatus {
   Pending
-  Active
-  Deactive
+  New
+  Done
+  Expired
 }
 
 type Post {
@@ -55,10 +59,11 @@ type Post {
   price: Int! @default(value: 0)
   dueDate: DateTime!
   settings: Json
-  status: PostStatus! @default(value: Active)
+  status: PostStatus! @default(value: New)
   postTags: [PostTag!] @relation(name: "PostTag_Post", onDelete: CASCADE)
   comments: [Comment!] @relation(name: "Post_Comment", onDelete: CASCADE)
   reviews: [Review!] @relation(name: "Post_Review", onDelete: CASCADE)
+  reports: [Report!] @relation(name: "Post_Report", onDelete: CASCADE)
   account: Account! @relation(name: "Account_Post")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
@@ -80,7 +85,6 @@ type Pet {
   type: PetType!
   info: Json
   post: Post! @relation(link: INLINE)
-  images: [Image!] @relation(name: "Pet_Image", onDelete: CASCADE)
   account: Account! @relation(name: "Account_Pet")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
@@ -103,10 +107,19 @@ type PostTag {
   updatedAt: DateTime! @updatedAt
 }
 
+type PetImage {
+  id: UUID! @id
+  image: Image! @relation(link: INLINE)
+  pet: Pet! @relation(link: INLINE)
+  account: Account! @relation(name: "Account_PetImage")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
 type Image {
   id: UUID! @id
+  publicId: String! @unique
   url: String!
-  pet: Pet! @relation(name: "Pet_Image")
   account: Account! @relation(name: "Account_Image")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
@@ -115,6 +128,8 @@ type Image {
 type Comment {
   id: UUID! @id
   message: String!
+  image: Image @relation(link: INLINE)
+  likes: Int! @default(value: 0)
   post: Post! @relation(name: "Post_Comment")
   createdBy: Account! @relation(name: "Account_Comment")
   createdAt: DateTime! @createdAt
@@ -125,8 +140,51 @@ type Review {
   id: UUID! @id
   message: String!
   stars: Int!
+  image: Image @relation(link: INLINE)
+  likes: Int! @default(value: 0)
   post: Post! @relation(name: "Post_Review")
   createdBy: Account! @relation(name: "Account_Review")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Like {
+  id: UUID! @id
+  count: Int! @default(value: 0)
+  account: Account! @relation(name: "Account_Like")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type PostLike {
+  id: UUID! @id
+  post: Post! @relation(link: INLINE)
+  like: Like! @relation(link: INLINE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type CommentLike {
+  id: UUID! @id
+  comment: Comment! @relation(link: INLINE)
+  like: Like! @relation(link: INLINE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type ReviewLike {
+  id: UUID! @id
+  review: Review! @relation(link: INLINE)
+  like: Like! @relation(link: INLINE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Report {
+  id: UUID! @id
+  reason: String!
+  post: Post! @relation(name: "Post_Report")
+  createdBy: Account! @relation(name: "Account_Report")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }

@@ -45,6 +45,10 @@ var models = [
     embedded: false,
   },
   {
+    name: 'PetImage',
+    embedded: false,
+  },
+  {
     name: 'Image',
     embedded: false,
   },
@@ -54,6 +58,26 @@ var models = [
   },
   {
     name: 'Review',
+    embedded: false,
+  },
+  {
+    name: 'Like',
+    embedded: false,
+  },
+  {
+    name: 'PostLike',
+    embedded: false,
+  },
+  {
+    name: 'CommentLike',
+    embedded: false,
+  },
+  {
+    name: 'ReviewLike',
+    embedded: false,
+  },
+  {
+    name: 'Report',
     embedded: false,
   },
 ];
