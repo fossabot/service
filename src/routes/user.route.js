@@ -2,20 +2,16 @@ import express from 'express';
 import { celebrate, Joi } from 'celebrate';
 import authorize from '@/helpers/authorize';
 import withController from '@/helpers/withController';
-import { roles } from '@/config/constants';
+import { role } from '@/config/constants';
 import controller from '@/controllers/user.controller';
 
 const router = express.Router();
 
-router.get(
-  '/',
-  authorize(roles.admin, roles.manager, roles.staff),
-  withController(controller.list),
-);
+router.get('/', authorize(role.free, role.premium), withController(controller.list));
 
 router.get(
   '/:id',
-  authorize(roles.admin, roles.manager, roles.staff),
+  authorize(role.free, role.premium),
   celebrate({
     params: Joi.object().keys({
       id: Joi.string()
@@ -28,15 +24,19 @@ router.get(
 
 router.post(
   '/',
-  authorize(roles.admin, roles.manager, roles.staff),
+  authorize(role.free, role.premium),
   celebrate({
     body: Joi.object().keys({
       name: Joi.string().required(),
-      email: Joi.string().email(),
-      phoneNumber: Joi.string(),
-      address: Joi.string(),
+      phoneNumber: Joi.string().required(),
+      address: Joi.object(),
+      bio: Joi.string(),
       dob: Joi.string().isoDate(),
-      sex: Joi.string().valid('MALE', 'FEMALE'),
+      settings: Joi.object(),
+      avatar: Joi.string(),
+      account: Joi.string()
+        .guid()
+        .required(),
     }),
   }),
   withController(controller.create),
@@ -44,7 +44,7 @@ router.post(
 
 router.put(
   '/:id',
-  authorize(roles.admin, roles.manager, roles.staff),
+  authorize(role.free, role.premium),
   celebrate({
     params: Joi.object().keys({
       id: Joi.string()
@@ -53,11 +53,15 @@ router.put(
     }),
     body: Joi.object().keys({
       name: Joi.string().required(),
-      email: Joi.string().email(),
-      phoneNumber: Joi.string(),
-      address: Joi.string(),
+      phoneNumber: Joi.string().required(),
+      address: Joi.object(),
+      bio: Joi.string(),
       dob: Joi.string().isoDate(),
-      sex: Joi.string().valid('MALE', 'FEMALE'),
+      settings: Joi.object(),
+      avatar: Joi.string(),
+      account: Joi.string()
+        .guid()
+        .required(),
     }),
   }),
   withController(controller.update),
@@ -65,7 +69,7 @@ router.put(
 
 router.delete(
   '/:id',
-  authorize(roles.admin, roles.manager, roles.staff),
+  authorize(role.free, role.premium),
   celebrate({
     params: Joi.object().keys({
       id: Joi.string()

@@ -4,7 +4,6 @@ enum Role {
 }
 
 enum AccountStatus {
-  Pending
   Active
   Deactive
 }
@@ -15,7 +14,7 @@ type Account {
   password: String!
   email: String! @unique
   role: Role! @default(value: Free)
-  status: AccountStatus @default(value: Pending)
+  status: AccountStatus @default(value: Active)
   settings: Json
   users: [User!] @relation(name: "Account_User", onDelete: CASCADE)
   posts: [Post!] @relation(name: "Account_Post", onDelete: CASCADE)

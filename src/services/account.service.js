@@ -1,9 +1,71 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import _ from 'lodash';
+import { code } from 'thinid';
+import nodemailer from 'nodemailer';
 import Boom from '@hapi/boom';
-import { prisma } from '@/generated/prisma-client';
+import fs from 'fs';
+import { JSDOM } from 'jsdom';
+import { promisify } from 'util';
+import { prisma } from '@/models/prisma-client';
 import config from '@/config';
+
+function createMailHtml(codeConfirmation) {
+  const html = fs.readFileSync(`${__dirname}/../templates/codeConfirmation.html`, 'utf8');
+  const dom = new JSDOM(html);
+  dom.window.document.getElementById('code').innerHTML = codeConfirmation;
+  dom.serialize();
+  return dom.window.document.documentElement.outerHTML;
+}
+
+async function sendEmail(email, codeConfirmation) {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: config.email,
+      pass: config.emailPassword,
+    },
+  });
+  const mailContent = {
+    from: `"Cuong Duy Nguyen 👻" ${config.email}`,
+    to: email,
+    subject: '[Đảo Thú Cưng 🐕🐈] Xác nhận địa chỉ email',
+    html: createMailHtml(codeConfirmation),
+  };
+  await transporter.sendMail(mailContent);
+}
+
+async function requireCode(redis, data) {
+  const { email } = data;
+  const account = await prisma.account({ email });
+  if (account) {
+    throw Boom.conflict('email is exist');
+  }
+  const codeConfirmation = code();
+  // Save code confirmation to Redis.
+  await redis.set(email, codeConfirmation, 'PX', config.registerExpiration);
+  // Send code confirmation by mail.
+  await sendEmail(email, codeConfirmation);
+  return {
+    email,
+  };
+}
+
+async function checkCode(redis, data) {
+  const { code: codeConfirmation, email } = data;
+  const getAsync = promisify(redis.get).bind(redis);
+  const redisCodeConfirmation = await getAsync(email);
+  if (!redisCodeConfirmation) {
+    throw Boom.clientTimeout('code is time out');
+  }
+  if (redisCodeConfirmation.toString() !== codeConfirmation.toString()) {
+    throw Boom.notFound('code is incorrect');
+  }
+  return {
+    email,
+    code: codeConfirmation,
+  };
+}
 
 async function register(data) {
   const { password } = data;
@@ -40,6 +102,8 @@ async function login(data) {
 }
 
 export default {
+  requireCode,
+  checkCode,
   register,
   login,
 };

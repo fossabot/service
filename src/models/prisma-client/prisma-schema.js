@@ -417,7 +417,6 @@ module.exports = {
       }
 
       enum AccountStatus {
-        Pending
         Active
         Deactive
       }
@@ -2371,7 +2370,6 @@ module.exports = {
         id: UUID!
         type: PetType!
         info: Json
-        post: Post!
         account: Account!
         createdAt: DateTime!
         updatedAt: DateTime!
@@ -2387,7 +2385,6 @@ module.exports = {
         id: UUID
         type: PetType!
         info: Json
-        post: PostCreateOneInput!
         account: AccountCreateOneWithoutPetsInput!
       }
 
@@ -2396,11 +2393,15 @@ module.exports = {
         connect: [PetWhereUniqueInput!]
       }
 
+      input PetCreateOneInput {
+        create: PetCreateInput
+        connect: PetWhereUniqueInput
+      }
+
       input PetCreateWithoutAccountInput {
         id: UUID
         type: PetType!
         info: Json
-        post: PostCreateOneInput!
       }
 
       type PetEdge {
@@ -2498,10 +2499,15 @@ module.exports = {
         Other
       }
 
+      input PetUpdateDataInput {
+        type: PetType
+        info: Json
+        account: AccountUpdateOneRequiredWithoutPetsInput
+      }
+
       input PetUpdateInput {
         type: PetType
         info: Json
-        post: PostUpdateOneRequiredInput
         account: AccountUpdateOneRequiredWithoutPetsInput
       }
 
@@ -2532,15 +2538,26 @@ module.exports = {
         data: PetUpdateManyDataInput!
       }
 
+      input PetUpdateOneRequiredInput {
+        create: PetCreateInput
+        update: PetUpdateDataInput
+        upsert: PetUpsertNestedInput
+        connect: PetWhereUniqueInput
+      }
+
       input PetUpdateWithoutAccountDataInput {
         type: PetType
         info: Json
-        post: PostUpdateOneRequiredInput
       }
 
       input PetUpdateWithWhereUniqueWithoutAccountInput {
         where: PetWhereUniqueInput!
         data: PetUpdateWithoutAccountDataInput!
+      }
+
+      input PetUpsertNestedInput {
+        update: PetUpdateDataInput!
+        create: PetCreateInput!
       }
 
       input PetUpsertWithWhereUniqueWithoutAccountInput {
@@ -2568,7 +2585,6 @@ module.exports = {
         type_not: PetType
         type_in: [PetType!]
         type_not_in: [PetType!]
-        post: PostWhereInput
         account: AccountWhereInput
         createdAt: DateTime
         createdAt_not: DateTime
@@ -2600,8 +2616,9 @@ module.exports = {
         title: String!
         description: String
         location: String!
-        price: Int!
+        price: Float!
         dueDate: DateTime!
+        pet: Pet!
         settings: Json
         status: PostStatus!
         postImages(
@@ -2665,8 +2682,9 @@ module.exports = {
         title: String!
         description: String
         location: String!
-        price: Int
+        price: Float
         dueDate: DateTime!
+        pet: PetCreateOneInput!
         settings: Json
         status: PostStatus
         postImages: PostImageCreateManyWithoutPostInput
@@ -2717,8 +2735,9 @@ module.exports = {
         title: String!
         description: String
         location: String!
-        price: Int
+        price: Float
         dueDate: DateTime!
+        pet: PetCreateOneInput!
         settings: Json
         status: PostStatus
         postImages: PostImageCreateManyWithoutPostInput
@@ -2733,8 +2752,9 @@ module.exports = {
         title: String!
         description: String
         location: String!
-        price: Int
+        price: Float
         dueDate: DateTime!
+        pet: PetCreateOneInput!
         settings: Json
         status: PostStatus
         postImages: PostImageCreateManyWithoutPostInput
@@ -2749,8 +2769,9 @@ module.exports = {
         title: String!
         description: String
         location: String!
-        price: Int
+        price: Float
         dueDate: DateTime!
+        pet: PetCreateOneInput!
         settings: Json
         status: PostStatus
         postTags: PostTagCreateManyWithoutPostInput
@@ -2765,8 +2786,9 @@ module.exports = {
         title: String!
         description: String
         location: String!
-        price: Int
+        price: Float
         dueDate: DateTime!
+        pet: PetCreateOneInput!
         settings: Json
         status: PostStatus
         postImages: PostImageCreateManyWithoutPostInput
@@ -2781,8 +2803,9 @@ module.exports = {
         title: String!
         description: String
         location: String!
-        price: Int
+        price: Float
         dueDate: DateTime!
+        pet: PetCreateOneInput!
         settings: Json
         status: PostStatus
         postImages: PostImageCreateManyWithoutPostInput
@@ -2797,8 +2820,9 @@ module.exports = {
         title: String!
         description: String
         location: String!
-        price: Int
+        price: Float
         dueDate: DateTime!
+        pet: PetCreateOneInput!
         settings: Json
         status: PostStatus
         postImages: PostImageCreateManyWithoutPostInput
@@ -3185,7 +3209,7 @@ module.exports = {
         title: String!
         description: String
         location: String!
-        price: Int!
+        price: Float!
         dueDate: DateTime!
         settings: Json
         status: PostStatus!
@@ -3250,14 +3274,14 @@ module.exports = {
         location_not_starts_with: String
         location_ends_with: String
         location_not_ends_with: String
-        price: Int
-        price_not: Int
-        price_in: [Int!]
-        price_not_in: [Int!]
-        price_lt: Int
-        price_lte: Int
-        price_gt: Int
-        price_gte: Int
+        price: Float
+        price_not: Float
+        price_in: [Float!]
+        price_not_in: [Float!]
+        price_lt: Float
+        price_lte: Float
+        price_gt: Float
+        price_gte: Float
         dueDate: DateTime
         dueDate_not: DateTime
         dueDate_in: [DateTime!]
@@ -3533,8 +3557,9 @@ module.exports = {
         title: String
         description: String
         location: String
-        price: Int
+        price: Float
         dueDate: DateTime
+        pet: PetUpdateOneRequiredInput
         settings: Json
         status: PostStatus
         postImages: PostImageUpdateManyWithoutPostInput
@@ -3549,8 +3574,9 @@ module.exports = {
         title: String
         description: String
         location: String
-        price: Int
+        price: Float
         dueDate: DateTime
+        pet: PetUpdateOneRequiredInput
         settings: Json
         status: PostStatus
         postImages: PostImageUpdateManyWithoutPostInput
@@ -3565,7 +3591,7 @@ module.exports = {
         title: String
         description: String
         location: String
-        price: Int
+        price: Float
         dueDate: DateTime
         settings: Json
         status: PostStatus
@@ -3575,7 +3601,7 @@ module.exports = {
         title: String
         description: String
         location: String
-        price: Int
+        price: Float
         dueDate: DateTime
         settings: Json
         status: PostStatus
@@ -3644,8 +3670,9 @@ module.exports = {
         title: String
         description: String
         location: String
-        price: Int
+        price: Float
         dueDate: DateTime
+        pet: PetUpdateOneRequiredInput
         settings: Json
         status: PostStatus
         postImages: PostImageUpdateManyWithoutPostInput
@@ -3659,8 +3686,9 @@ module.exports = {
         title: String
         description: String
         location: String
-        price: Int
+        price: Float
         dueDate: DateTime
+        pet: PetUpdateOneRequiredInput
         settings: Json
         status: PostStatus
         postImages: PostImageUpdateManyWithoutPostInput
@@ -3674,8 +3702,9 @@ module.exports = {
         title: String
         description: String
         location: String
-        price: Int
+        price: Float
         dueDate: DateTime
+        pet: PetUpdateOneRequiredInput
         settings: Json
         status: PostStatus
         postTags: PostTagUpdateManyWithoutPostInput
@@ -3689,8 +3718,9 @@ module.exports = {
         title: String
         description: String
         location: String
-        price: Int
+        price: Float
         dueDate: DateTime
+        pet: PetUpdateOneRequiredInput
         settings: Json
         status: PostStatus
         postImages: PostImageUpdateManyWithoutPostInput
@@ -3704,8 +3734,9 @@ module.exports = {
         title: String
         description: String
         location: String
-        price: Int
+        price: Float
         dueDate: DateTime
+        pet: PetUpdateOneRequiredInput
         settings: Json
         status: PostStatus
         postImages: PostImageUpdateManyWithoutPostInput
@@ -3719,8 +3750,9 @@ module.exports = {
         title: String
         description: String
         location: String
-        price: Int
+        price: Float
         dueDate: DateTime
+        pet: PetUpdateOneRequiredInput
         settings: Json
         status: PostStatus
         postImages: PostImageUpdateManyWithoutPostInput
@@ -3828,14 +3860,14 @@ module.exports = {
         location_not_starts_with: String
         location_ends_with: String
         location_not_ends_with: String
-        price: Int
-        price_not: Int
-        price_in: [Int!]
-        price_not_in: [Int!]
-        price_lt: Int
-        price_lte: Int
-        price_gt: Int
-        price_gte: Int
+        price: Float
+        price_not: Float
+        price_in: [Float!]
+        price_not_in: [Float!]
+        price_lt: Float
+        price_lte: Float
+        price_gt: Float
+        price_gte: Float
         dueDate: DateTime
         dueDate_not: DateTime
         dueDate_in: [DateTime!]
@@ -3844,6 +3876,7 @@ module.exports = {
         dueDate_lte: DateTime
         dueDate_gt: DateTime
         dueDate_gte: DateTime
+        pet: PetWhereInput
         status: PostStatus
         status_not: PostStatus
         status_in: [PostStatus!]
@@ -4526,7 +4559,7 @@ module.exports = {
         id: UUID!
         message: String!
         stars: Int!
-        reviewImage(
+        reviewImages(
           where: ReviewImageWhereInput
           orderBy: ReviewImageOrderByInput
           skip: Int
@@ -4551,7 +4584,7 @@ module.exports = {
         id: UUID
         message: String!
         stars: Int!
-        reviewImage: ReviewImageCreateManyWithoutReviewInput
+        reviewImages: ReviewImageCreateManyWithoutReviewInput
         post: PostCreateOneWithoutReviewsInput!
         createdBy: AccountCreateOneWithoutReviewsInput!
       }
@@ -4571,8 +4604,8 @@ module.exports = {
         connect: ReviewWhereUniqueInput
       }
 
-      input ReviewCreateOneWithoutReviewImageInput {
-        create: ReviewCreateWithoutReviewImageInput
+      input ReviewCreateOneWithoutReviewImagesInput {
+        create: ReviewCreateWithoutReviewImagesInput
         connect: ReviewWhereUniqueInput
       }
 
@@ -4580,7 +4613,7 @@ module.exports = {
         id: UUID
         message: String!
         stars: Int!
-        reviewImage: ReviewImageCreateManyWithoutReviewInput
+        reviewImages: ReviewImageCreateManyWithoutReviewInput
         post: PostCreateOneWithoutReviewsInput!
       }
 
@@ -4588,11 +4621,11 @@ module.exports = {
         id: UUID
         message: String!
         stars: Int!
-        reviewImage: ReviewImageCreateManyWithoutReviewInput
+        reviewImages: ReviewImageCreateManyWithoutReviewInput
         createdBy: AccountCreateOneWithoutReviewsInput!
       }
 
-      input ReviewCreateWithoutReviewImageInput {
+      input ReviewCreateWithoutReviewImagesInput {
         id: UUID
         message: String!
         stars: Int!
@@ -4623,7 +4656,7 @@ module.exports = {
       input ReviewImageCreateInput {
         id: UUID
         image: ImageCreateOneInput!
-        review: ReviewCreateOneWithoutReviewImageInput!
+        review: ReviewCreateOneWithoutReviewImagesInput!
         account: AccountCreateOneInput!
       }
 
@@ -4714,7 +4747,7 @@ module.exports = {
 
       input ReviewImageUpdateInput {
         image: ImageUpdateOneRequiredInput
-        review: ReviewUpdateOneRequiredWithoutReviewImageInput
+        review: ReviewUpdateOneRequiredWithoutReviewImagesInput
         account: AccountUpdateOneRequiredInput
       }
 
@@ -5011,7 +5044,7 @@ module.exports = {
       input ReviewUpdateDataInput {
         message: String
         stars: Int
-        reviewImage: ReviewImageUpdateManyWithoutReviewInput
+        reviewImages: ReviewImageUpdateManyWithoutReviewInput
         post: PostUpdateOneRequiredWithoutReviewsInput
         createdBy: AccountUpdateOneRequiredWithoutReviewsInput
       }
@@ -5019,7 +5052,7 @@ module.exports = {
       input ReviewUpdateInput {
         message: String
         stars: Int
-        reviewImage: ReviewImageUpdateManyWithoutReviewInput
+        reviewImages: ReviewImageUpdateManyWithoutReviewInput
         post: PostUpdateOneRequiredWithoutReviewsInput
         createdBy: AccountUpdateOneRequiredWithoutReviewsInput
       }
@@ -5070,28 +5103,28 @@ module.exports = {
         connect: ReviewWhereUniqueInput
       }
 
-      input ReviewUpdateOneRequiredWithoutReviewImageInput {
-        create: ReviewCreateWithoutReviewImageInput
-        update: ReviewUpdateWithoutReviewImageDataInput
-        upsert: ReviewUpsertWithoutReviewImageInput
+      input ReviewUpdateOneRequiredWithoutReviewImagesInput {
+        create: ReviewCreateWithoutReviewImagesInput
+        update: ReviewUpdateWithoutReviewImagesDataInput
+        upsert: ReviewUpsertWithoutReviewImagesInput
         connect: ReviewWhereUniqueInput
       }
 
       input ReviewUpdateWithoutCreatedByDataInput {
         message: String
         stars: Int
-        reviewImage: ReviewImageUpdateManyWithoutReviewInput
+        reviewImages: ReviewImageUpdateManyWithoutReviewInput
         post: PostUpdateOneRequiredWithoutReviewsInput
       }
 
       input ReviewUpdateWithoutPostDataInput {
         message: String
         stars: Int
-        reviewImage: ReviewImageUpdateManyWithoutReviewInput
+        reviewImages: ReviewImageUpdateManyWithoutReviewInput
         createdBy: AccountUpdateOneRequiredWithoutReviewsInput
       }
 
-      input ReviewUpdateWithoutReviewImageDataInput {
+      input ReviewUpdateWithoutReviewImagesDataInput {
         message: String
         stars: Int
         post: PostUpdateOneRequiredWithoutReviewsInput
@@ -5113,9 +5146,9 @@ module.exports = {
         create: ReviewCreateInput!
       }
 
-      input ReviewUpsertWithoutReviewImageInput {
-        update: ReviewUpdateWithoutReviewImageDataInput!
-        create: ReviewCreateWithoutReviewImageInput!
+      input ReviewUpsertWithoutReviewImagesInput {
+        update: ReviewUpdateWithoutReviewImagesDataInput!
+        create: ReviewCreateWithoutReviewImagesInput!
       }
 
       input ReviewUpsertWithWhereUniqueWithoutCreatedByInput {
@@ -5167,9 +5200,9 @@ module.exports = {
         stars_lte: Int
         stars_gt: Int
         stars_gte: Int
-        reviewImage_every: ReviewImageWhereInput
-        reviewImage_some: ReviewImageWhereInput
-        reviewImage_none: ReviewImageWhereInput
+        reviewImages_every: ReviewImageWhereInput
+        reviewImages_some: ReviewImageWhereInput
+        reviewImages_none: ReviewImageWhereInput
         post: PostWhereInput
         createdBy: AccountWhereInput
         createdAt: DateTime
