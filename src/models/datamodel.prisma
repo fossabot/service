@@ -59,6 +59,7 @@ type Post {
   location: String!
   price: Float! @default(value: 0)
   dueDate: DateTime!
+  pet: Pet! @relation(link: INLINE)
   settings: Json
   status: PostStatus! @default(value: New)
   postImages: [PostImage!] @relation(name: "Post_PostImage", onDelete: CASCADE)
@@ -86,7 +87,6 @@ type Pet {
   id: UUID! @id
   type: PetType!
   info: Json
-  post: Post! @relation(link: INLINE)
   account: Account! @relation(name: "Account_Pet")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
@@ -159,7 +159,7 @@ type Review {
   id: UUID! @id
   message: String!
   stars: Int!
-  reviewImage: [ReviewImage!] @relation(name: "Review_ReviewImage")
+  reviewImages: [ReviewImage!] @relation(name: "Review_ReviewImage")
   post: Post! @relation(name: "Post_Review")
   createdBy: Account! @relation(name: "Account_Review")
   createdAt: DateTime! @createdAt
