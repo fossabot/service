@@ -57,7 +57,7 @@ type Post {
   title: String!
   description: String
   location: String!
-  price: Int! @default(value: 0)
+  price: Float! @default(value: 0)
   dueDate: DateTime!
   settings: Json
   status: PostStatus! @default(value: New)
