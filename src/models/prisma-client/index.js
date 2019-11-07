@@ -45,11 +45,19 @@ var models = [
     embedded: false,
   },
   {
-    name: 'PetImage',
+    name: 'Image',
     embedded: false,
   },
   {
-    name: 'Image',
+    name: 'PostImage',
+    embedded: false,
+  },
+  {
+    name: 'CommentImage',
+    embedded: false,
+  },
+  {
+    name: 'ReviewImage',
     embedded: false,
   },
   {

@@ -23,7 +23,8 @@ type Account {
   images: [Image!] @relation(name: "Account_Image", onDelete: CASCADE)
   comments: [Comment!] @relation(name: "Account_Comment")
   reviews: [Review!] @relation(name: "Account_Review")
-  petImages: [PetImage!] @relation(name: "Account_PetImage", onDelete: CASCADE)
+  postImages: [PostImage!] @relation(name: "Account_PostImage", onDelete: CASCADE)
+  commentImages: [CommentImage!] @relation(name: "Account_CommentImage", onDelete: CASCADE)
   like: [Like!] @relation(name: "Account_Like", onDelete: CASCADE)
   reports: [Report!] @relation(name: "Account_Report", onDelete: CASCADE)
   createdAt: DateTime! @createdAt
@@ -60,6 +61,7 @@ type Post {
   dueDate: DateTime!
   settings: Json
   status: PostStatus! @default(value: New)
+  postImages: [PostImage!] @relation(name: "Post_PostImage", onDelete: CASCADE)
   postTags: [PostTag!] @relation(name: "PostTag_Post", onDelete: CASCADE)
   comments: [Comment!] @relation(name: "Post_Comment", onDelete: CASCADE)
   reviews: [Review!] @relation(name: "Post_Review", onDelete: CASCADE)
@@ -107,15 +109,6 @@ type PostTag {
   updatedAt: DateTime! @updatedAt
 }
 
-type PetImage {
-  id: UUID! @id
-  image: Image! @relation(link: INLINE)
-  pet: Pet! @relation(link: INLINE)
-  account: Account! @relation(name: "Account_PetImage")
-  createdAt: DateTime! @createdAt
-  updatedAt: DateTime! @updatedAt
-}
-
 type Image {
   id: UUID! @id
   publicId: String! @unique
@@ -125,11 +118,37 @@ type Image {
   updatedAt: DateTime! @updatedAt
 }
 
+type PostImage {
+  id: UUID! @id
+  image: Image! @relation(link: INLINE)
+  post: Post! @relation(name: "Post_PostImage")
+  account: Account! @relation(name: "Account_PostImage")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type CommentImage {
+  id: UUID! @id
+  image: Image! @relation(link: INLINE)
+  comment: Comment! @relation(name: "Comment_CommentImage")
+  account: Account! @relation(name: "Account_CommentImage")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type ReviewImage {
+  id: UUID! @id
+  image: Image! @relation(link: INLINE)
+  review: Review! @relation(name: "Review_ReviewImage")
+  account: Account! @relation(name: "Account_ReviewImage")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
 type Comment {
   id: UUID! @id
   message: String!
-  image: Image @relation(link: INLINE)
-  likes: Int! @default(value: 0)
+  commentImages: [CommentImage!] @relation(name: "Comment_CommentImage")
   post: Post! @relation(name: "Post_Comment")
   createdBy: Account! @relation(name: "Account_Comment")
   createdAt: DateTime! @createdAt
@@ -140,8 +159,7 @@ type Review {
   id: UUID! @id
   message: String!
   stars: Int!
-  image: Image @relation(link: INLINE)
-  likes: Int! @default(value: 0)
+  reviewImage: [ReviewImage!] @relation(name: "Review_ReviewImage")
   post: Post! @relation(name: "Post_Review")
   createdBy: Account! @relation(name: "Account_Review")
   createdAt: DateTime! @createdAt
@@ -150,7 +168,6 @@ type Review {
 
 type Like {
   id: UUID! @id
-  count: Int! @default(value: 0)
   account: Account! @relation(name: "Account_Like")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
@@ -158,6 +175,7 @@ type Like {
 
 type PostLike {
   id: UUID! @id
+  count: Int! @default(value: 0)
   post: Post! @relation(link: INLINE)
   like: Like! @relation(link: INLINE)
   createdAt: DateTime! @createdAt
@@ -166,6 +184,7 @@ type PostLike {
 
 type CommentLike {
   id: UUID! @id
+  count: Int! @default(value: 0)
   comment: Comment! @relation(link: INLINE)
   like: Like! @relation(link: INLINE)
   createdAt: DateTime! @createdAt
@@ -174,6 +193,7 @@ type CommentLike {
 
 type ReviewLike {
   id: UUID! @id
+  count: Int! @default(value: 0)
   review: Review! @relation(link: INLINE)
   like: Like! @relation(link: INLINE)
   createdAt: DateTime! @createdAt
@@ -182,6 +202,7 @@ type ReviewLike {
 
 type Report {
   id: UUID! @id
+  content: String!
   reason: String!
   post: Post! @relation(name: "Post_Report")
   createdBy: Account! @relation(name: "Account_Report")
