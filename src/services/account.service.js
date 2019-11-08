@@ -39,7 +39,7 @@ async function requireCode(redis, data) {
   const { email } = data;
   const account = await prisma.account({ email });
   if (account) {
-    throw Boom.conflict('email is exist');
+    throw Boom.conflict('email is exists');
   }
   const codeConfirmation = code();
   // Save code confirmation to Redis.
@@ -61,18 +61,25 @@ async function checkCode(redis, data) {
   if (redisCodeConfirmation.toString() !== codeConfirmation.toString()) {
     throw Boom.notFound('code is incorrect');
   }
-  return {
-    email,
-    code: codeConfirmation,
-  };
 }
 
-async function register(data) {
-  const { password } = data;
+async function register(redis, query, body) {
+  const { password, username } = body;
+  const { email } = query;
+  const accountByEmail = await prisma.account({ email });
+  if (accountByEmail) {
+    throw Boom.conflict('email is exists');
+  }
+  const accountByUsername = await prisma.account({ username });
+  if (accountByUsername) {
+    throw Boom.conflict('username is exists');
+  }
+  await checkCode(redis, query);
   const hashPassword = await bcrypt.hash(password, 10);
   const newData = {
-    ...data,
+    ...body,
     password: hashPassword,
+    email,
   };
   const newAccount = await prisma.createAccount(newData);
   return _.omit(newAccount, ['password']);
@@ -82,7 +89,7 @@ async function login(data) {
   const { username, password } = data;
   const account = await prisma.account({ username });
   if (!account) {
-    throw Boom.notFound('username does not exist');
+    throw Boom.notFound('username does not exists');
   }
   const match = await bcrypt.compare(password, account.password);
   if (!match) {
@@ -103,7 +110,6 @@ async function login(data) {
 
 export default {
   requireCode,
-  checkCode,
   register,
   login,
 };
