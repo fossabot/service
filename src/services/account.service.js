@@ -7,7 +7,7 @@ import Boom from '@hapi/boom';
 import fs from 'fs';
 import { JSDOM } from 'jsdom';
 import { promisify } from 'util';
-import { prisma } from '@/models/prisma-client';
+import { prisma } from '../models/prisma-client';
 import config from '@/config';
 
 function createMailHtml(codeConfirmation) {
