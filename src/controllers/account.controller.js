@@ -25,8 +25,13 @@ function login(req) {
   return service.login(req.body);
 }
 
+function checkToken(req) {
+  return service.checkToken(req.headers);
+}
+
 export default {
   requireCode,
   register,
   login,
+  checkToken,
 };

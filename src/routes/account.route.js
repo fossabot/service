@@ -52,4 +52,6 @@ router.post(
   withController(controller.login),
 );
 
+router.get('/check-token', withController(controller.checkToken));
+
 export default router;

@@ -108,8 +108,23 @@ async function login(data) {
   };
 }
 
+function checkToken(data) {
+  const { 'x-access-token': token } = data;
+  if (!token) {
+    throw Boom.unauthorized('No token provided');
+  }
+  const { secretKey } = config.jwt;
+  try {
+    jwt.verify(token, secretKey);
+    return { token };
+  } catch (err) {
+    throw Boom.unauthorized('Invalid access token');
+  }
+}
+
 export default {
   requireCode,
   register,
   login,
+  checkToken,
 };
