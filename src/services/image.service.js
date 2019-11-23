@@ -1,33 +1,29 @@
 import request from '../helpers/request';
 import config from '../config';
 
-request.baseURL = config.imageService.domain;
-
-function uploadSingleImage(image) {
+function uploadSingleImage(data) {
   return request('/api/image/upload-single', {
     method: 'POST',
     headers: {
-      'content-type': 'multipart/form-data',
+      ...data.getHeaders(),
       cloud_name: config.imageService.cloudName,
       api_key: config.imageService.apiKey,
       api_secret: config.imageService.apiSecret,
     },
-    data: {
-      image,
-    },
+    data,
   });
 }
 
-function uploadMultiImage(images) {
-  return request('http://localhost:8000/api/image/upload-multi', {
+function uploadMultiImage(data) {
+  return request('/api/image/upload-multi', {
     method: 'POST',
     headers: {
-      ...images.getHeaders(),
+      ...data.getHeaders(),
       cloud_name: config.imageService.cloudName,
       api_key: config.imageService.apiKey,
       api_secret: config.imageService.apiSecret,
     },
-    data: images,
+    data,
   });
 }
 

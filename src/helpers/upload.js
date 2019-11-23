@@ -1,9 +1,15 @@
+import { thinid } from 'thinid';
 import multer from 'multer';
 import path from 'path';
 import Boom from '@hapi/boom';
 
+const storage = multer.diskStorage({
+  destination: './uploads/',
+  filename: (req, file, cb) => cb(null, `${thinid()}${file.originalname}`),
+});
+
 const upload = multer({
-  dest: 'uploads/',
+  storage,
   fileFilter: (req, file, callback) => {
     const ext = path.extname(file.originalname);
     const acceptedExts = ['.png', '.jpg', '.jpeg', '.gif'];
@@ -11,7 +17,7 @@ const upload = multer({
       return callback(Boom.badRequest('Invalid image extension'));
     }
     callback(null, true);
-  }
+  },
 });
 
 export default upload;
