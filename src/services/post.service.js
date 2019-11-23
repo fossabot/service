@@ -13,10 +13,10 @@ async function createPost(files) {
     );
   });
   // const result = await uploadMultiImage(formData);
-  const promiseList = files.map((file) => fs.unlinkSync(`${__dirname}/../../${file.path}`))
+  const promiseList = files.map(file => fs.unlinkSync(`${__dirname}/../../${file.path}`));
   await Promise.all(promiseList);
   // console.log(result.data, '...........result');
   return 'done';
 }
 
-export { createPost };
+export default { createPost };

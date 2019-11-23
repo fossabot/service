@@ -23,7 +23,7 @@ router.use(logger('dev'));
 // API routes.
 router.use('/user', authenticate, userRoute);
 router.use('/account', accountRoute);
-router.use('/post', postRoute);
+router.use('/post', authenticate, postRoute);
 
 // 404 not found.
 router.use((req, res, next) => {
