@@ -6,7 +6,7 @@ import axios from 'axios';
  * @param {object} options Options to config request.
  * See more option here: https://github.com/axios/axios
  */
-export default function request(url = '', options = {}) {
+function request(url = '', options = {}) {
   const { method = 'get', responseType = 'json', data = {}, ...config } = options;
   return axios({
     method,
@@ -16,3 +16,7 @@ export default function request(url = '', options = {}) {
     ...config,
   });
 }
+
+axios.defaults.baseURL = request.baseURL;
+
+export default request;

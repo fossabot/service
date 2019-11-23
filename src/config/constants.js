@@ -25,3 +25,5 @@ export const petType = {
   hamster: 'Hamster',
   other: 'Other',
 };
+
+export const maxImage = 10;
