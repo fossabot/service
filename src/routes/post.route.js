@@ -3,6 +3,7 @@ import { celebrate, Joi } from 'celebrate';
 import authorize from '../helpers/authorize';
 import upload from '../helpers/upload';
 import withController from '../helpers/withController';
+import objectToArray from '../helpers/objectToArray';
 import { role, maxImage, postStatus, petType } from '../config/constants';
 import controller from '../controllers/post.controller';
 
@@ -19,13 +20,13 @@ router.post(
       dueDate: Joi.date().required(),
       settings: Joi.object(),
       status: Joi.string()
-        .valid(postStatus)
+        .valid(objectToArray(postStatus))
         .default(postStatus.new),
       price: Joi.number().required(),
       images: Joi.any(),
       pet: Joi.object()
         .keys({
-          type: Joi.string().valid(petType),
+          type: Joi.string().valid(objectToArray(petType)),
           info: Joi.object(),
           account: Joi.string()
             .guid()
