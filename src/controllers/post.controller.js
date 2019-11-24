@@ -1,7 +1,7 @@
 import service from '../services/post.service';
 
-function create(req) {
-  return service.createPost(req.files);
+function create() {
+  return service.createPost();
 }
 
 export default { create };
