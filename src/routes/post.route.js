@@ -31,9 +31,6 @@ router.post(
         .keys({
           type: Joi.string().valid(objectToArray(petType)),
           info: Joi.object(),
-          account: Joi.string()
-            .guid()
-            .required(),
         })
         .required(),
       tags: Joi.array()
