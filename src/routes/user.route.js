@@ -29,11 +29,11 @@ router.post(
     body: Joi.object().keys({
       name: Joi.string().required(),
       phoneNumber: Joi.string().required(),
-      address: Joi.object(),
+      address: Joi.object().required(),
       bio: Joi.string(),
       dob: Joi.string().isoDate(),
       settings: Joi.object(),
-      avatar: Joi.string()
+      avatar: Joi.string(),
     }),
   }),
   withController(controller.create),
@@ -49,13 +49,13 @@ router.put(
         .required(),
     }),
     body: Joi.object().keys({
-      name: Joi.string().required(),
-      phoneNumber: Joi.string().required(),
+      name: Joi.string(),
+      phoneNumber: Joi.string(),
       address: Joi.object(),
       bio: Joi.string(),
       dob: Joi.string().isoDate(),
       settings: Joi.object(),
-      avatar: Joi.string()
+      avatar: Joi.string(),
     }),
   }),
   withController(controller.update),
