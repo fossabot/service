@@ -33,10 +33,7 @@ router.post(
       bio: Joi.string(),
       dob: Joi.string().isoDate(),
       settings: Joi.object(),
-      avatar: Joi.string(),
-      account: Joi.string()
-        .guid()
-        .required(),
+      avatar: Joi.string()
     }),
   }),
   withController(controller.create),
@@ -58,10 +55,7 @@ router.put(
       bio: Joi.string(),
       dob: Joi.string().isoDate(),
       settings: Joi.object(),
-      avatar: Joi.string(),
-      account: Joi.string()
-        .guid()
-        .required(),
+      avatar: Joi.string()
     }),
   }),
   withController(controller.update),
