@@ -10,6 +10,7 @@ import userRoute from './user.route';
 import accountRoute from './account.route';
 import postRoute from './post.route';
 import imageRoute from './image.route';
+import tagRoute from './tag.route';
 
 const router = express.Router();
 
@@ -26,6 +27,7 @@ router.use('/user', authenticate, userRoute);
 router.use('/account', accountRoute);
 router.use('/post', authenticate, postRoute);
 router.use('/image', authenticate, imageRoute);
+router.use('/tag', authenticate, tagRoute);
 
 // 404 not found.
 router.use((req, res, next) => {
