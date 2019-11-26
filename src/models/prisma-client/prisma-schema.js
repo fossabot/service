@@ -948,6 +948,10 @@ module.exports = {
         count: Int!
       }
 
+      type AggregatePetCategory {
+        count: Int!
+      }
+
       type AggregatePost {
         count: Int!
       }
@@ -2232,6 +2236,22 @@ module.exports = {
         ): Pet!
         deletePet(where: PetWhereUniqueInput!): Pet
         deleteManyPets(where: PetWhereInput): BatchPayload!
+        createPetCategory(data: PetCategoryCreateInput!): PetCategory!
+        updatePetCategory(
+          data: PetCategoryUpdateInput!
+          where: PetCategoryWhereUniqueInput!
+        ): PetCategory
+        updateManyPetCategories(
+          data: PetCategoryUpdateManyMutationInput!
+          where: PetCategoryWhereInput
+        ): BatchPayload!
+        upsertPetCategory(
+          where: PetCategoryWhereUniqueInput!
+          create: PetCategoryCreateInput!
+          update: PetCategoryUpdateInput!
+        ): PetCategory!
+        deletePetCategory(where: PetCategoryWhereUniqueInput!): PetCategory
+        deleteManyPetCategories(where: PetCategoryWhereInput): BatchPayload!
         createPost(data: PostCreateInput!): Post!
         updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
         updateManyPosts(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
@@ -2368,11 +2388,180 @@ module.exports = {
 
       type Pet {
         id: UUID!
-        type: PetType!
+        category: PetCategory!
         info: Json
         account: Account!
         createdAt: DateTime!
         updatedAt: DateTime!
+      }
+
+      type PetCategory {
+        id: UUID!
+        name: String!
+        description: String
+        image: Image
+        createdAt: DateTime!
+        updatedAt: DateTime!
+      }
+
+      type PetCategoryConnection {
+        pageInfo: PageInfo!
+        edges: [PetCategoryEdge]!
+        aggregate: AggregatePetCategory!
+      }
+
+      input PetCategoryCreateInput {
+        id: UUID
+        name: String!
+        description: String
+        image: ImageCreateOneInput
+      }
+
+      input PetCategoryCreateOneInput {
+        create: PetCategoryCreateInput
+        connect: PetCategoryWhereUniqueInput
+      }
+
+      type PetCategoryEdge {
+        node: PetCategory!
+        cursor: String!
+      }
+
+      enum PetCategoryOrderByInput {
+        id_ASC
+        id_DESC
+        name_ASC
+        name_DESC
+        description_ASC
+        description_DESC
+        createdAt_ASC
+        createdAt_DESC
+        updatedAt_ASC
+        updatedAt_DESC
+      }
+
+      type PetCategoryPreviousValues {
+        id: UUID!
+        name: String!
+        description: String
+        createdAt: DateTime!
+        updatedAt: DateTime!
+      }
+
+      type PetCategorySubscriptionPayload {
+        mutation: MutationType!
+        node: PetCategory
+        updatedFields: [String!]
+        previousValues: PetCategoryPreviousValues
+      }
+
+      input PetCategorySubscriptionWhereInput {
+        mutation_in: [MutationType!]
+        updatedFields_contains: String
+        updatedFields_contains_every: [String!]
+        updatedFields_contains_some: [String!]
+        node: PetCategoryWhereInput
+        AND: [PetCategorySubscriptionWhereInput!]
+        OR: [PetCategorySubscriptionWhereInput!]
+        NOT: [PetCategorySubscriptionWhereInput!]
+      }
+
+      input PetCategoryUpdateDataInput {
+        name: String
+        description: String
+        image: ImageUpdateOneInput
+      }
+
+      input PetCategoryUpdateInput {
+        name: String
+        description: String
+        image: ImageUpdateOneInput
+      }
+
+      input PetCategoryUpdateManyMutationInput {
+        name: String
+        description: String
+      }
+
+      input PetCategoryUpdateOneRequiredInput {
+        create: PetCategoryCreateInput
+        update: PetCategoryUpdateDataInput
+        upsert: PetCategoryUpsertNestedInput
+        connect: PetCategoryWhereUniqueInput
+      }
+
+      input PetCategoryUpsertNestedInput {
+        update: PetCategoryUpdateDataInput!
+        create: PetCategoryCreateInput!
+      }
+
+      input PetCategoryWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
+        name: String
+        name_not: String
+        name_in: [String!]
+        name_not_in: [String!]
+        name_lt: String
+        name_lte: String
+        name_gt: String
+        name_gte: String
+        name_contains: String
+        name_not_contains: String
+        name_starts_with: String
+        name_not_starts_with: String
+        name_ends_with: String
+        name_not_ends_with: String
+        description: String
+        description_not: String
+        description_in: [String!]
+        description_not_in: [String!]
+        description_lt: String
+        description_lte: String
+        description_gt: String
+        description_gte: String
+        description_contains: String
+        description_not_contains: String
+        description_starts_with: String
+        description_not_starts_with: String
+        description_ends_with: String
+        description_not_ends_with: String
+        image: ImageWhereInput
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [PetCategoryWhereInput!]
+        OR: [PetCategoryWhereInput!]
+        NOT: [PetCategoryWhereInput!]
+      }
+
+      input PetCategoryWhereUniqueInput {
+        id: UUID
       }
 
       type PetConnection {
@@ -2383,7 +2572,7 @@ module.exports = {
 
       input PetCreateInput {
         id: UUID
-        type: PetType!
+        category: PetCategoryCreateOneInput!
         info: Json
         account: AccountCreateOneWithoutPetsInput!
       }
@@ -2400,7 +2589,7 @@ module.exports = {
 
       input PetCreateWithoutAccountInput {
         id: UUID
-        type: PetType!
+        category: PetCategoryCreateOneInput!
         info: Json
       }
 
@@ -2412,8 +2601,6 @@ module.exports = {
       enum PetOrderByInput {
         id_ASC
         id_DESC
-        type_ASC
-        type_DESC
         info_ASC
         info_DESC
         createdAt_ASC
@@ -2424,7 +2611,6 @@ module.exports = {
 
       type PetPreviousValues {
         id: UUID!
-        type: PetType!
         info: Json
         createdAt: DateTime!
         updatedAt: DateTime!
@@ -2445,10 +2631,6 @@ module.exports = {
         id_not_starts_with: UUID
         id_ends_with: UUID
         id_not_ends_with: UUID
-        type: PetType
-        type_not: PetType
-        type_in: [PetType!]
-        type_not_in: [PetType!]
         createdAt: DateTime
         createdAt_not: DateTime
         createdAt_in: [DateTime!]
@@ -2488,36 +2670,23 @@ module.exports = {
         NOT: [PetSubscriptionWhereInput!]
       }
 
-      enum PetType {
-        Dog
-        Cat
-        Bird
-        Fish
-        Snake
-        Hare
-        Hamster
-        Other
-      }
-
       input PetUpdateDataInput {
-        type: PetType
+        category: PetCategoryUpdateOneRequiredInput
         info: Json
         account: AccountUpdateOneRequiredWithoutPetsInput
       }
 
       input PetUpdateInput {
-        type: PetType
+        category: PetCategoryUpdateOneRequiredInput
         info: Json
         account: AccountUpdateOneRequiredWithoutPetsInput
       }
 
       input PetUpdateManyDataInput {
-        type: PetType
         info: Json
       }
 
       input PetUpdateManyMutationInput {
-        type: PetType
         info: Json
       }
 
@@ -2546,7 +2715,7 @@ module.exports = {
       }
 
       input PetUpdateWithoutAccountDataInput {
-        type: PetType
+        category: PetCategoryUpdateOneRequiredInput
         info: Json
       }
 
@@ -2581,10 +2750,7 @@ module.exports = {
         id_not_starts_with: UUID
         id_ends_with: UUID
         id_not_ends_with: UUID
-        type: PetType
-        type_not: PetType
-        type_in: [PetType!]
-        type_not_in: [PetType!]
+        category: PetCategoryWhereInput
         account: AccountWhereInput
         createdAt: DateTime
         createdAt_not: DateTime
@@ -4056,6 +4222,25 @@ module.exports = {
           first: Int
           last: Int
         ): PetConnection!
+        petCategory(where: PetCategoryWhereUniqueInput!): PetCategory
+        petCategories(
+          where: PetCategoryWhereInput
+          orderBy: PetCategoryOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [PetCategory]!
+        petCategoriesConnection(
+          where: PetCategoryWhereInput
+          orderBy: PetCategoryOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): PetCategoryConnection!
         post(where: PostWhereUniqueInput!): Post
         posts(
           where: PostWhereInput
@@ -5243,6 +5428,7 @@ module.exports = {
         image(where: ImageSubscriptionWhereInput): ImageSubscriptionPayload
         like(where: LikeSubscriptionWhereInput): LikeSubscriptionPayload
         pet(where: PetSubscriptionWhereInput): PetSubscriptionPayload
+        petCategory(where: PetCategorySubscriptionWhereInput): PetCategorySubscriptionPayload
         post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
         postImage(where: PostImageSubscriptionWhereInput): PostImageSubscriptionPayload
         postLike(where: PostLikeSubscriptionWhereInput): PostLikeSubscriptionPayload

@@ -71,20 +71,18 @@ type Post {
   updatedAt: DateTime! @updatedAt
 }
 
-enum PetType {
-  Dog
-  Cat
-  Bird
-  Fish
-  Snake
-  Hare
-  Hamster
-  Other
+type PetCategory {
+  id: UUID! @id
+  name: String!
+  description: String
+  image: Image
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Pet {
   id: UUID! @id
-  type: PetType!
+  category: PetCategory!
   info: Json
   account: Account! @relation(name: "Account_Pet")
   createdAt: DateTime! @createdAt

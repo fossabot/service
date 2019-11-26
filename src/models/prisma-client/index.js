@@ -29,7 +29,7 @@ var models = [
     embedded: false,
   },
   {
-    name: 'PetType',
+    name: 'PetCategory',
     embedded: false,
   },
   {
