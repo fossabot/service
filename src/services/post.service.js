@@ -6,7 +6,7 @@ function renderPostImagesSchema(images, account) {
     createdImages.push({
       image: {
         connect: {
-          id: image.id,
+          id: image,
         },
       },
       account: {
@@ -50,12 +50,17 @@ function renderPostTagsSchema(tags) {
 }
 
 function createPost(data) {
-  const { account, pet, tags, images, ...otherData } = data;
+  const { account, pet, tags, images, category, ...otherData } = data;
   return prisma.createPost({
     ...otherData,
     pet: {
       create: {
         ...pet,
+        category: {
+          connect: {
+            id: pet.category,
+          },
+        },
         account: {
           connect: {
             id: account,

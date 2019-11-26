@@ -15,7 +15,7 @@ export const postStatus = {
   expired: 'Expired',
 };
 
-export const petType = {
+export const petCategory = {
   dog: 'Dog',
   cat: 'Cat',
   bird: 'Bird',

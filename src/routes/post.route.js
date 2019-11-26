@@ -3,7 +3,7 @@ import { celebrate, Joi } from 'celebrate';
 import authorize from '../helpers/authorize';
 import withController from '../helpers/withController';
 import objectToArray from '../helpers/objectToArray';
-import { role, postStatus, petType } from '../config/constants';
+import { role, postStatus } from '../config/constants';
 import controller from '../controllers/post.controller';
 
 const router = express.Router();
@@ -22,15 +22,11 @@ router.post(
         .valid(objectToArray(postStatus))
         .default(postStatus.new),
       price: Joi.number().required(),
-      images: Joi.array().items([
-        Joi.object().keys({
-          id: Joi.string().guid(),
-        }),
-      ]),
+      images: Joi.array().items([Joi.string().guid()]),
       pet: Joi.object()
         .keys({
-          type: Joi.string().valid(objectToArray(petType)),
           info: Joi.object(),
+          category: Joi.string().guid(),
         })
         .required(),
       tags: Joi.array()
