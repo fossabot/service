@@ -16,7 +16,6 @@ router.post(
       title: Joi.string().required(),
       description: Joi.string(),
       location: Joi.string().required(),
-      dueDate: Joi.date().required(),
       settings: Joi.object(),
       status: Joi.string()
         .valid(objectToArray(postStatus))

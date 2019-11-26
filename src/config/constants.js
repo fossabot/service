@@ -27,3 +27,4 @@ export const petCategory = {
 };
 
 export const maxImage = 10;
+export const postDueDate = 1; // unit: month

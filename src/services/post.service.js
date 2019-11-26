@@ -1,4 +1,6 @@
+import moment from 'moment';
 import { prisma } from '../models/prisma-client';
+import { postDueDate } from '../config/constants';
 
 function renderPostImagesSchema(images, account) {
   const createdImages = [];
@@ -51,8 +53,10 @@ function renderPostTagsSchema(tags) {
 
 function createPost(data) {
   const { account, pet, tags, images, category, ...otherData } = data;
+  const dueDate = moment().add(postDueDate, 'months');
   return prisma.createPost({
     ...otherData,
+    dueDate,
     pet: {
       create: {
         ...pet,
