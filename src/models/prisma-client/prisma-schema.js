@@ -1009,6 +1009,7 @@ module.exports = {
           last: Int
         ): [CommentImage!]
         post: Post!
+        likes: Int!
         createdBy: Account!
         createdAt: DateTime!
         updatedAt: DateTime!
@@ -1025,6 +1026,7 @@ module.exports = {
         message: String!
         commentImages: CommentImageCreateManyWithoutCommentInput
         post: PostCreateOneWithoutCommentsInput!
+        likes: Int
         createdBy: AccountCreateOneWithoutCommentsInput!
       }
 
@@ -1052,6 +1054,7 @@ module.exports = {
         id: UUID
         message: String!
         post: PostCreateOneWithoutCommentsInput!
+        likes: Int
         createdBy: AccountCreateOneWithoutCommentsInput!
       }
 
@@ -1060,12 +1063,14 @@ module.exports = {
         message: String!
         commentImages: CommentImageCreateManyWithoutCommentInput
         post: PostCreateOneWithoutCommentsInput!
+        likes: Int
       }
 
       input CommentCreateWithoutPostInput {
         id: UUID
         message: String!
         commentImages: CommentImageCreateManyWithoutCommentInput
+        likes: Int
         createdBy: AccountCreateOneWithoutCommentsInput!
       }
 
@@ -1297,7 +1302,6 @@ module.exports = {
 
       type CommentLike {
         id: UUID!
-        count: Int!
         comment: Comment!
         like: Like!
         createdAt: DateTime!
@@ -1312,7 +1316,6 @@ module.exports = {
 
       input CommentLikeCreateInput {
         id: UUID
-        count: Int
         comment: CommentCreateOneInput!
         like: LikeCreateOneInput!
       }
@@ -1325,8 +1328,6 @@ module.exports = {
       enum CommentLikeOrderByInput {
         id_ASC
         id_DESC
-        count_ASC
-        count_DESC
         createdAt_ASC
         createdAt_DESC
         updatedAt_ASC
@@ -1335,7 +1336,6 @@ module.exports = {
 
       type CommentLikePreviousValues {
         id: UUID!
-        count: Int!
         createdAt: DateTime!
         updatedAt: DateTime!
       }
@@ -1359,13 +1359,8 @@ module.exports = {
       }
 
       input CommentLikeUpdateInput {
-        count: Int
         comment: CommentUpdateOneRequiredInput
         like: LikeUpdateOneRequiredInput
-      }
-
-      input CommentLikeUpdateManyMutationInput {
-        count: Int
       }
 
       input CommentLikeWhereInput {
@@ -1383,14 +1378,6 @@ module.exports = {
         id_not_starts_with: UUID
         id_ends_with: UUID
         id_not_ends_with: UUID
-        count: Int
-        count_not: Int
-        count_in: [Int!]
-        count_not_in: [Int!]
-        count_lt: Int
-        count_lte: Int
-        count_gt: Int
-        count_gte: Int
         comment: CommentWhereInput
         like: LikeWhereInput
         createdAt: DateTime
@@ -1423,6 +1410,8 @@ module.exports = {
         id_DESC
         message_ASC
         message_DESC
+        likes_ASC
+        likes_DESC
         createdAt_ASC
         createdAt_DESC
         updatedAt_ASC
@@ -1432,6 +1421,7 @@ module.exports = {
       type CommentPreviousValues {
         id: UUID!
         message: String!
+        likes: Int!
         createdAt: DateTime!
         updatedAt: DateTime!
       }
@@ -1465,6 +1455,14 @@ module.exports = {
         message_not_starts_with: String
         message_ends_with: String
         message_not_ends_with: String
+        likes: Int
+        likes_not: Int
+        likes_in: [Int!]
+        likes_not_in: [Int!]
+        likes_lt: Int
+        likes_lte: Int
+        likes_gt: Int
+        likes_gte: Int
         createdAt: DateTime
         createdAt_not: DateTime
         createdAt_in: [DateTime!]
@@ -1508,6 +1506,7 @@ module.exports = {
         message: String
         commentImages: CommentImageUpdateManyWithoutCommentInput
         post: PostUpdateOneRequiredWithoutCommentsInput
+        likes: Int
         createdBy: AccountUpdateOneRequiredWithoutCommentsInput
       }
 
@@ -1515,15 +1514,18 @@ module.exports = {
         message: String
         commentImages: CommentImageUpdateManyWithoutCommentInput
         post: PostUpdateOneRequiredWithoutCommentsInput
+        likes: Int
         createdBy: AccountUpdateOneRequiredWithoutCommentsInput
       }
 
       input CommentUpdateManyDataInput {
         message: String
+        likes: Int
       }
 
       input CommentUpdateManyMutationInput {
         message: String
+        likes: Int
       }
 
       input CommentUpdateManyWithoutCreatedByInput {
@@ -1572,6 +1574,7 @@ module.exports = {
       input CommentUpdateWithoutCommentImagesDataInput {
         message: String
         post: PostUpdateOneRequiredWithoutCommentsInput
+        likes: Int
         createdBy: AccountUpdateOneRequiredWithoutCommentsInput
       }
 
@@ -1579,11 +1582,13 @@ module.exports = {
         message: String
         commentImages: CommentImageUpdateManyWithoutCommentInput
         post: PostUpdateOneRequiredWithoutCommentsInput
+        likes: Int
       }
 
       input CommentUpdateWithoutPostDataInput {
         message: String
         commentImages: CommentImageUpdateManyWithoutCommentInput
+        likes: Int
         createdBy: AccountUpdateOneRequiredWithoutCommentsInput
       }
 
@@ -1652,6 +1657,14 @@ module.exports = {
         commentImages_some: CommentImageWhereInput
         commentImages_none: CommentImageWhereInput
         post: PostWhereInput
+        likes: Int
+        likes_not: Int
+        likes_in: [Int!]
+        likes_not_in: [Int!]
+        likes_lt: Int
+        likes_lte: Int
+        likes_gt: Int
+        likes_gte: Int
         createdBy: AccountWhereInput
         createdAt: DateTime
         createdAt_not: DateTime
@@ -2196,10 +2209,6 @@ module.exports = {
           data: CommentLikeUpdateInput!
           where: CommentLikeWhereUniqueInput!
         ): CommentLike
-        updateManyCommentLikes(
-          data: CommentLikeUpdateManyMutationInput!
-          where: CommentLikeWhereInput
-        ): BatchPayload!
         upsertCommentLike(
           where: CommentLikeWhereUniqueInput!
           create: CommentLikeCreateInput!
@@ -2273,10 +2282,6 @@ module.exports = {
         deleteManyPostImages(where: PostImageWhereInput): BatchPayload!
         createPostLike(data: PostLikeCreateInput!): PostLike!
         updatePostLike(data: PostLikeUpdateInput!, where: PostLikeWhereUniqueInput!): PostLike
-        updateManyPostLikes(
-          data: PostLikeUpdateManyMutationInput!
-          where: PostLikeWhereInput
-        ): BatchPayload!
         upsertPostLike(
           where: PostLikeWhereUniqueInput!
           create: PostLikeCreateInput!
@@ -2336,10 +2341,6 @@ module.exports = {
           data: ReviewLikeUpdateInput!
           where: ReviewLikeWhereUniqueInput!
         ): ReviewLike
-        updateManyReviewLikes(
-          data: ReviewLikeUpdateManyMutationInput!
-          where: ReviewLikeWhereInput
-        ): BatchPayload!
         upsertReviewLike(
           where: ReviewLikeWhereUniqueInput!
           create: ReviewLikeCreateInput!
@@ -2785,6 +2786,7 @@ module.exports = {
         price: Float!
         dueDate: DateTime!
         pet: Pet!
+        likes: Int!
         settings: Json
         status: PostStatus!
         postImages(
@@ -2851,6 +2853,7 @@ module.exports = {
         price: Float
         dueDate: DateTime!
         pet: PetCreateOneInput!
+        likes: Int
         settings: Json
         status: PostStatus
         postImages: PostImageCreateManyWithoutPostInput
@@ -2904,6 +2907,7 @@ module.exports = {
         price: Float
         dueDate: DateTime!
         pet: PetCreateOneInput!
+        likes: Int
         settings: Json
         status: PostStatus
         postImages: PostImageCreateManyWithoutPostInput
@@ -2921,6 +2925,7 @@ module.exports = {
         price: Float
         dueDate: DateTime!
         pet: PetCreateOneInput!
+        likes: Int
         settings: Json
         status: PostStatus
         postImages: PostImageCreateManyWithoutPostInput
@@ -2938,6 +2943,7 @@ module.exports = {
         price: Float
         dueDate: DateTime!
         pet: PetCreateOneInput!
+        likes: Int
         settings: Json
         status: PostStatus
         postTags: PostTagCreateManyWithoutPostInput
@@ -2955,6 +2961,7 @@ module.exports = {
         price: Float
         dueDate: DateTime!
         pet: PetCreateOneInput!
+        likes: Int
         settings: Json
         status: PostStatus
         postImages: PostImageCreateManyWithoutPostInput
@@ -2972,6 +2979,7 @@ module.exports = {
         price: Float
         dueDate: DateTime!
         pet: PetCreateOneInput!
+        likes: Int
         settings: Json
         status: PostStatus
         postImages: PostImageCreateManyWithoutPostInput
@@ -2989,6 +2997,7 @@ module.exports = {
         price: Float
         dueDate: DateTime!
         pet: PetCreateOneInput!
+        likes: Int
         settings: Json
         status: PostStatus
         postImages: PostImageCreateManyWithoutPostInput
@@ -3226,7 +3235,6 @@ module.exports = {
 
       type PostLike {
         id: UUID!
-        count: Int!
         post: Post!
         like: Like!
         createdAt: DateTime!
@@ -3241,7 +3249,6 @@ module.exports = {
 
       input PostLikeCreateInput {
         id: UUID
-        count: Int
         post: PostCreateOneInput!
         like: LikeCreateOneInput!
       }
@@ -3254,8 +3261,6 @@ module.exports = {
       enum PostLikeOrderByInput {
         id_ASC
         id_DESC
-        count_ASC
-        count_DESC
         createdAt_ASC
         createdAt_DESC
         updatedAt_ASC
@@ -3264,7 +3269,6 @@ module.exports = {
 
       type PostLikePreviousValues {
         id: UUID!
-        count: Int!
         createdAt: DateTime!
         updatedAt: DateTime!
       }
@@ -3288,13 +3292,8 @@ module.exports = {
       }
 
       input PostLikeUpdateInput {
-        count: Int
         post: PostUpdateOneRequiredInput
         like: LikeUpdateOneRequiredInput
-      }
-
-      input PostLikeUpdateManyMutationInput {
-        count: Int
       }
 
       input PostLikeWhereInput {
@@ -3312,14 +3311,6 @@ module.exports = {
         id_not_starts_with: UUID
         id_ends_with: UUID
         id_not_ends_with: UUID
-        count: Int
-        count_not: Int
-        count_in: [Int!]
-        count_not_in: [Int!]
-        count_lt: Int
-        count_lte: Int
-        count_gt: Int
-        count_gte: Int
         post: PostWhereInput
         like: LikeWhereInput
         createdAt: DateTime
@@ -3360,6 +3351,8 @@ module.exports = {
         price_DESC
         dueDate_ASC
         dueDate_DESC
+        likes_ASC
+        likes_DESC
         settings_ASC
         settings_DESC
         status_ASC
@@ -3377,6 +3370,7 @@ module.exports = {
         location: String!
         price: Float!
         dueDate: DateTime!
+        likes: Int!
         settings: Json
         status: PostStatus!
         createdAt: DateTime!
@@ -3456,6 +3450,14 @@ module.exports = {
         dueDate_lte: DateTime
         dueDate_gt: DateTime
         dueDate_gte: DateTime
+        likes: Int
+        likes_not: Int
+        likes_in: [Int!]
+        likes_not_in: [Int!]
+        likes_lt: Int
+        likes_lte: Int
+        likes_gt: Int
+        likes_gte: Int
         status: PostStatus
         status_not: PostStatus
         status_in: [PostStatus!]
@@ -3726,6 +3728,7 @@ module.exports = {
         price: Float
         dueDate: DateTime
         pet: PetUpdateOneRequiredInput
+        likes: Int
         settings: Json
         status: PostStatus
         postImages: PostImageUpdateManyWithoutPostInput
@@ -3743,6 +3746,7 @@ module.exports = {
         price: Float
         dueDate: DateTime
         pet: PetUpdateOneRequiredInput
+        likes: Int
         settings: Json
         status: PostStatus
         postImages: PostImageUpdateManyWithoutPostInput
@@ -3759,6 +3763,7 @@ module.exports = {
         location: String
         price: Float
         dueDate: DateTime
+        likes: Int
         settings: Json
         status: PostStatus
       }
@@ -3769,6 +3774,7 @@ module.exports = {
         location: String
         price: Float
         dueDate: DateTime
+        likes: Int
         settings: Json
         status: PostStatus
       }
@@ -3839,6 +3845,7 @@ module.exports = {
         price: Float
         dueDate: DateTime
         pet: PetUpdateOneRequiredInput
+        likes: Int
         settings: Json
         status: PostStatus
         postImages: PostImageUpdateManyWithoutPostInput
@@ -3855,6 +3862,7 @@ module.exports = {
         price: Float
         dueDate: DateTime
         pet: PetUpdateOneRequiredInput
+        likes: Int
         settings: Json
         status: PostStatus
         postImages: PostImageUpdateManyWithoutPostInput
@@ -3871,6 +3879,7 @@ module.exports = {
         price: Float
         dueDate: DateTime
         pet: PetUpdateOneRequiredInput
+        likes: Int
         settings: Json
         status: PostStatus
         postTags: PostTagUpdateManyWithoutPostInput
@@ -3887,6 +3896,7 @@ module.exports = {
         price: Float
         dueDate: DateTime
         pet: PetUpdateOneRequiredInput
+        likes: Int
         settings: Json
         status: PostStatus
         postImages: PostImageUpdateManyWithoutPostInput
@@ -3903,6 +3913,7 @@ module.exports = {
         price: Float
         dueDate: DateTime
         pet: PetUpdateOneRequiredInput
+        likes: Int
         settings: Json
         status: PostStatus
         postImages: PostImageUpdateManyWithoutPostInput
@@ -3919,6 +3930,7 @@ module.exports = {
         price: Float
         dueDate: DateTime
         pet: PetUpdateOneRequiredInput
+        likes: Int
         settings: Json
         status: PostStatus
         postImages: PostImageUpdateManyWithoutPostInput
@@ -4043,6 +4055,14 @@ module.exports = {
         dueDate_gt: DateTime
         dueDate_gte: DateTime
         pet: PetWhereInput
+        likes: Int
+        likes_not: Int
+        likes_in: [Int!]
+        likes_not_in: [Int!]
+        likes_lt: Int
+        likes_lte: Int
+        likes_gt: Int
+        likes_gte: Int
         status: PostStatus
         status_not: PostStatus
         status_in: [PostStatus!]
@@ -4754,6 +4774,7 @@ module.exports = {
           last: Int
         ): [ReviewImage!]
         post: Post!
+        likes: Int!
         createdBy: Account!
         createdAt: DateTime!
         updatedAt: DateTime!
@@ -4771,6 +4792,7 @@ module.exports = {
         stars: Int!
         reviewImages: ReviewImageCreateManyWithoutReviewInput
         post: PostCreateOneWithoutReviewsInput!
+        likes: Int
         createdBy: AccountCreateOneWithoutReviewsInput!
       }
 
@@ -4800,6 +4822,7 @@ module.exports = {
         stars: Int!
         reviewImages: ReviewImageCreateManyWithoutReviewInput
         post: PostCreateOneWithoutReviewsInput!
+        likes: Int
       }
 
       input ReviewCreateWithoutPostInput {
@@ -4807,6 +4830,7 @@ module.exports = {
         message: String!
         stars: Int!
         reviewImages: ReviewImageCreateManyWithoutReviewInput
+        likes: Int
         createdBy: AccountCreateOneWithoutReviewsInput!
       }
 
@@ -4815,6 +4839,7 @@ module.exports = {
         message: String!
         stars: Int!
         post: PostCreateOneWithoutReviewsInput!
+        likes: Int
         createdBy: AccountCreateOneWithoutReviewsInput!
       }
 
@@ -5008,7 +5033,6 @@ module.exports = {
 
       type ReviewLike {
         id: UUID!
-        count: Int!
         review: Review!
         like: Like!
         createdAt: DateTime!
@@ -5023,7 +5047,6 @@ module.exports = {
 
       input ReviewLikeCreateInput {
         id: UUID
-        count: Int
         review: ReviewCreateOneInput!
         like: LikeCreateOneInput!
       }
@@ -5036,8 +5059,6 @@ module.exports = {
       enum ReviewLikeOrderByInput {
         id_ASC
         id_DESC
-        count_ASC
-        count_DESC
         createdAt_ASC
         createdAt_DESC
         updatedAt_ASC
@@ -5046,7 +5067,6 @@ module.exports = {
 
       type ReviewLikePreviousValues {
         id: UUID!
-        count: Int!
         createdAt: DateTime!
         updatedAt: DateTime!
       }
@@ -5070,13 +5090,8 @@ module.exports = {
       }
 
       input ReviewLikeUpdateInput {
-        count: Int
         review: ReviewUpdateOneRequiredInput
         like: LikeUpdateOneRequiredInput
-      }
-
-      input ReviewLikeUpdateManyMutationInput {
-        count: Int
       }
 
       input ReviewLikeWhereInput {
@@ -5094,14 +5109,6 @@ module.exports = {
         id_not_starts_with: UUID
         id_ends_with: UUID
         id_not_ends_with: UUID
-        count: Int
-        count_not: Int
-        count_in: [Int!]
-        count_not_in: [Int!]
-        count_lt: Int
-        count_lte: Int
-        count_gt: Int
-        count_gte: Int
         review: ReviewWhereInput
         like: LikeWhereInput
         createdAt: DateTime
@@ -5136,6 +5143,8 @@ module.exports = {
         message_DESC
         stars_ASC
         stars_DESC
+        likes_ASC
+        likes_DESC
         createdAt_ASC
         createdAt_DESC
         updatedAt_ASC
@@ -5146,6 +5155,7 @@ module.exports = {
         id: UUID!
         message: String!
         stars: Int!
+        likes: Int!
         createdAt: DateTime!
         updatedAt: DateTime!
       }
@@ -5187,6 +5197,14 @@ module.exports = {
         stars_lte: Int
         stars_gt: Int
         stars_gte: Int
+        likes: Int
+        likes_not: Int
+        likes_in: [Int!]
+        likes_not_in: [Int!]
+        likes_lt: Int
+        likes_lte: Int
+        likes_gt: Int
+        likes_gte: Int
         createdAt: DateTime
         createdAt_not: DateTime
         createdAt_in: [DateTime!]
@@ -5231,6 +5249,7 @@ module.exports = {
         stars: Int
         reviewImages: ReviewImageUpdateManyWithoutReviewInput
         post: PostUpdateOneRequiredWithoutReviewsInput
+        likes: Int
         createdBy: AccountUpdateOneRequiredWithoutReviewsInput
       }
 
@@ -5239,17 +5258,20 @@ module.exports = {
         stars: Int
         reviewImages: ReviewImageUpdateManyWithoutReviewInput
         post: PostUpdateOneRequiredWithoutReviewsInput
+        likes: Int
         createdBy: AccountUpdateOneRequiredWithoutReviewsInput
       }
 
       input ReviewUpdateManyDataInput {
         message: String
         stars: Int
+        likes: Int
       }
 
       input ReviewUpdateManyMutationInput {
         message: String
         stars: Int
+        likes: Int
       }
 
       input ReviewUpdateManyWithoutCreatedByInput {
@@ -5300,12 +5322,14 @@ module.exports = {
         stars: Int
         reviewImages: ReviewImageUpdateManyWithoutReviewInput
         post: PostUpdateOneRequiredWithoutReviewsInput
+        likes: Int
       }
 
       input ReviewUpdateWithoutPostDataInput {
         message: String
         stars: Int
         reviewImages: ReviewImageUpdateManyWithoutReviewInput
+        likes: Int
         createdBy: AccountUpdateOneRequiredWithoutReviewsInput
       }
 
@@ -5313,6 +5337,7 @@ module.exports = {
         message: String
         stars: Int
         post: PostUpdateOneRequiredWithoutReviewsInput
+        likes: Int
         createdBy: AccountUpdateOneRequiredWithoutReviewsInput
       }
 
@@ -5389,6 +5414,14 @@ module.exports = {
         reviewImages_some: ReviewImageWhereInput
         reviewImages_none: ReviewImageWhereInput
         post: PostWhereInput
+        likes: Int
+        likes_not: Int
+        likes_in: [Int!]
+        likes_not_in: [Int!]
+        likes_lt: Int
+        likes_lte: Int
+        likes_gt: Int
+        likes_gte: Int
         createdBy: AccountWhereInput
         createdAt: DateTime
         createdAt_not: DateTime

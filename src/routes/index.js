@@ -12,6 +12,7 @@ import postRoute from './post.route';
 import imageRoute from './image.route';
 import tagRoute from './tag.route';
 import petCategoryRoute from './petCategory.route';
+import postLikeRoute from './postLike.route';
 
 const router = express.Router();
 
@@ -30,6 +31,7 @@ router.use('/post', authenticate, postRoute);
 router.use('/image', authenticate, imageRoute);
 router.use('/tag', authenticate, tagRoute);
 router.use('/pet-category', authenticate, petCategoryRoute);
+router.use('/post-like', authenticate, postLikeRoute);
 
 // 404 not found.
 router.use((req, res, next) => {

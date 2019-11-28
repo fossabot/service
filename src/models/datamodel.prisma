@@ -176,7 +176,7 @@ type Like {
 type PostLike {
   id: UUID! @id
   post: Post! @relation(link: INLINE)
-  like: Like! @relation(link: INLINE)
+  like: Like! @relation(link: INLINE, onDelete: CASCADE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
@@ -184,7 +184,7 @@ type PostLike {
 type CommentLike {
   id: UUID! @id
   comment: Comment! @relation(link: INLINE)
-  like: Like! @relation(link: INLINE)
+  like: Like! @relation(link: INLINE, onDelete: CASCADE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
@@ -192,7 +192,7 @@ type CommentLike {
 type ReviewLike {
   id: UUID! @id
   review: Review! @relation(link: INLINE)
-  like: Like! @relation(link: INLINE)
+  like: Like! @relation(link: INLINE, onDelete: CASCADE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }

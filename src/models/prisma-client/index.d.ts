@@ -444,10 +444,6 @@ export interface Prisma {
     data: CommentLikeUpdateInput;
     where: CommentLikeWhereUniqueInput;
   }) => CommentLikePromise;
-  updateManyCommentLikes: (args: {
-    data: CommentLikeUpdateManyMutationInput;
-    where?: CommentLikeWhereInput;
-  }) => BatchPayloadPromise;
   upsertCommentLike: (args: {
     where: CommentLikeWhereUniqueInput;
     create: CommentLikeCreateInput;
@@ -536,10 +532,6 @@ export interface Prisma {
     data: PostLikeUpdateInput;
     where: PostLikeWhereUniqueInput;
   }) => PostLikePromise;
-  updateManyPostLikes: (args: {
-    data: PostLikeUpdateManyMutationInput;
-    where?: PostLikeWhereInput;
-  }) => BatchPayloadPromise;
   upsertPostLike: (args: {
     where: PostLikeWhereUniqueInput;
     create: PostLikeCreateInput;
@@ -602,10 +594,6 @@ export interface Prisma {
     data: ReviewLikeUpdateInput;
     where: ReviewLikeWhereUniqueInput;
   }) => ReviewLikePromise;
-  updateManyReviewLikes: (args: {
-    data: ReviewLikeUpdateManyMutationInput;
-    where?: ReviewLikeWhereInput;
-  }) => BatchPayloadPromise;
   upsertReviewLike: (args: {
     where: ReviewLikeWhereUniqueInput;
     create: ReviewLikeCreateInput;
@@ -754,18 +742,6 @@ export type ReportOrderByInput =
 
 export type AccountStatus = 'Active' | 'Deactive';
 
-export type PostStatus = 'Pending' | 'New' | 'Done' | 'Expired';
-
-export type PostLikeOrderByInput =
-  | 'id_ASC'
-  | 'id_DESC'
-  | 'count_ASC'
-  | 'count_DESC'
-  | 'createdAt_ASC'
-  | 'createdAt_DESC'
-  | 'updatedAt_ASC'
-  | 'updatedAt_DESC';
-
 export type ReviewImageOrderByInput =
   | 'id_ASC'
   | 'id_DESC'
@@ -774,11 +750,19 @@ export type ReviewImageOrderByInput =
   | 'updatedAt_ASC'
   | 'updatedAt_DESC';
 
+export type PostLikeOrderByInput =
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC';
+
+export type PostStatus = 'Pending' | 'New' | 'Done' | 'Expired';
+
 export type CommentLikeOrderByInput =
   | 'id_ASC'
   | 'id_DESC'
-  | 'count_ASC'
-  | 'count_DESC'
   | 'createdAt_ASC'
   | 'createdAt_DESC'
   | 'updatedAt_ASC'
@@ -791,6 +775,8 @@ export type ReviewOrderByInput =
   | 'message_DESC'
   | 'stars_ASC'
   | 'stars_DESC'
+  | 'likes_ASC'
+  | 'likes_DESC'
   | 'createdAt_ASC'
   | 'createdAt_DESC'
   | 'updatedAt_ASC'
@@ -827,6 +813,8 @@ export type PostOrderByInput =
   | 'price_DESC'
   | 'dueDate_ASC'
   | 'dueDate_DESC'
+  | 'likes_ASC'
+  | 'likes_DESC'
   | 'settings_ASC'
   | 'settings_DESC'
   | 'status_ASC'
@@ -857,6 +845,8 @@ export type CommentOrderByInput =
   | 'id_DESC'
   | 'message_ASC'
   | 'message_DESC'
+  | 'likes_ASC'
+  | 'likes_DESC'
   | 'createdAt_ASC'
   | 'createdAt_DESC'
   | 'updatedAt_ASC'
@@ -865,8 +855,6 @@ export type CommentOrderByInput =
 export type ReviewLikeOrderByInput =
   | 'id_ASC'
   | 'id_DESC'
-  | 'count_ASC'
-  | 'count_DESC'
   | 'createdAt_ASC'
   | 'createdAt_DESC'
   | 'updatedAt_ASC'
@@ -906,9 +894,40 @@ export type PetCategoryOrderByInput =
   | 'updatedAt_ASC'
   | 'updatedAt_DESC';
 
-export interface PetUpdateManyWithWhereNestedInput {
-  where: PetScalarWhereInput;
-  data: PetUpdateManyDataInput;
+export interface PetScalarWhereInput {
+  id?: Maybe<UUID>;
+  id_not?: Maybe<UUID>;
+  id_in?: Maybe<UUID[] | UUID>;
+  id_not_in?: Maybe<UUID[] | UUID>;
+  id_lt?: Maybe<UUID>;
+  id_lte?: Maybe<UUID>;
+  id_gt?: Maybe<UUID>;
+  id_gte?: Maybe<UUID>;
+  id_contains?: Maybe<UUID>;
+  id_not_contains?: Maybe<UUID>;
+  id_starts_with?: Maybe<UUID>;
+  id_not_starts_with?: Maybe<UUID>;
+  id_ends_with?: Maybe<UUID>;
+  id_not_ends_with?: Maybe<UUID>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<PetScalarWhereInput[] | PetScalarWhereInput>;
+  OR?: Maybe<PetScalarWhereInput[] | PetScalarWhereInput>;
+  NOT?: Maybe<PetScalarWhereInput[] | PetScalarWhereInput>;
 }
 
 export type AccountWhereUniqueInput = AtLeastOne<{
@@ -917,9 +936,9 @@ export type AccountWhereUniqueInput = AtLeastOne<{
   email?: Maybe<String>;
 }>;
 
-export interface PostImageUpdateWithoutAccountDataInput {
-  image?: Maybe<ImageUpdateOneRequiredInput>;
-  post?: Maybe<PostUpdateOneRequiredWithoutPostImagesInput>;
+export interface PostImageUpdateWithWhereUniqueWithoutAccountInput {
+  where: PostImageWhereUniqueInput;
+  data: PostImageUpdateWithoutAccountDataInput;
 }
 
 export interface ReportWhereInput {
@@ -988,11 +1007,9 @@ export interface ReportWhereInput {
   NOT?: Maybe<ReportWhereInput[] | ReportWhereInput>;
 }
 
-export interface PostUpdateOneRequiredWithoutPostImagesInput {
-  create?: Maybe<PostCreateWithoutPostImagesInput>;
-  update?: Maybe<PostUpdateWithoutPostImagesDataInput>;
-  upsert?: Maybe<PostUpsertWithoutPostImagesInput>;
-  connect?: Maybe<PostWhereUniqueInput>;
+export interface PostImageUpdateWithoutAccountDataInput {
+  image?: Maybe<ImageUpdateOneRequiredInput>;
+  post?: Maybe<PostUpdateOneRequiredWithoutPostImagesInput>;
 }
 
 export interface ReviewImageWhereInput {
@@ -1034,137 +1051,12 @@ export interface ReviewImageWhereInput {
   NOT?: Maybe<ReviewImageWhereInput[] | ReviewImageWhereInput>;
 }
 
-export interface ReportCreateManyWithoutPostInput {
-  create?: Maybe<ReportCreateWithoutPostInput[] | ReportCreateWithoutPostInput>;
-  connect?: Maybe<ReportWhereUniqueInput[] | ReportWhereUniqueInput>;
-}
-
-export interface CommentLikeUpdateManyMutationInput {
-  count?: Maybe<Int>;
-}
-
-export interface ReportCreateWithoutPostInput {
-  id?: Maybe<UUID>;
-  content: String;
-  reason: String;
-  createdBy: AccountCreateOneWithoutReportsInput;
-}
-
-export interface PostUpdateWithoutPostImagesDataInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  location?: Maybe<String>;
-  price?: Maybe<Float>;
-  dueDate?: Maybe<DateTimeInput>;
-  pet?: Maybe<PetUpdateOneRequiredInput>;
-  settings?: Maybe<Json>;
-  status?: Maybe<PostStatus>;
-  postTags?: Maybe<PostTagUpdateManyWithoutPostInput>;
-  comments?: Maybe<CommentUpdateManyWithoutPostInput>;
-  reviews?: Maybe<ReviewUpdateManyWithoutPostInput>;
-  reports?: Maybe<ReportUpdateManyWithoutPostInput>;
-  account?: Maybe<AccountUpdateOneRequiredWithoutPostsInput>;
-}
-
-export interface AccountCreateOneWithoutReportsInput {
-  create?: Maybe<AccountCreateWithoutReportsInput>;
+export interface AccountCreateOneWithoutPostsInput {
+  create?: Maybe<AccountCreateWithoutPostsInput>;
   connect?: Maybe<AccountWhereUniqueInput>;
 }
 
-export interface TagSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<TagWhereInput>;
-  AND?: Maybe<TagSubscriptionWhereInput[] | TagSubscriptionWhereInput>;
-  OR?: Maybe<TagSubscriptionWhereInput[] | TagSubscriptionWhereInput>;
-  NOT?: Maybe<TagSubscriptionWhereInput[] | TagSubscriptionWhereInput>;
-}
-
-export interface AccountCreateWithoutReportsInput {
-  id?: Maybe<UUID>;
-  username: String;
-  password: String;
-  email: String;
-  role?: Maybe<Role>;
-  status?: Maybe<AccountStatus>;
-  settings?: Maybe<Json>;
-  users?: Maybe<UserCreateManyWithoutAccountInput>;
-  posts?: Maybe<PostCreateManyWithoutAccountInput>;
-  pets?: Maybe<PetCreateManyWithoutAccountInput>;
-  images?: Maybe<ImageCreateManyWithoutAccountInput>;
-  comments?: Maybe<CommentCreateManyWithoutCreatedByInput>;
-  reviews?: Maybe<ReviewCreateManyWithoutCreatedByInput>;
-  postImages?: Maybe<PostImageCreateManyWithoutAccountInput>;
-  commentImages?: Maybe<CommentImageCreateManyWithoutAccountInput>;
-  like?: Maybe<LikeCreateManyWithoutAccountInput>;
-}
-
-export interface ReviewWhereInput {
-  id?: Maybe<UUID>;
-  id_not?: Maybe<UUID>;
-  id_in?: Maybe<UUID[] | UUID>;
-  id_not_in?: Maybe<UUID[] | UUID>;
-  id_lt?: Maybe<UUID>;
-  id_lte?: Maybe<UUID>;
-  id_gt?: Maybe<UUID>;
-  id_gte?: Maybe<UUID>;
-  id_contains?: Maybe<UUID>;
-  id_not_contains?: Maybe<UUID>;
-  id_starts_with?: Maybe<UUID>;
-  id_not_starts_with?: Maybe<UUID>;
-  id_ends_with?: Maybe<UUID>;
-  id_not_ends_with?: Maybe<UUID>;
-  message?: Maybe<String>;
-  message_not?: Maybe<String>;
-  message_in?: Maybe<String[] | String>;
-  message_not_in?: Maybe<String[] | String>;
-  message_lt?: Maybe<String>;
-  message_lte?: Maybe<String>;
-  message_gt?: Maybe<String>;
-  message_gte?: Maybe<String>;
-  message_contains?: Maybe<String>;
-  message_not_contains?: Maybe<String>;
-  message_starts_with?: Maybe<String>;
-  message_not_starts_with?: Maybe<String>;
-  message_ends_with?: Maybe<String>;
-  message_not_ends_with?: Maybe<String>;
-  stars?: Maybe<Int>;
-  stars_not?: Maybe<Int>;
-  stars_in?: Maybe<Int[] | Int>;
-  stars_not_in?: Maybe<Int[] | Int>;
-  stars_lt?: Maybe<Int>;
-  stars_lte?: Maybe<Int>;
-  stars_gt?: Maybe<Int>;
-  stars_gte?: Maybe<Int>;
-  reviewImages_every?: Maybe<ReviewImageWhereInput>;
-  reviewImages_some?: Maybe<ReviewImageWhereInput>;
-  reviewImages_none?: Maybe<ReviewImageWhereInput>;
-  post?: Maybe<PostWhereInput>;
-  createdBy?: Maybe<AccountWhereInput>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<ReviewWhereInput[] | ReviewWhereInput>;
-  OR?: Maybe<ReviewWhereInput[] | ReviewWhereInput>;
-  NOT?: Maybe<ReviewWhereInput[] | ReviewWhereInput>;
-}
-
-export interface AccountUpdateInput {
+export interface AccountUpdateWithoutLikeDataInput {
   username?: Maybe<String>;
   password?: Maybe<String>;
   email?: Maybe<String>;
@@ -1179,8 +1071,56 @@ export interface AccountUpdateInput {
   reviews?: Maybe<ReviewUpdateManyWithoutCreatedByInput>;
   postImages?: Maybe<PostImageUpdateManyWithoutAccountInput>;
   commentImages?: Maybe<CommentImageUpdateManyWithoutAccountInput>;
-  like?: Maybe<LikeUpdateManyWithoutAccountInput>;
   reports?: Maybe<ReportUpdateManyWithoutCreatedByInput>;
+}
+
+export interface AccountCreateWithoutPostsInput {
+  id?: Maybe<UUID>;
+  username: String;
+  password: String;
+  email: String;
+  role?: Maybe<Role>;
+  status?: Maybe<AccountStatus>;
+  settings?: Maybe<Json>;
+  users?: Maybe<UserCreateManyWithoutAccountInput>;
+  pets?: Maybe<PetCreateManyWithoutAccountInput>;
+  images?: Maybe<ImageCreateManyWithoutAccountInput>;
+  comments?: Maybe<CommentCreateManyWithoutCreatedByInput>;
+  reviews?: Maybe<ReviewCreateManyWithoutCreatedByInput>;
+  postImages?: Maybe<PostImageCreateManyWithoutAccountInput>;
+  commentImages?: Maybe<CommentImageCreateManyWithoutAccountInput>;
+  like?: Maybe<LikeCreateManyWithoutAccountInput>;
+  reports?: Maybe<ReportCreateManyWithoutCreatedByInput>;
+}
+
+export interface PostUpdateOneRequiredWithoutPostImagesInput {
+  create?: Maybe<PostCreateWithoutPostImagesInput>;
+  update?: Maybe<PostUpdateWithoutPostImagesDataInput>;
+  upsert?: Maybe<PostUpsertWithoutPostImagesInput>;
+  connect?: Maybe<PostWhereUniqueInput>;
+}
+
+export interface ReportCreateManyWithoutPostInput {
+  create?: Maybe<ReportCreateWithoutPostInput[] | ReportCreateWithoutPostInput>;
+  connect?: Maybe<ReportWhereUniqueInput[] | ReportWhereUniqueInput>;
+}
+
+export interface TagSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<TagWhereInput>;
+  AND?: Maybe<TagSubscriptionWhereInput[] | TagSubscriptionWhereInput>;
+  OR?: Maybe<TagSubscriptionWhereInput[] | TagSubscriptionWhereInput>;
+  NOT?: Maybe<TagSubscriptionWhereInput[] | TagSubscriptionWhereInput>;
+}
+
+export interface ReportCreateWithoutPostInput {
+  id?: Maybe<UUID>;
+  content: String;
+  reason: String;
+  createdBy: AccountCreateOneWithoutReportsInput;
 }
 
 export interface CommentImageWhereInput {
@@ -1222,6 +1162,134 @@ export interface CommentImageWhereInput {
   NOT?: Maybe<CommentImageWhereInput[] | CommentImageWhereInput>;
 }
 
+export interface AccountCreateOneWithoutReportsInput {
+  create?: Maybe<AccountCreateWithoutReportsInput>;
+  connect?: Maybe<AccountWhereUniqueInput>;
+}
+
+export interface CommentWhereInput {
+  id?: Maybe<UUID>;
+  id_not?: Maybe<UUID>;
+  id_in?: Maybe<UUID[] | UUID>;
+  id_not_in?: Maybe<UUID[] | UUID>;
+  id_lt?: Maybe<UUID>;
+  id_lte?: Maybe<UUID>;
+  id_gt?: Maybe<UUID>;
+  id_gte?: Maybe<UUID>;
+  id_contains?: Maybe<UUID>;
+  id_not_contains?: Maybe<UUID>;
+  id_starts_with?: Maybe<UUID>;
+  id_not_starts_with?: Maybe<UUID>;
+  id_ends_with?: Maybe<UUID>;
+  id_not_ends_with?: Maybe<UUID>;
+  message?: Maybe<String>;
+  message_not?: Maybe<String>;
+  message_in?: Maybe<String[] | String>;
+  message_not_in?: Maybe<String[] | String>;
+  message_lt?: Maybe<String>;
+  message_lte?: Maybe<String>;
+  message_gt?: Maybe<String>;
+  message_gte?: Maybe<String>;
+  message_contains?: Maybe<String>;
+  message_not_contains?: Maybe<String>;
+  message_starts_with?: Maybe<String>;
+  message_not_starts_with?: Maybe<String>;
+  message_ends_with?: Maybe<String>;
+  message_not_ends_with?: Maybe<String>;
+  commentImages_every?: Maybe<CommentImageWhereInput>;
+  commentImages_some?: Maybe<CommentImageWhereInput>;
+  commentImages_none?: Maybe<CommentImageWhereInput>;
+  post?: Maybe<PostWhereInput>;
+  likes?: Maybe<Int>;
+  likes_not?: Maybe<Int>;
+  likes_in?: Maybe<Int[] | Int>;
+  likes_not_in?: Maybe<Int[] | Int>;
+  likes_lt?: Maybe<Int>;
+  likes_lte?: Maybe<Int>;
+  likes_gt?: Maybe<Int>;
+  likes_gte?: Maybe<Int>;
+  createdBy?: Maybe<AccountWhereInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<CommentWhereInput[] | CommentWhereInput>;
+  OR?: Maybe<CommentWhereInput[] | CommentWhereInput>;
+  NOT?: Maybe<CommentWhereInput[] | CommentWhereInput>;
+}
+
+export interface AccountCreateWithoutReportsInput {
+  id?: Maybe<UUID>;
+  username: String;
+  password: String;
+  email: String;
+  role?: Maybe<Role>;
+  status?: Maybe<AccountStatus>;
+  settings?: Maybe<Json>;
+  users?: Maybe<UserCreateManyWithoutAccountInput>;
+  posts?: Maybe<PostCreateManyWithoutAccountInput>;
+  pets?: Maybe<PetCreateManyWithoutAccountInput>;
+  images?: Maybe<ImageCreateManyWithoutAccountInput>;
+  comments?: Maybe<CommentCreateManyWithoutCreatedByInput>;
+  reviews?: Maybe<ReviewCreateManyWithoutCreatedByInput>;
+  postImages?: Maybe<PostImageCreateManyWithoutAccountInput>;
+  commentImages?: Maybe<CommentImageCreateManyWithoutAccountInput>;
+  like?: Maybe<LikeCreateManyWithoutAccountInput>;
+}
+
+export interface ReportSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ReportWhereInput>;
+  AND?: Maybe<ReportSubscriptionWhereInput[] | ReportSubscriptionWhereInput>;
+  OR?: Maybe<ReportSubscriptionWhereInput[] | ReportSubscriptionWhereInput>;
+  NOT?: Maybe<ReportSubscriptionWhereInput[] | ReportSubscriptionWhereInput>;
+}
+
+export interface AccountUpdateInput {
+  username?: Maybe<String>;
+  password?: Maybe<String>;
+  email?: Maybe<String>;
+  role?: Maybe<Role>;
+  status?: Maybe<AccountStatus>;
+  settings?: Maybe<Json>;
+  users?: Maybe<UserUpdateManyWithoutAccountInput>;
+  posts?: Maybe<PostUpdateManyWithoutAccountInput>;
+  pets?: Maybe<PetUpdateManyWithoutAccountInput>;
+  images?: Maybe<ImageUpdateManyWithoutAccountInput>;
+  comments?: Maybe<CommentUpdateManyWithoutCreatedByInput>;
+  reviews?: Maybe<ReviewUpdateManyWithoutCreatedByInput>;
+  postImages?: Maybe<PostImageUpdateManyWithoutAccountInput>;
+  commentImages?: Maybe<CommentImageUpdateManyWithoutAccountInput>;
+  like?: Maybe<LikeUpdateManyWithoutAccountInput>;
+  reports?: Maybe<ReportUpdateManyWithoutCreatedByInput>;
+}
+
+export interface PostTagSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<PostTagWhereInput>;
+  AND?: Maybe<PostTagSubscriptionWhereInput[] | PostTagSubscriptionWhereInput>;
+  OR?: Maybe<PostTagSubscriptionWhereInput[] | PostTagSubscriptionWhereInput>;
+  NOT?: Maybe<PostTagSubscriptionWhereInput[] | PostTagSubscriptionWhereInput>;
+}
+
 export interface UserUpdateManyWithoutAccountInput {
   create?: Maybe<UserCreateWithoutAccountInput[] | UserCreateWithoutAccountInput>;
   delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
@@ -1238,43 +1306,6 @@ export interface UserUpdateManyWithoutAccountInput {
   updateMany?: Maybe<UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput>;
 }
 
-export interface ReportSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ReportWhereInput>;
-  AND?: Maybe<ReportSubscriptionWhereInput[] | ReportSubscriptionWhereInput>;
-  OR?: Maybe<ReportSubscriptionWhereInput[] | ReportSubscriptionWhereInput>;
-  NOT?: Maybe<ReportSubscriptionWhereInput[] | ReportSubscriptionWhereInput>;
-}
-
-export interface UserUpdateWithWhereUniqueWithoutAccountInput {
-  where: UserWhereUniqueInput;
-  data: UserUpdateWithoutAccountDataInput;
-}
-
-export interface PostTagSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<PostTagWhereInput>;
-  AND?: Maybe<PostTagSubscriptionWhereInput[] | PostTagSubscriptionWhereInput>;
-  OR?: Maybe<PostTagSubscriptionWhereInput[] | PostTagSubscriptionWhereInput>;
-  NOT?: Maybe<PostTagSubscriptionWhereInput[] | PostTagSubscriptionWhereInput>;
-}
-
-export interface UserUpdateWithoutAccountDataInput {
-  name?: Maybe<String>;
-  phoneNumber?: Maybe<String>;
-  address?: Maybe<Json>;
-  bio?: Maybe<String>;
-  dob?: Maybe<DateTimeInput>;
-  avatar?: Maybe<ImageUpdateOneInput>;
-  settings?: Maybe<Json>;
-}
-
 export interface PostLikeSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
@@ -1286,13 +1317,9 @@ export interface PostLikeSubscriptionWhereInput {
   NOT?: Maybe<PostLikeSubscriptionWhereInput[] | PostLikeSubscriptionWhereInput>;
 }
 
-export interface ImageUpdateOneInput {
-  create?: Maybe<ImageCreateInput>;
-  update?: Maybe<ImageUpdateDataInput>;
-  upsert?: Maybe<ImageUpsertNestedInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<ImageWhereUniqueInput>;
+export interface UserUpdateWithWhereUniqueWithoutAccountInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutAccountDataInput;
 }
 
 export interface PostImageSubscriptionWhereInput {
@@ -1306,28 +1333,14 @@ export interface PostImageSubscriptionWhereInput {
   NOT?: Maybe<PostImageSubscriptionWhereInput[] | PostImageSubscriptionWhereInput>;
 }
 
-export interface ImageUpdateDataInput {
-  publicId?: Maybe<String>;
-  url?: Maybe<String>;
-  account?: Maybe<AccountUpdateOneRequiredWithoutImagesInput>;
-}
-
-export interface PostSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<PostWhereInput>;
-  AND?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
-  OR?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
-  NOT?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
-}
-
-export interface AccountUpdateOneRequiredWithoutImagesInput {
-  create?: Maybe<AccountCreateWithoutImagesInput>;
-  update?: Maybe<AccountUpdateWithoutImagesDataInput>;
-  upsert?: Maybe<AccountUpsertWithoutImagesInput>;
-  connect?: Maybe<AccountWhereUniqueInput>;
+export interface UserUpdateWithoutAccountDataInput {
+  name?: Maybe<String>;
+  phoneNumber?: Maybe<String>;
+  address?: Maybe<Json>;
+  bio?: Maybe<String>;
+  dob?: Maybe<DateTimeInput>;
+  avatar?: Maybe<ImageUpdateOneInput>;
+  settings?: Maybe<Json>;
 }
 
 export interface PetCategorySubscriptionWhereInput {
@@ -1339,6 +1352,61 @@ export interface PetCategorySubscriptionWhereInput {
   AND?: Maybe<PetCategorySubscriptionWhereInput[] | PetCategorySubscriptionWhereInput>;
   OR?: Maybe<PetCategorySubscriptionWhereInput[] | PetCategorySubscriptionWhereInput>;
   NOT?: Maybe<PetCategorySubscriptionWhereInput[] | PetCategorySubscriptionWhereInput>;
+}
+
+export interface ImageUpdateOneInput {
+  create?: Maybe<ImageCreateInput>;
+  update?: Maybe<ImageUpdateDataInput>;
+  upsert?: Maybe<ImageUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<ImageWhereUniqueInput>;
+}
+
+export interface PetSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<PetWhereInput>;
+  AND?: Maybe<PetSubscriptionWhereInput[] | PetSubscriptionWhereInput>;
+  OR?: Maybe<PetSubscriptionWhereInput[] | PetSubscriptionWhereInput>;
+  NOT?: Maybe<PetSubscriptionWhereInput[] | PetSubscriptionWhereInput>;
+}
+
+export interface ImageUpdateDataInput {
+  publicId?: Maybe<String>;
+  url?: Maybe<String>;
+  account?: Maybe<AccountUpdateOneRequiredWithoutImagesInput>;
+}
+
+export interface LikeSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<LikeWhereInput>;
+  AND?: Maybe<LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput>;
+  OR?: Maybe<LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput>;
+  NOT?: Maybe<LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput>;
+}
+
+export interface AccountUpdateOneRequiredWithoutImagesInput {
+  create?: Maybe<AccountCreateWithoutImagesInput>;
+  update?: Maybe<AccountUpdateWithoutImagesDataInput>;
+  upsert?: Maybe<AccountUpsertWithoutImagesInput>;
+  connect?: Maybe<AccountWhereUniqueInput>;
+}
+
+export interface ImageSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ImageWhereInput>;
+  AND?: Maybe<ImageSubscriptionWhereInput[] | ImageSubscriptionWhereInput>;
+  OR?: Maybe<ImageSubscriptionWhereInput[] | ImageSubscriptionWhereInput>;
+  NOT?: Maybe<ImageSubscriptionWhereInput[] | ImageSubscriptionWhereInput>;
 }
 
 export interface AccountUpdateWithoutImagesDataInput {
@@ -1359,15 +1427,15 @@ export interface AccountUpdateWithoutImagesDataInput {
   reports?: Maybe<ReportUpdateManyWithoutCreatedByInput>;
 }
 
-export interface PetSubscriptionWhereInput {
+export interface CommentLikeSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<PetWhereInput>;
-  AND?: Maybe<PetSubscriptionWhereInput[] | PetSubscriptionWhereInput>;
-  OR?: Maybe<PetSubscriptionWhereInput[] | PetSubscriptionWhereInput>;
-  NOT?: Maybe<PetSubscriptionWhereInput[] | PetSubscriptionWhereInput>;
+  node?: Maybe<CommentLikeWhereInput>;
+  AND?: Maybe<CommentLikeSubscriptionWhereInput[] | CommentLikeSubscriptionWhereInput>;
+  OR?: Maybe<CommentLikeSubscriptionWhereInput[] | CommentLikeSubscriptionWhereInput>;
+  NOT?: Maybe<CommentLikeSubscriptionWhereInput[] | CommentLikeSubscriptionWhereInput>;
 }
 
 export interface PostUpdateManyWithoutAccountInput {
@@ -1386,82 +1454,20 @@ export interface PostUpdateManyWithoutAccountInput {
   updateMany?: Maybe<PostUpdateManyWithWhereNestedInput[] | PostUpdateManyWithWhereNestedInput>;
 }
 
-export interface LikeSubscriptionWhereInput {
+export interface CommentSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<LikeWhereInput>;
-  AND?: Maybe<LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput>;
-  OR?: Maybe<LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput>;
-  NOT?: Maybe<LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput>;
+  node?: Maybe<CommentWhereInput>;
+  AND?: Maybe<CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput>;
+  OR?: Maybe<CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput>;
+  NOT?: Maybe<CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput>;
 }
 
 export interface PostUpdateWithWhereUniqueWithoutAccountInput {
   where: PostWhereUniqueInput;
   data: PostUpdateWithoutAccountDataInput;
-}
-
-export interface ImageSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ImageWhereInput>;
-  AND?: Maybe<ImageSubscriptionWhereInput[] | ImageSubscriptionWhereInput>;
-  OR?: Maybe<ImageSubscriptionWhereInput[] | ImageSubscriptionWhereInput>;
-  NOT?: Maybe<ImageSubscriptionWhereInput[] | ImageSubscriptionWhereInput>;
-}
-
-export interface PostUpdateWithoutAccountDataInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  location?: Maybe<String>;
-  price?: Maybe<Float>;
-  dueDate?: Maybe<DateTimeInput>;
-  pet?: Maybe<PetUpdateOneRequiredInput>;
-  settings?: Maybe<Json>;
-  status?: Maybe<PostStatus>;
-  postImages?: Maybe<PostImageUpdateManyWithoutPostInput>;
-  postTags?: Maybe<PostTagUpdateManyWithoutPostInput>;
-  comments?: Maybe<CommentUpdateManyWithoutPostInput>;
-  reviews?: Maybe<ReviewUpdateManyWithoutPostInput>;
-  reports?: Maybe<ReportUpdateManyWithoutPostInput>;
-}
-
-export interface CommentImageSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<CommentImageWhereInput>;
-  AND?: Maybe<CommentImageSubscriptionWhereInput[] | CommentImageSubscriptionWhereInput>;
-  OR?: Maybe<CommentImageSubscriptionWhereInput[] | CommentImageSubscriptionWhereInput>;
-  NOT?: Maybe<CommentImageSubscriptionWhereInput[] | CommentImageSubscriptionWhereInput>;
-}
-
-export interface PetUpdateOneRequiredInput {
-  create?: Maybe<PetCreateInput>;
-  update?: Maybe<PetUpdateDataInput>;
-  upsert?: Maybe<PetUpsertNestedInput>;
-  connect?: Maybe<PetWhereUniqueInput>;
-}
-
-export interface AccountSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<AccountWhereInput>;
-  AND?: Maybe<AccountSubscriptionWhereInput[] | AccountSubscriptionWhereInput>;
-  OR?: Maybe<AccountSubscriptionWhereInput[] | AccountSubscriptionWhereInput>;
-  NOT?: Maybe<AccountSubscriptionWhereInput[] | AccountSubscriptionWhereInput>;
-}
-
-export interface PetUpdateDataInput {
-  category?: Maybe<PetCategoryUpdateOneRequiredInput>;
-  info?: Maybe<Json>;
-  account?: Maybe<AccountUpdateOneRequiredWithoutPetsInput>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -1473,35 +1479,33 @@ export interface UserUpdateManyMutationInput {
   settings?: Maybe<Json>;
 }
 
-export interface PetCategoryUpdateOneRequiredInput {
-  create?: Maybe<PetCategoryCreateInput>;
-  update?: Maybe<PetCategoryUpdateDataInput>;
-  upsert?: Maybe<PetCategoryUpsertNestedInput>;
-  connect?: Maybe<PetCategoryWhereUniqueInput>;
-}
-
-export interface AccountUpdateWithoutUsersDataInput {
-  username?: Maybe<String>;
-  password?: Maybe<String>;
-  email?: Maybe<String>;
-  role?: Maybe<Role>;
-  status?: Maybe<AccountStatus>;
-  settings?: Maybe<Json>;
-  posts?: Maybe<PostUpdateManyWithoutAccountInput>;
-  pets?: Maybe<PetUpdateManyWithoutAccountInput>;
-  images?: Maybe<ImageUpdateManyWithoutAccountInput>;
-  comments?: Maybe<CommentUpdateManyWithoutCreatedByInput>;
-  reviews?: Maybe<ReviewUpdateManyWithoutCreatedByInput>;
-  postImages?: Maybe<PostImageUpdateManyWithoutAccountInput>;
-  commentImages?: Maybe<CommentImageUpdateManyWithoutAccountInput>;
-  like?: Maybe<LikeUpdateManyWithoutAccountInput>;
-  reports?: Maybe<ReportUpdateManyWithoutCreatedByInput>;
-}
-
-export interface PetCategoryUpdateDataInput {
-  name?: Maybe<String>;
+export interface PostUpdateWithoutAccountDataInput {
+  title?: Maybe<String>;
   description?: Maybe<String>;
-  image?: Maybe<ImageUpdateOneInput>;
+  location?: Maybe<String>;
+  price?: Maybe<Float>;
+  dueDate?: Maybe<DateTimeInput>;
+  pet?: Maybe<PetUpdateOneRequiredInput>;
+  likes?: Maybe<Int>;
+  settings?: Maybe<Json>;
+  status?: Maybe<PostStatus>;
+  postImages?: Maybe<PostImageUpdateManyWithoutPostInput>;
+  postTags?: Maybe<PostTagUpdateManyWithoutPostInput>;
+  comments?: Maybe<CommentUpdateManyWithoutPostInput>;
+  reviews?: Maybe<ReviewUpdateManyWithoutPostInput>;
+  reports?: Maybe<ReportUpdateManyWithoutPostInput>;
+}
+
+export interface AccountUpsertWithoutUsersInput {
+  update: AccountUpdateWithoutUsersDataInput;
+  create: AccountCreateWithoutUsersInput;
+}
+
+export interface PetUpdateOneRequiredInput {
+  create?: Maybe<PetCreateInput>;
+  update?: Maybe<PetUpdateDataInput>;
+  upsert?: Maybe<PetUpsertNestedInput>;
+  connect?: Maybe<PetWhereUniqueInput>;
 }
 
 export interface AccountUpdateOneRequiredWithoutUsersInput {
@@ -1511,35 +1515,28 @@ export interface AccountUpdateOneRequiredWithoutUsersInput {
   connect?: Maybe<AccountWhereUniqueInput>;
 }
 
-export interface PetCategoryUpsertNestedInput {
-  update: PetCategoryUpdateDataInput;
-  create: PetCategoryCreateInput;
+export interface PetUpdateDataInput {
+  category?: Maybe<PetCategoryUpdateOneRequiredInput>;
+  info?: Maybe<Json>;
+  account?: Maybe<AccountUpdateOneRequiredWithoutPetsInput>;
 }
 
-export interface AccountCreateWithoutUsersInput {
-  id?: Maybe<UUID>;
-  username: String;
-  password: String;
-  email: String;
-  role?: Maybe<Role>;
-  status?: Maybe<AccountStatus>;
+export interface UserUpdateInput {
+  name?: Maybe<String>;
+  phoneNumber?: Maybe<String>;
+  address?: Maybe<Json>;
+  bio?: Maybe<String>;
+  dob?: Maybe<DateTimeInput>;
+  avatar?: Maybe<ImageUpdateOneInput>;
   settings?: Maybe<Json>;
-  posts?: Maybe<PostCreateManyWithoutAccountInput>;
-  pets?: Maybe<PetCreateManyWithoutAccountInput>;
-  images?: Maybe<ImageCreateManyWithoutAccountInput>;
-  comments?: Maybe<CommentCreateManyWithoutCreatedByInput>;
-  reviews?: Maybe<ReviewCreateManyWithoutCreatedByInput>;
-  postImages?: Maybe<PostImageCreateManyWithoutAccountInput>;
-  commentImages?: Maybe<CommentImageCreateManyWithoutAccountInput>;
-  like?: Maybe<LikeCreateManyWithoutAccountInput>;
-  reports?: Maybe<ReportCreateManyWithoutCreatedByInput>;
+  account?: Maybe<AccountUpdateOneRequiredWithoutUsersInput>;
 }
 
-export interface AccountUpdateOneRequiredWithoutPetsInput {
-  create?: Maybe<AccountCreateWithoutPetsInput>;
-  update?: Maybe<AccountUpdateWithoutPetsDataInput>;
-  upsert?: Maybe<AccountUpsertWithoutPetsInput>;
-  connect?: Maybe<AccountWhereUniqueInput>;
+export interface PetCategoryUpdateOneRequiredInput {
+  create?: Maybe<PetCategoryCreateInput>;
+  update?: Maybe<PetCategoryUpdateDataInput>;
+  upsert?: Maybe<PetCategoryUpsertNestedInput>;
+  connect?: Maybe<PetCategoryWhereUniqueInput>;
 }
 
 export interface AccountCreateOneWithoutUsersInput {
@@ -1547,22 +1544,27 @@ export interface AccountCreateOneWithoutUsersInput {
   connect?: Maybe<AccountWhereUniqueInput>;
 }
 
-export interface AccountUpdateWithoutPetsDataInput {
-  username?: Maybe<String>;
-  password?: Maybe<String>;
-  email?: Maybe<String>;
-  role?: Maybe<Role>;
-  status?: Maybe<AccountStatus>;
+export interface PetCategoryUpdateDataInput {
+  name?: Maybe<String>;
+  description?: Maybe<String>;
+  image?: Maybe<ImageUpdateOneInput>;
+}
+
+export interface UserCreateInput {
+  id?: Maybe<UUID>;
+  name: String;
+  phoneNumber: String;
+  address: Json;
+  bio?: Maybe<String>;
+  dob?: Maybe<DateTimeInput>;
+  avatar?: Maybe<ImageCreateOneInput>;
   settings?: Maybe<Json>;
-  users?: Maybe<UserUpdateManyWithoutAccountInput>;
-  posts?: Maybe<PostUpdateManyWithoutAccountInput>;
-  images?: Maybe<ImageUpdateManyWithoutAccountInput>;
-  comments?: Maybe<CommentUpdateManyWithoutCreatedByInput>;
-  reviews?: Maybe<ReviewUpdateManyWithoutCreatedByInput>;
-  postImages?: Maybe<PostImageUpdateManyWithoutAccountInput>;
-  commentImages?: Maybe<CommentImageUpdateManyWithoutAccountInput>;
-  like?: Maybe<LikeUpdateManyWithoutAccountInput>;
-  reports?: Maybe<ReportUpdateManyWithoutCreatedByInput>;
+  account: AccountCreateOneWithoutUsersInput;
+}
+
+export interface PetCategoryUpsertNestedInput {
+  update: PetCategoryUpdateDataInput;
+  create: PetCategoryCreateInput;
 }
 
 export interface ImageWhereInput {
@@ -1630,6 +1632,42 @@ export interface ImageWhereInput {
   NOT?: Maybe<ImageWhereInput[] | ImageWhereInput>;
 }
 
+export interface AccountUpdateOneRequiredWithoutPetsInput {
+  create?: Maybe<AccountCreateWithoutPetsInput>;
+  update?: Maybe<AccountUpdateWithoutPetsDataInput>;
+  upsert?: Maybe<AccountUpsertWithoutPetsInput>;
+  connect?: Maybe<AccountWhereUniqueInput>;
+}
+
+export interface PostTagUpsertWithWhereUniqueWithoutTagInput {
+  where: PostTagWhereUniqueInput;
+  update: PostTagUpdateWithoutTagDataInput;
+  create: PostTagCreateWithoutTagInput;
+}
+
+export interface AccountUpdateWithoutPetsDataInput {
+  username?: Maybe<String>;
+  password?: Maybe<String>;
+  email?: Maybe<String>;
+  role?: Maybe<Role>;
+  status?: Maybe<AccountStatus>;
+  settings?: Maybe<Json>;
+  users?: Maybe<UserUpdateManyWithoutAccountInput>;
+  posts?: Maybe<PostUpdateManyWithoutAccountInput>;
+  images?: Maybe<ImageUpdateManyWithoutAccountInput>;
+  comments?: Maybe<CommentUpdateManyWithoutCreatedByInput>;
+  reviews?: Maybe<ReviewUpdateManyWithoutCreatedByInput>;
+  postImages?: Maybe<PostImageUpdateManyWithoutAccountInput>;
+  commentImages?: Maybe<CommentImageUpdateManyWithoutAccountInput>;
+  like?: Maybe<LikeUpdateManyWithoutAccountInput>;
+  reports?: Maybe<ReportUpdateManyWithoutCreatedByInput>;
+}
+
+export type ImageWhereUniqueInput = AtLeastOne<{
+  id: Maybe<UUID>;
+  publicId?: Maybe<String>;
+}>;
+
 export interface ImageUpdateManyWithoutAccountInput {
   create?: Maybe<ImageCreateWithoutAccountInput[] | ImageCreateWithoutAccountInput>;
   delete?: Maybe<ImageWhereUniqueInput[] | ImageWhereUniqueInput>;
@@ -1646,9 +1684,19 @@ export interface ImageUpdateManyWithoutAccountInput {
   updateMany?: Maybe<ImageUpdateManyWithWhereNestedInput[] | ImageUpdateManyWithWhereNestedInput>;
 }
 
-export interface TagUpdateManyMutationInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
+export interface PostTagUpdateManyWithoutTagInput {
+  create?: Maybe<PostTagCreateWithoutTagInput[] | PostTagCreateWithoutTagInput>;
+  delete?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
+  connect?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
+  set?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
+  disconnect?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
+  update?: Maybe<
+    PostTagUpdateWithWhereUniqueWithoutTagInput[] | PostTagUpdateWithWhereUniqueWithoutTagInput
+  >;
+  upsert?: Maybe<
+    PostTagUpsertWithWhereUniqueWithoutTagInput[] | PostTagUpsertWithWhereUniqueWithoutTagInput
+  >;
+  deleteMany?: Maybe<PostTagScalarWhereInput[] | PostTagScalarWhereInput>;
 }
 
 export interface ImageUpdateWithWhereUniqueWithoutAccountInput {
@@ -1656,9 +1704,8 @@ export interface ImageUpdateWithWhereUniqueWithoutAccountInput {
   data: ImageUpdateWithoutAccountDataInput;
 }
 
-export type ImageWhereUniqueInput = AtLeastOne<{
+export type LikeWhereUniqueInput = AtLeastOne<{
   id: Maybe<UUID>;
-  publicId?: Maybe<String>;
 }>;
 
 export interface ImageUpdateWithoutAccountDataInput {
@@ -1666,9 +1713,9 @@ export interface ImageUpdateWithoutAccountDataInput {
   url?: Maybe<String>;
 }
 
-export interface PostTagUpdateWithWhereUniqueWithoutTagInput {
-  where: PostTagWhereUniqueInput;
-  data: PostTagUpdateWithoutTagDataInput;
+export interface PostTagCreateManyWithoutTagInput {
+  create?: Maybe<PostTagCreateWithoutTagInput[] | PostTagCreateWithoutTagInput>;
+  connect?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
 }
 
 export interface ImageUpsertWithWhereUniqueWithoutAccountInput {
@@ -1677,7 +1724,7 @@ export interface ImageUpsertWithWhereUniqueWithoutAccountInput {
   create: ImageCreateWithoutAccountInput;
 }
 
-export type LikeWhereUniqueInput = AtLeastOne<{
+export type PetWhereUniqueInput = AtLeastOne<{
   id: Maybe<UUID>;
 }>;
 
@@ -1745,9 +1792,13 @@ export interface ImageScalarWhereInput {
   NOT?: Maybe<ImageScalarWhereInput[] | ImageScalarWhereInput>;
 }
 
-export interface PostTagCreateWithoutTagInput {
-  id?: Maybe<UUID>;
-  post: PostCreateOneWithoutPostTagsInput;
+export interface ReviewUpdateDataInput {
+  message?: Maybe<String>;
+  stars?: Maybe<Int>;
+  reviewImages?: Maybe<ReviewImageUpdateManyWithoutReviewInput>;
+  post?: Maybe<PostUpdateOneRequiredWithoutReviewsInput>;
+  likes?: Maybe<Int>;
+  createdBy?: Maybe<AccountUpdateOneRequiredWithoutReviewsInput>;
 }
 
 export interface ImageUpdateManyWithWhereNestedInput {
@@ -1755,7 +1806,7 @@ export interface ImageUpdateManyWithWhereNestedInput {
   data: ImageUpdateManyDataInput;
 }
 
-export type PetWhereUniqueInput = AtLeastOne<{
+export type PetCategoryWhereUniqueInput = AtLeastOne<{
   id: Maybe<UUID>;
 }>;
 
@@ -1764,8 +1815,9 @@ export interface ImageUpdateManyDataInput {
   url?: Maybe<String>;
 }
 
-export interface ReviewLikeUpdateManyMutationInput {
-  count?: Maybe<Int>;
+export interface ReviewCreateOneInput {
+  create?: Maybe<ReviewCreateInput>;
+  connect?: Maybe<ReviewWhereUniqueInput>;
 }
 
 export interface CommentUpdateManyWithoutCreatedByInput {
@@ -1788,31 +1840,35 @@ export interface CommentUpdateManyWithoutCreatedByInput {
   >;
 }
 
-export type PetCategoryWhereUniqueInput = AtLeastOne<{
-  id: Maybe<UUID>;
-}>;
+export interface ReviewUpsertWithoutReviewImagesInput {
+  update: ReviewUpdateWithoutReviewImagesDataInput;
+  create: ReviewCreateWithoutReviewImagesInput;
+}
 
 export interface CommentUpdateWithWhereUniqueWithoutCreatedByInput {
   where: CommentWhereUniqueInput;
   data: CommentUpdateWithoutCreatedByDataInput;
 }
 
-export interface ReviewUpdateOneRequiredInput {
-  create?: Maybe<ReviewCreateInput>;
-  update?: Maybe<ReviewUpdateDataInput>;
-  upsert?: Maybe<ReviewUpsertNestedInput>;
-  connect?: Maybe<ReviewWhereUniqueInput>;
+export interface ReviewUpdateWithoutReviewImagesDataInput {
+  message?: Maybe<String>;
+  stars?: Maybe<Int>;
+  post?: Maybe<PostUpdateOneRequiredWithoutReviewsInput>;
+  likes?: Maybe<Int>;
+  createdBy?: Maybe<AccountUpdateOneRequiredWithoutReviewsInput>;
 }
 
 export interface CommentUpdateWithoutCreatedByDataInput {
   message?: Maybe<String>;
   commentImages?: Maybe<CommentImageUpdateManyWithoutCommentInput>;
   post?: Maybe<PostUpdateOneRequiredWithoutCommentsInput>;
+  likes?: Maybe<Int>;
 }
 
-export interface ReviewCreateOneInput {
-  create?: Maybe<ReviewCreateInput>;
-  connect?: Maybe<ReviewWhereUniqueInput>;
+export interface ReviewImageUpdateInput {
+  image?: Maybe<ImageUpdateOneRequiredInput>;
+  review?: Maybe<ReviewUpdateOneRequiredWithoutReviewImagesInput>;
+  account?: Maybe<AccountUpdateOneRequiredInput>;
 }
 
 export interface CommentImageUpdateManyWithoutCommentInput {
@@ -1832,11 +1888,13 @@ export interface CommentImageUpdateManyWithoutCommentInput {
   deleteMany?: Maybe<CommentImageScalarWhereInput[] | CommentImageScalarWhereInput>;
 }
 
-export interface ReviewLikeCreateInput {
+export interface ReviewCreateWithoutReviewImagesInput {
   id?: Maybe<UUID>;
-  count?: Maybe<Int>;
-  review: ReviewCreateOneInput;
-  like: LikeCreateOneInput;
+  message: String;
+  stars: Int;
+  post: PostCreateOneWithoutReviewsInput;
+  likes?: Maybe<Int>;
+  createdBy: AccountCreateOneWithoutReviewsInput;
 }
 
 export interface CommentImageUpdateWithWhereUniqueWithoutCommentInput {
@@ -1844,11 +1902,11 @@ export interface CommentImageUpdateWithWhereUniqueWithoutCommentInput {
   data: CommentImageUpdateWithoutCommentDataInput;
 }
 
-export interface ReviewUpdateWithoutReviewImagesDataInput {
-  message?: Maybe<String>;
-  stars?: Maybe<Int>;
-  post?: Maybe<PostUpdateOneRequiredWithoutReviewsInput>;
-  createdBy?: Maybe<AccountUpdateOneRequiredWithoutReviewsInput>;
+export interface ReviewImageCreateInput {
+  id?: Maybe<UUID>;
+  image: ImageCreateOneInput;
+  review: ReviewCreateOneWithoutReviewImagesInput;
+  account: AccountCreateOneInput;
 }
 
 export interface CommentImageUpdateWithoutCommentDataInput {
@@ -1856,11 +1914,10 @@ export interface CommentImageUpdateWithoutCommentDataInput {
   account?: Maybe<AccountUpdateOneRequiredWithoutCommentImagesInput>;
 }
 
-export interface ReviewUpdateOneRequiredWithoutReviewImagesInput {
-  create?: Maybe<ReviewCreateWithoutReviewImagesInput>;
-  update?: Maybe<ReviewUpdateWithoutReviewImagesDataInput>;
-  upsert?: Maybe<ReviewUpsertWithoutReviewImagesInput>;
-  connect?: Maybe<ReviewWhereUniqueInput>;
+export interface ReviewUpdateManyMutationInput {
+  message?: Maybe<String>;
+  stars?: Maybe<Int>;
+  likes?: Maybe<Int>;
 }
 
 export interface ImageUpdateOneRequiredInput {
@@ -1868,31 +1925,6 @@ export interface ImageUpdateOneRequiredInput {
   update?: Maybe<ImageUpdateDataInput>;
   upsert?: Maybe<ImageUpsertNestedInput>;
   connect?: Maybe<ImageWhereUniqueInput>;
-}
-
-export interface ReviewCreateWithoutReviewImagesInput {
-  id?: Maybe<UUID>;
-  message: String;
-  stars: Int;
-  post: PostCreateOneWithoutReviewsInput;
-  createdBy: AccountCreateOneWithoutReviewsInput;
-}
-
-export interface ImageUpsertNestedInput {
-  update: ImageUpdateDataInput;
-  create: ImageCreateInput;
-}
-
-export interface ReviewCreateOneWithoutReviewImagesInput {
-  create?: Maybe<ReviewCreateWithoutReviewImagesInput>;
-  connect?: Maybe<ReviewWhereUniqueInput>;
-}
-
-export interface AccountUpdateOneRequiredWithoutCommentImagesInput {
-  create?: Maybe<AccountCreateWithoutCommentImagesInput>;
-  update?: Maybe<AccountUpdateWithoutCommentImagesDataInput>;
-  upsert?: Maybe<AccountUpsertWithoutCommentImagesInput>;
-  connect?: Maybe<AccountWhereUniqueInput>;
 }
 
 export interface UserWhereInput {
@@ -1983,6 +2015,32 @@ export interface UserWhereInput {
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
+export interface ImageUpsertNestedInput {
+  update: ImageUpdateDataInput;
+  create: ImageCreateInput;
+}
+
+export interface ReviewCreateInput {
+  id?: Maybe<UUID>;
+  message: String;
+  stars: Int;
+  reviewImages?: Maybe<ReviewImageCreateManyWithoutReviewInput>;
+  post: PostCreateOneWithoutReviewsInput;
+  likes?: Maybe<Int>;
+  createdBy: AccountCreateOneWithoutReviewsInput;
+}
+
+export interface AccountUpdateOneRequiredWithoutCommentImagesInput {
+  create?: Maybe<AccountCreateWithoutCommentImagesInput>;
+  update?: Maybe<AccountUpdateWithoutCommentImagesDataInput>;
+  upsert?: Maybe<AccountUpsertWithoutCommentImagesInput>;
+  connect?: Maybe<AccountWhereUniqueInput>;
+}
+
+export type PostTagWhereUniqueInput = AtLeastOne<{
+  id: Maybe<UUID>;
+}>;
+
 export interface AccountUpdateWithoutCommentImagesDataInput {
   username?: Maybe<String>;
   password?: Maybe<String>;
@@ -2001,9 +2059,12 @@ export interface AccountUpdateWithoutCommentImagesDataInput {
   reports?: Maybe<ReportUpdateManyWithoutCreatedByInput>;
 }
 
-export interface ReviewUpdateManyMutationInput {
-  message?: Maybe<String>;
-  stars?: Maybe<Int>;
+export interface ReportCreateInput {
+  id?: Maybe<UUID>;
+  content: String;
+  reason: String;
+  post: PostCreateOneWithoutReportsInput;
+  createdBy: AccountCreateOneWithoutReportsInput;
 }
 
 export interface PetUpdateManyWithoutAccountInput {
@@ -2022,7 +2083,7 @@ export interface PetUpdateManyWithoutAccountInput {
   updateMany?: Maybe<PetUpdateManyWithWhereNestedInput[] | PetUpdateManyWithWhereNestedInput>;
 }
 
-export type PostTagWhereUniqueInput = AtLeastOne<{
+export type ReportWhereUniqueInput = AtLeastOne<{
   id: Maybe<UUID>;
 }>;
 
@@ -2031,9 +2092,11 @@ export interface PetUpdateWithWhereUniqueWithoutAccountInput {
   data: PetUpdateWithoutAccountDataInput;
 }
 
-export interface ReportUpdateManyMutationInput {
-  content?: Maybe<String>;
-  reason?: Maybe<String>;
+export interface PostUpdateOneRequiredWithoutPostTagsInput {
+  create?: Maybe<PostCreateWithoutPostTagsInput>;
+  update?: Maybe<PostUpdateWithoutPostTagsDataInput>;
+  upsert?: Maybe<PostUpsertWithoutPostTagsInput>;
+  connect?: Maybe<PostWhereUniqueInput>;
 }
 
 export interface PetUpdateWithoutAccountDataInput {
@@ -2041,7 +2104,7 @@ export interface PetUpdateWithoutAccountDataInput {
   info?: Maybe<Json>;
 }
 
-export type ReportWhereUniqueInput = AtLeastOne<{
+export type ReviewWhereUniqueInput = AtLeastOne<{
   id: Maybe<UUID>;
 }>;
 
@@ -2051,65 +2114,48 @@ export interface PetUpsertWithWhereUniqueWithoutAccountInput {
   create: PetCreateWithoutAccountInput;
 }
 
-export interface PostUpsertWithoutPostTagsInput {
-  update: PostUpdateWithoutPostTagsDataInput;
-  create: PostCreateWithoutPostTagsInput;
+export interface PostCreateOneWithoutPostTagsInput {
+  create?: Maybe<PostCreateWithoutPostTagsInput>;
+  connect?: Maybe<PostWhereUniqueInput>;
 }
 
-export interface PetScalarWhereInput {
-  id?: Maybe<UUID>;
-  id_not?: Maybe<UUID>;
-  id_in?: Maybe<UUID[] | UUID>;
-  id_not_in?: Maybe<UUID[] | UUID>;
-  id_lt?: Maybe<UUID>;
-  id_lte?: Maybe<UUID>;
-  id_gt?: Maybe<UUID>;
-  id_gte?: Maybe<UUID>;
-  id_contains?: Maybe<UUID>;
-  id_not_contains?: Maybe<UUID>;
-  id_starts_with?: Maybe<UUID>;
-  id_not_starts_with?: Maybe<UUID>;
-  id_ends_with?: Maybe<UUID>;
-  id_not_ends_with?: Maybe<UUID>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<PetScalarWhereInput[] | PetScalarWhereInput>;
-  OR?: Maybe<PetScalarWhereInput[] | PetScalarWhereInput>;
-  NOT?: Maybe<PetScalarWhereInput[] | PetScalarWhereInput>;
+export interface ImageUpdateManyMutationInput {
+  publicId?: Maybe<String>;
+  url?: Maybe<String>;
 }
 
-export type ReviewWhereUniqueInput = AtLeastOne<{
+export type ReviewImageWhereUniqueInput = AtLeastOne<{
   id: Maybe<UUID>;
 }>;
 
-export interface PetUpdateManyMutationInput {
-  info?: Maybe<Json>;
+export interface PetUpdateManyWithWhereNestedInput {
+  where: PetScalarWhereInput;
+  data: PetUpdateManyDataInput;
 }
 
-export interface PostTagUpdateInput {
-  post?: Maybe<PostUpdateOneRequiredWithoutPostTagsInput>;
-  tag?: Maybe<TagUpdateOneRequiredWithoutPostTagsInput>;
+export interface PostUpdateDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  location?: Maybe<String>;
+  price?: Maybe<Float>;
+  dueDate?: Maybe<DateTimeInput>;
+  pet?: Maybe<PetUpdateOneRequiredInput>;
+  likes?: Maybe<Int>;
+  settings?: Maybe<Json>;
+  status?: Maybe<PostStatus>;
+  postImages?: Maybe<PostImageUpdateManyWithoutPostInput>;
+  postTags?: Maybe<PostTagUpdateManyWithoutPostInput>;
+  comments?: Maybe<CommentUpdateManyWithoutPostInput>;
+  reviews?: Maybe<ReviewUpdateManyWithoutPostInput>;
+  reports?: Maybe<ReportUpdateManyWithoutPostInput>;
+  account?: Maybe<AccountUpdateOneRequiredWithoutPostsInput>;
 }
 
 export interface PetUpdateManyDataInput {
   info?: Maybe<Json>;
 }
 
-export type ReviewImageWhereUniqueInput = AtLeastOne<{
+export type ReviewLikeWhereUniqueInput = AtLeastOne<{
   id: Maybe<UUID>;
 }>;
 
@@ -2131,28 +2177,6 @@ export interface ReviewUpdateManyWithoutCreatedByInput {
   updateMany?: Maybe<ReviewUpdateManyWithWhereNestedInput[] | ReviewUpdateManyWithWhereNestedInput>;
 }
 
-export interface PostTagCreateInput {
-  id?: Maybe<UUID>;
-  post: PostCreateOneWithoutPostTagsInput;
-  tag: TagCreateOneWithoutPostTagsInput;
-}
-
-export interface ReviewUpdateWithWhereUniqueWithoutCreatedByInput {
-  where: ReviewWhereUniqueInput;
-  data: ReviewUpdateWithoutCreatedByDataInput;
-}
-
-export type ReviewLikeWhereUniqueInput = AtLeastOne<{
-  id: Maybe<UUID>;
-}>;
-
-export interface ReviewUpdateWithoutCreatedByDataInput {
-  message?: Maybe<String>;
-  stars?: Maybe<Int>;
-  reviewImages?: Maybe<ReviewImageUpdateManyWithoutReviewInput>;
-  post?: Maybe<PostUpdateOneRequiredWithoutReviewsInput>;
-}
-
 export interface ReviewLikeWhereInput {
   id?: Maybe<UUID>;
   id_not?: Maybe<UUID>;
@@ -2168,14 +2192,6 @@ export interface ReviewLikeWhereInput {
   id_not_starts_with?: Maybe<UUID>;
   id_ends_with?: Maybe<UUID>;
   id_not_ends_with?: Maybe<UUID>;
-  count?: Maybe<Int>;
-  count_not?: Maybe<Int>;
-  count_in?: Maybe<Int[] | Int>;
-  count_not_in?: Maybe<Int[] | Int>;
-  count_lt?: Maybe<Int>;
-  count_lte?: Maybe<Int>;
-  count_gt?: Maybe<Int>;
-  count_gte?: Maybe<Int>;
   review?: Maybe<ReviewWhereInput>;
   like?: Maybe<LikeWhereInput>;
   createdAt?: Maybe<DateTimeInput>;
@@ -2199,6 +2215,32 @@ export interface ReviewLikeWhereInput {
   NOT?: Maybe<ReviewLikeWhereInput[] | ReviewLikeWhereInput>;
 }
 
+export interface ReviewUpdateWithWhereUniqueWithoutCreatedByInput {
+  where: ReviewWhereUniqueInput;
+  data: ReviewUpdateWithoutCreatedByDataInput;
+}
+
+export interface PostLikeCreateInput {
+  id?: Maybe<UUID>;
+  post: PostCreateOneInput;
+  like: LikeCreateOneInput;
+}
+
+export interface ReviewUpdateWithoutCreatedByDataInput {
+  message?: Maybe<String>;
+  stars?: Maybe<Int>;
+  reviewImages?: Maybe<ReviewImageUpdateManyWithoutReviewInput>;
+  post?: Maybe<PostUpdateOneRequiredWithoutReviewsInput>;
+  likes?: Maybe<Int>;
+}
+
+export interface PostImageCreateInput {
+  id?: Maybe<UUID>;
+  image: ImageCreateOneInput;
+  post: PostCreateOneWithoutPostImagesInput;
+  account: AccountCreateOneWithoutPostImagesInput;
+}
+
 export interface ReviewImageUpdateManyWithoutReviewInput {
   create?: Maybe<ReviewImageCreateWithoutReviewInput[] | ReviewImageCreateWithoutReviewInput>;
   delete?: Maybe<ReviewImageWhereUniqueInput[] | ReviewImageWhereUniqueInput>;
@@ -2216,11 +2258,15 @@ export interface ReviewImageUpdateManyWithoutReviewInput {
   deleteMany?: Maybe<ReviewImageScalarWhereInput[] | ReviewImageScalarWhereInput>;
 }
 
-export interface PostUpdateOneRequiredInput {
-  create?: Maybe<PostCreateInput>;
-  update?: Maybe<PostUpdateDataInput>;
-  upsert?: Maybe<PostUpsertNestedInput>;
-  connect?: Maybe<PostWhereUniqueInput>;
+export interface PostUpdateManyMutationInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  location?: Maybe<String>;
+  price?: Maybe<Float>;
+  dueDate?: Maybe<DateTimeInput>;
+  likes?: Maybe<Int>;
+  settings?: Maybe<Json>;
+  status?: Maybe<PostStatus>;
 }
 
 export interface ReviewImageUpdateWithWhereUniqueWithoutReviewInput {
@@ -2228,9 +2274,23 @@ export interface ReviewImageUpdateWithWhereUniqueWithoutReviewInput {
   data: ReviewImageUpdateWithoutReviewDataInput;
 }
 
-export interface PostCreateOneInput {
-  create?: Maybe<PostCreateInput>;
-  connect?: Maybe<PostWhereUniqueInput>;
+export interface PostCreateInput {
+  id?: Maybe<UUID>;
+  title: String;
+  description?: Maybe<String>;
+  location: String;
+  price?: Maybe<Float>;
+  dueDate: DateTimeInput;
+  pet: PetCreateOneInput;
+  likes?: Maybe<Int>;
+  settings?: Maybe<Json>;
+  status?: Maybe<PostStatus>;
+  postImages?: Maybe<PostImageCreateManyWithoutPostInput>;
+  postTags?: Maybe<PostTagCreateManyWithoutPostInput>;
+  comments?: Maybe<CommentCreateManyWithoutPostInput>;
+  reviews?: Maybe<ReviewCreateManyWithoutPostInput>;
+  reports?: Maybe<ReportCreateManyWithoutPostInput>;
+  account: AccountCreateOneWithoutPostsInput;
 }
 
 export interface ReviewImageUpdateWithoutReviewDataInput {
@@ -2238,12 +2298,9 @@ export interface ReviewImageUpdateWithoutReviewDataInput {
   account?: Maybe<AccountUpdateOneRequiredInput>;
 }
 
-export interface PostLikeCreateInput {
-  id?: Maybe<UUID>;
-  count?: Maybe<Int>;
-  post: PostCreateOneInput;
-  like: LikeCreateOneInput;
-}
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<UUID>;
+}>;
 
 export interface AccountUpdateOneRequiredInput {
   create?: Maybe<AccountCreateInput>;
@@ -2252,11 +2309,8 @@ export interface AccountUpdateOneRequiredInput {
   connect?: Maybe<AccountWhereUniqueInput>;
 }
 
-export interface PostImageCreateInput {
-  id?: Maybe<UUID>;
-  image: ImageCreateOneInput;
-  post: PostCreateOneWithoutPostImagesInput;
-  account: AccountCreateOneWithoutPostImagesInput;
+export interface PetUpdateManyMutationInput {
+  info?: Maybe<Json>;
 }
 
 export interface AccountUpdateDataInput {
@@ -2278,9 +2332,9 @@ export interface AccountUpdateDataInput {
   reports?: Maybe<ReportUpdateManyWithoutCreatedByInput>;
 }
 
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<UUID>;
-}>;
+export interface LikeUpdateInput {
+  account?: Maybe<AccountUpdateOneRequiredWithoutLikeInput>;
+}
 
 export interface PostImageUpdateManyWithoutAccountInput {
   create?: Maybe<PostImageCreateWithoutAccountInput[] | PostImageCreateWithoutAccountInput>;
@@ -2299,33 +2353,24 @@ export interface PostImageUpdateManyWithoutAccountInput {
   deleteMany?: Maybe<PostImageScalarWhereInput[] | PostImageScalarWhereInput>;
 }
 
-export interface PostCreateInput {
+export interface AccountCreateInput {
   id?: Maybe<UUID>;
-  title: String;
-  description?: Maybe<String>;
-  location: String;
-  price?: Maybe<Float>;
-  dueDate: DateTimeInput;
-  pet: PetCreateOneInput;
+  username: String;
+  password: String;
+  email: String;
+  role?: Maybe<Role>;
+  status?: Maybe<AccountStatus>;
   settings?: Maybe<Json>;
-  status?: Maybe<PostStatus>;
-  postImages?: Maybe<PostImageCreateManyWithoutPostInput>;
-  postTags?: Maybe<PostTagCreateManyWithoutPostInput>;
-  comments?: Maybe<CommentCreateManyWithoutPostInput>;
-  reviews?: Maybe<ReviewCreateManyWithoutPostInput>;
-  reports?: Maybe<ReportCreateManyWithoutPostInput>;
-  account: AccountCreateOneWithoutPostsInput;
-}
-
-export interface PostImageUpdateWithWhereUniqueWithoutAccountInput {
-  where: PostImageWhereUniqueInput;
-  data: PostImageUpdateWithoutAccountDataInput;
-}
-
-export interface PetCategoryUpdateInput {
-  name?: Maybe<String>;
-  description?: Maybe<String>;
-  image?: Maybe<ImageUpdateOneInput>;
+  users?: Maybe<UserCreateManyWithoutAccountInput>;
+  posts?: Maybe<PostCreateManyWithoutAccountInput>;
+  pets?: Maybe<PetCreateManyWithoutAccountInput>;
+  images?: Maybe<ImageCreateManyWithoutAccountInput>;
+  comments?: Maybe<CommentCreateManyWithoutCreatedByInput>;
+  reviews?: Maybe<ReviewCreateManyWithoutCreatedByInput>;
+  postImages?: Maybe<PostImageCreateManyWithoutAccountInput>;
+  commentImages?: Maybe<CommentImageCreateManyWithoutAccountInput>;
+  like?: Maybe<LikeCreateManyWithoutAccountInput>;
+  reports?: Maybe<ReportCreateManyWithoutCreatedByInput>;
 }
 
 export interface LikeWhereInput {
@@ -2365,32 +2410,6 @@ export interface LikeWhereInput {
   NOT?: Maybe<LikeWhereInput[] | LikeWhereInput>;
 }
 
-export interface AccountCreateInput {
-  id?: Maybe<UUID>;
-  username: String;
-  password: String;
-  email: String;
-  role?: Maybe<Role>;
-  status?: Maybe<AccountStatus>;
-  settings?: Maybe<Json>;
-  users?: Maybe<UserCreateManyWithoutAccountInput>;
-  posts?: Maybe<PostCreateManyWithoutAccountInput>;
-  pets?: Maybe<PetCreateManyWithoutAccountInput>;
-  images?: Maybe<ImageCreateManyWithoutAccountInput>;
-  comments?: Maybe<CommentCreateManyWithoutCreatedByInput>;
-  reviews?: Maybe<ReviewCreateManyWithoutCreatedByInput>;
-  postImages?: Maybe<PostImageCreateManyWithoutAccountInput>;
-  commentImages?: Maybe<CommentImageCreateManyWithoutAccountInput>;
-  like?: Maybe<LikeCreateManyWithoutAccountInput>;
-  reports?: Maybe<ReportCreateManyWithoutCreatedByInput>;
-}
-
-export interface PetUpdateInput {
-  category?: Maybe<PetCategoryUpdateOneRequiredInput>;
-  info?: Maybe<Json>;
-  account?: Maybe<AccountUpdateOneRequiredWithoutPetsInput>;
-}
-
 export interface UserCreateWithoutAccountInput {
   id?: Maybe<UUID>;
   name: String;
@@ -2402,8 +2421,10 @@ export interface UserCreateWithoutAccountInput {
   settings?: Maybe<Json>;
 }
 
-export interface LikeUpdateInput {
-  account?: Maybe<AccountUpdateOneRequiredWithoutLikeInput>;
+export interface ImageUpdateInput {
+  publicId?: Maybe<String>;
+  url?: Maybe<String>;
+  account?: Maybe<AccountUpdateOneRequiredWithoutImagesInput>;
 }
 
 export interface ImageCreateInput {
@@ -2413,19 +2434,75 @@ export interface ImageCreateInput {
   account: AccountCreateOneWithoutImagesInput;
 }
 
-export interface PostTagUpdateManyWithoutPostInput {
-  create?: Maybe<PostTagCreateWithoutPostInput[] | PostTagCreateWithoutPostInput>;
-  delete?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
-  connect?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
-  set?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
-  disconnect?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
-  update?: Maybe<
-    PostTagUpdateWithWhereUniqueWithoutPostInput[] | PostTagUpdateWithWhereUniqueWithoutPostInput
-  >;
-  upsert?: Maybe<
-    PostTagUpsertWithWhereUniqueWithoutPostInput[] | PostTagUpsertWithWhereUniqueWithoutPostInput
-  >;
-  deleteMany?: Maybe<PostTagScalarWhereInput[] | PostTagScalarWhereInput>;
+export interface ReviewWhereInput {
+  id?: Maybe<UUID>;
+  id_not?: Maybe<UUID>;
+  id_in?: Maybe<UUID[] | UUID>;
+  id_not_in?: Maybe<UUID[] | UUID>;
+  id_lt?: Maybe<UUID>;
+  id_lte?: Maybe<UUID>;
+  id_gt?: Maybe<UUID>;
+  id_gte?: Maybe<UUID>;
+  id_contains?: Maybe<UUID>;
+  id_not_contains?: Maybe<UUID>;
+  id_starts_with?: Maybe<UUID>;
+  id_not_starts_with?: Maybe<UUID>;
+  id_ends_with?: Maybe<UUID>;
+  id_not_ends_with?: Maybe<UUID>;
+  message?: Maybe<String>;
+  message_not?: Maybe<String>;
+  message_in?: Maybe<String[] | String>;
+  message_not_in?: Maybe<String[] | String>;
+  message_lt?: Maybe<String>;
+  message_lte?: Maybe<String>;
+  message_gt?: Maybe<String>;
+  message_gte?: Maybe<String>;
+  message_contains?: Maybe<String>;
+  message_not_contains?: Maybe<String>;
+  message_starts_with?: Maybe<String>;
+  message_not_starts_with?: Maybe<String>;
+  message_ends_with?: Maybe<String>;
+  message_not_ends_with?: Maybe<String>;
+  stars?: Maybe<Int>;
+  stars_not?: Maybe<Int>;
+  stars_in?: Maybe<Int[] | Int>;
+  stars_not_in?: Maybe<Int[] | Int>;
+  stars_lt?: Maybe<Int>;
+  stars_lte?: Maybe<Int>;
+  stars_gt?: Maybe<Int>;
+  stars_gte?: Maybe<Int>;
+  reviewImages_every?: Maybe<ReviewImageWhereInput>;
+  reviewImages_some?: Maybe<ReviewImageWhereInput>;
+  reviewImages_none?: Maybe<ReviewImageWhereInput>;
+  post?: Maybe<PostWhereInput>;
+  likes?: Maybe<Int>;
+  likes_not?: Maybe<Int>;
+  likes_in?: Maybe<Int[] | Int>;
+  likes_not_in?: Maybe<Int[] | Int>;
+  likes_lt?: Maybe<Int>;
+  likes_lte?: Maybe<Int>;
+  likes_gt?: Maybe<Int>;
+  likes_gte?: Maybe<Int>;
+  createdBy?: Maybe<AccountWhereInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<ReviewWhereInput[] | ReviewWhereInput>;
+  OR?: Maybe<ReviewWhereInput[] | ReviewWhereInput>;
+  NOT?: Maybe<ReviewWhereInput[] | ReviewWhereInput>;
 }
 
 export interface AccountCreateWithoutImagesInput {
@@ -2447,9 +2524,21 @@ export interface AccountCreateWithoutImagesInput {
   reports?: Maybe<ReportCreateManyWithoutCreatedByInput>;
 }
 
-export interface PostTagUpdateWithWhereUniqueWithoutPostInput {
-  where: PostTagWhereUniqueInput;
-  data: PostTagUpdateWithoutPostDataInput;
+export interface PostUpdateWithoutPostImagesDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  location?: Maybe<String>;
+  price?: Maybe<Float>;
+  dueDate?: Maybe<DateTimeInput>;
+  pet?: Maybe<PetUpdateOneRequiredInput>;
+  likes?: Maybe<Int>;
+  settings?: Maybe<Json>;
+  status?: Maybe<PostStatus>;
+  postTags?: Maybe<PostTagUpdateManyWithoutPostInput>;
+  comments?: Maybe<CommentUpdateManyWithoutPostInput>;
+  reviews?: Maybe<ReviewUpdateManyWithoutPostInput>;
+  reports?: Maybe<ReportUpdateManyWithoutPostInput>;
+  account?: Maybe<AccountUpdateOneRequiredWithoutPostsInput>;
 }
 
 export interface PostCreateWithoutAccountInput {
@@ -2460,6 +2549,7 @@ export interface PostCreateWithoutAccountInput {
   price?: Maybe<Float>;
   dueDate: DateTimeInput;
   pet: PetCreateOneInput;
+  likes?: Maybe<Int>;
   settings?: Maybe<Json>;
   status?: Maybe<PostStatus>;
   postImages?: Maybe<PostImageCreateManyWithoutPostInput>;
@@ -2469,8 +2559,19 @@ export interface PostCreateWithoutAccountInput {
   reports?: Maybe<ReportCreateManyWithoutPostInput>;
 }
 
-export interface PostTagUpdateWithoutPostDataInput {
-  tag?: Maybe<TagUpdateOneRequiredWithoutPostTagsInput>;
+export interface PostTagUpdateManyWithoutPostInput {
+  create?: Maybe<PostTagCreateWithoutPostInput[] | PostTagCreateWithoutPostInput>;
+  delete?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
+  connect?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
+  set?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
+  disconnect?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
+  update?: Maybe<
+    PostTagUpdateWithWhereUniqueWithoutPostInput[] | PostTagUpdateWithWhereUniqueWithoutPostInput
+  >;
+  upsert?: Maybe<
+    PostTagUpsertWithWhereUniqueWithoutPostInput[] | PostTagUpsertWithWhereUniqueWithoutPostInput
+  >;
+  deleteMany?: Maybe<PostTagScalarWhereInput[] | PostTagScalarWhereInput>;
 }
 
 export interface PetCreateInput {
@@ -2480,11 +2581,9 @@ export interface PetCreateInput {
   account: AccountCreateOneWithoutPetsInput;
 }
 
-export interface TagUpdateOneRequiredWithoutPostTagsInput {
-  create?: Maybe<TagCreateWithoutPostTagsInput>;
-  update?: Maybe<TagUpdateWithoutPostTagsDataInput>;
-  upsert?: Maybe<TagUpsertWithoutPostTagsInput>;
-  connect?: Maybe<TagWhereUniqueInput>;
+export interface PostTagUpdateWithWhereUniqueWithoutPostInput {
+  where: PostTagWhereUniqueInput;
+  data: PostTagUpdateWithoutPostDataInput;
 }
 
 export interface PetCategoryCreateInput {
@@ -2494,9 +2593,8 @@ export interface PetCategoryCreateInput {
   image?: Maybe<ImageCreateOneInput>;
 }
 
-export interface TagUpdateWithoutPostTagsDataInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
+export interface PostTagUpdateWithoutPostDataInput {
+  tag?: Maybe<TagUpdateOneRequiredWithoutPostTagsInput>;
 }
 
 export interface AccountCreateWithoutPetsInput {
@@ -2518,9 +2616,11 @@ export interface AccountCreateWithoutPetsInput {
   reports?: Maybe<ReportCreateManyWithoutCreatedByInput>;
 }
 
-export interface TagUpsertWithoutPostTagsInput {
-  update: TagUpdateWithoutPostTagsDataInput;
-  create: TagCreateWithoutPostTagsInput;
+export interface TagUpdateOneRequiredWithoutPostTagsInput {
+  create?: Maybe<TagCreateWithoutPostTagsInput>;
+  update?: Maybe<TagUpdateWithoutPostTagsDataInput>;
+  upsert?: Maybe<TagUpsertWithoutPostTagsInput>;
+  connect?: Maybe<TagWhereUniqueInput>;
 }
 
 export interface ImageCreateWithoutAccountInput {
@@ -2529,10 +2629,9 @@ export interface ImageCreateWithoutAccountInput {
   url: String;
 }
 
-export interface PostTagUpsertWithWhereUniqueWithoutPostInput {
-  where: PostTagWhereUniqueInput;
-  update: PostTagUpdateWithoutPostDataInput;
-  create: PostTagCreateWithoutPostInput;
+export interface TagUpdateWithoutPostTagsDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
 }
 
 export interface CommentCreateWithoutCreatedByInput {
@@ -2540,6 +2639,43 @@ export interface CommentCreateWithoutCreatedByInput {
   message: String;
   commentImages?: Maybe<CommentImageCreateManyWithoutCommentInput>;
   post: PostCreateOneWithoutCommentsInput;
+  likes?: Maybe<Int>;
+}
+
+export interface TagUpsertWithoutPostTagsInput {
+  update: TagUpdateWithoutPostTagsDataInput;
+  create: TagCreateWithoutPostTagsInput;
+}
+
+export interface CommentImageCreateWithoutCommentInput {
+  id?: Maybe<UUID>;
+  image: ImageCreateOneInput;
+  account: AccountCreateOneWithoutCommentImagesInput;
+}
+
+export interface PostTagUpsertWithWhereUniqueWithoutPostInput {
+  where: PostTagWhereUniqueInput;
+  update: PostTagUpdateWithoutPostDataInput;
+  create: PostTagCreateWithoutPostInput;
+}
+
+export interface AccountCreateWithoutCommentImagesInput {
+  id?: Maybe<UUID>;
+  username: String;
+  password: String;
+  email: String;
+  role?: Maybe<Role>;
+  status?: Maybe<AccountStatus>;
+  settings?: Maybe<Json>;
+  users?: Maybe<UserCreateManyWithoutAccountInput>;
+  posts?: Maybe<PostCreateManyWithoutAccountInput>;
+  pets?: Maybe<PetCreateManyWithoutAccountInput>;
+  images?: Maybe<ImageCreateManyWithoutAccountInput>;
+  comments?: Maybe<CommentCreateManyWithoutCreatedByInput>;
+  reviews?: Maybe<ReviewCreateManyWithoutCreatedByInput>;
+  postImages?: Maybe<PostImageCreateManyWithoutAccountInput>;
+  like?: Maybe<LikeCreateManyWithoutAccountInput>;
+  reports?: Maybe<ReportCreateManyWithoutCreatedByInput>;
 }
 
 export interface PostTagScalarWhereInput {
@@ -2578,10 +2714,10 @@ export interface PostTagScalarWhereInput {
   NOT?: Maybe<PostTagScalarWhereInput[] | PostTagScalarWhereInput>;
 }
 
-export interface CommentImageCreateWithoutCommentInput {
+export interface PetCreateWithoutAccountInput {
   id?: Maybe<UUID>;
-  image: ImageCreateOneInput;
-  account: AccountCreateOneWithoutCommentImagesInput;
+  category: PetCategoryCreateOneInput;
+  info?: Maybe<Json>;
 }
 
 export interface CommentUpdateManyWithoutPostInput {
@@ -2602,23 +2738,13 @@ export interface CommentUpdateManyWithoutPostInput {
   >;
 }
 
-export interface AccountCreateWithoutCommentImagesInput {
+export interface ReviewCreateWithoutCreatedByInput {
   id?: Maybe<UUID>;
-  username: String;
-  password: String;
-  email: String;
-  role?: Maybe<Role>;
-  status?: Maybe<AccountStatus>;
-  settings?: Maybe<Json>;
-  users?: Maybe<UserCreateManyWithoutAccountInput>;
-  posts?: Maybe<PostCreateManyWithoutAccountInput>;
-  pets?: Maybe<PetCreateManyWithoutAccountInput>;
-  images?: Maybe<ImageCreateManyWithoutAccountInput>;
-  comments?: Maybe<CommentCreateManyWithoutCreatedByInput>;
-  reviews?: Maybe<ReviewCreateManyWithoutCreatedByInput>;
-  postImages?: Maybe<PostImageCreateManyWithoutAccountInput>;
-  like?: Maybe<LikeCreateManyWithoutAccountInput>;
-  reports?: Maybe<ReportCreateManyWithoutCreatedByInput>;
+  message: String;
+  stars: Int;
+  reviewImages?: Maybe<ReviewImageCreateManyWithoutReviewInput>;
+  post: PostCreateOneWithoutReviewsInput;
+  likes?: Maybe<Int>;
 }
 
 export interface CommentUpdateWithWhereUniqueWithoutPostInput {
@@ -2626,24 +2752,22 @@ export interface CommentUpdateWithWhereUniqueWithoutPostInput {
   data: CommentUpdateWithoutPostDataInput;
 }
 
-export interface PetCreateWithoutAccountInput {
+export interface ReviewImageCreateWithoutReviewInput {
   id?: Maybe<UUID>;
-  category: PetCategoryCreateOneInput;
-  info?: Maybe<Json>;
+  image: ImageCreateOneInput;
+  account: AccountCreateOneInput;
 }
 
 export interface CommentUpdateWithoutPostDataInput {
   message?: Maybe<String>;
   commentImages?: Maybe<CommentImageUpdateManyWithoutCommentInput>;
+  likes?: Maybe<Int>;
   createdBy?: Maybe<AccountUpdateOneRequiredWithoutCommentsInput>;
 }
 
-export interface ReviewCreateWithoutCreatedByInput {
-  id?: Maybe<UUID>;
-  message: String;
-  stars: Int;
-  reviewImages?: Maybe<ReviewImageCreateManyWithoutReviewInput>;
-  post: PostCreateOneWithoutReviewsInput;
+export interface PostCreateOneWithoutReviewsInput {
+  create?: Maybe<PostCreateWithoutReviewsInput>;
+  connect?: Maybe<PostWhereUniqueInput>;
 }
 
 export interface AccountUpdateOneRequiredWithoutCommentsInput {
@@ -2653,10 +2777,9 @@ export interface AccountUpdateOneRequiredWithoutCommentsInput {
   connect?: Maybe<AccountWhereUniqueInput>;
 }
 
-export interface ReviewImageCreateWithoutReviewInput {
-  id?: Maybe<UUID>;
-  image: ImageCreateOneInput;
-  account: AccountCreateOneInput;
+export interface PostImageCreateManyWithoutPostInput {
+  create?: Maybe<PostImageCreateWithoutPostInput[] | PostImageCreateWithoutPostInput>;
+  connect?: Maybe<PostImageWhereUniqueInput[] | PostImageWhereUniqueInput>;
 }
 
 export interface AccountUpdateWithoutCommentsDataInput {
@@ -2677,9 +2800,9 @@ export interface AccountUpdateWithoutCommentsDataInput {
   reports?: Maybe<ReportUpdateManyWithoutCreatedByInput>;
 }
 
-export interface PostCreateOneWithoutReviewsInput {
-  create?: Maybe<PostCreateWithoutReviewsInput>;
-  connect?: Maybe<PostWhereUniqueInput>;
+export interface AccountCreateOneWithoutPostImagesInput {
+  create?: Maybe<AccountCreateWithoutPostImagesInput>;
+  connect?: Maybe<AccountWhereUniqueInput>;
 }
 
 export interface CommentImageUpdateManyWithoutAccountInput {
@@ -2699,9 +2822,9 @@ export interface CommentImageUpdateManyWithoutAccountInput {
   deleteMany?: Maybe<CommentImageScalarWhereInput[] | CommentImageScalarWhereInput>;
 }
 
-export interface PostImageCreateManyWithoutPostInput {
-  create?: Maybe<PostImageCreateWithoutPostInput[] | PostImageCreateWithoutPostInput>;
-  connect?: Maybe<PostImageWhereUniqueInput[] | PostImageWhereUniqueInput>;
+export interface CommentImageCreateManyWithoutAccountInput {
+  create?: Maybe<CommentImageCreateWithoutAccountInput[] | CommentImageCreateWithoutAccountInput>;
+  connect?: Maybe<CommentImageWhereUniqueInput[] | CommentImageWhereUniqueInput>;
 }
 
 export interface CommentImageUpdateWithWhereUniqueWithoutAccountInput {
@@ -2709,9 +2832,9 @@ export interface CommentImageUpdateWithWhereUniqueWithoutAccountInput {
   data: CommentImageUpdateWithoutAccountDataInput;
 }
 
-export interface AccountCreateOneWithoutPostImagesInput {
-  create?: Maybe<AccountCreateWithoutPostImagesInput>;
-  connect?: Maybe<AccountWhereUniqueInput>;
+export interface CommentCreateOneWithoutCommentImagesInput {
+  create?: Maybe<CommentCreateWithoutCommentImagesInput>;
+  connect?: Maybe<CommentWhereUniqueInput>;
 }
 
 export interface CommentImageUpdateWithoutAccountDataInput {
@@ -2719,9 +2842,9 @@ export interface CommentImageUpdateWithoutAccountDataInput {
   comment?: Maybe<CommentUpdateOneRequiredWithoutCommentImagesInput>;
 }
 
-export interface CommentImageCreateManyWithoutAccountInput {
-  create?: Maybe<CommentImageCreateWithoutAccountInput[] | CommentImageCreateWithoutAccountInput>;
-  connect?: Maybe<CommentImageWhereUniqueInput[] | CommentImageWhereUniqueInput>;
+export interface PostCreateOneWithoutCommentsInput {
+  create?: Maybe<PostCreateWithoutCommentsInput>;
+  connect?: Maybe<PostWhereUniqueInput>;
 }
 
 export interface CommentUpdateOneRequiredWithoutCommentImagesInput {
@@ -2731,20 +2854,21 @@ export interface CommentUpdateOneRequiredWithoutCommentImagesInput {
   connect?: Maybe<CommentWhereUniqueInput>;
 }
 
-export interface CommentCreateOneWithoutCommentImagesInput {
-  create?: Maybe<CommentCreateWithoutCommentImagesInput>;
-  connect?: Maybe<CommentWhereUniqueInput>;
+export interface PostTagCreateManyWithoutPostInput {
+  create?: Maybe<PostTagCreateWithoutPostInput[] | PostTagCreateWithoutPostInput>;
+  connect?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
 }
 
 export interface CommentUpdateWithoutCommentImagesDataInput {
   message?: Maybe<String>;
   post?: Maybe<PostUpdateOneRequiredWithoutCommentsInput>;
+  likes?: Maybe<Int>;
   createdBy?: Maybe<AccountUpdateOneRequiredWithoutCommentsInput>;
 }
 
-export interface PostCreateOneWithoutCommentsInput {
-  create?: Maybe<PostCreateWithoutCommentsInput>;
-  connect?: Maybe<PostWhereUniqueInput>;
+export interface TagCreateOneWithoutPostTagsInput {
+  create?: Maybe<TagCreateWithoutPostTagsInput>;
+  connect?: Maybe<TagWhereUniqueInput>;
 }
 
 export interface PostUpdateOneRequiredWithoutCommentsInput {
@@ -2754,9 +2878,9 @@ export interface PostUpdateOneRequiredWithoutCommentsInput {
   connect?: Maybe<PostWhereUniqueInput>;
 }
 
-export interface PostTagCreateManyWithoutPostInput {
-  create?: Maybe<PostTagCreateWithoutPostInput[] | PostTagCreateWithoutPostInput>;
-  connect?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
+export interface ReviewCreateManyWithoutPostInput {
+  create?: Maybe<ReviewCreateWithoutPostInput[] | ReviewCreateWithoutPostInput>;
+  connect?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
 }
 
 export interface PostUpdateWithoutCommentsDataInput {
@@ -2766,6 +2890,7 @@ export interface PostUpdateWithoutCommentsDataInput {
   price?: Maybe<Float>;
   dueDate?: Maybe<DateTimeInput>;
   pet?: Maybe<PetUpdateOneRequiredInput>;
+  likes?: Maybe<Int>;
   settings?: Maybe<Json>;
   status?: Maybe<PostStatus>;
   postImages?: Maybe<PostImageUpdateManyWithoutPostInput>;
@@ -2775,9 +2900,9 @@ export interface PostUpdateWithoutCommentsDataInput {
   account?: Maybe<AccountUpdateOneRequiredWithoutPostsInput>;
 }
 
-export interface TagCreateOneWithoutPostTagsInput {
-  create?: Maybe<TagCreateWithoutPostTagsInput>;
-  connect?: Maybe<TagWhereUniqueInput>;
+export interface AccountCreateOneWithoutReviewsInput {
+  create?: Maybe<AccountCreateWithoutReviewsInput>;
+  connect?: Maybe<AccountWhereUniqueInput>;
 }
 
 export interface PostImageUpdateManyWithoutPostInput {
@@ -2797,9 +2922,9 @@ export interface PostImageUpdateManyWithoutPostInput {
   deleteMany?: Maybe<PostImageScalarWhereInput[] | PostImageScalarWhereInput>;
 }
 
-export interface ReviewCreateManyWithoutPostInput {
-  create?: Maybe<ReviewCreateWithoutPostInput[] | ReviewCreateWithoutPostInput>;
-  connect?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
+export interface PostImageCreateManyWithoutAccountInput {
+  create?: Maybe<PostImageCreateWithoutAccountInput[] | PostImageCreateWithoutAccountInput>;
+  connect?: Maybe<PostImageWhereUniqueInput[] | PostImageWhereUniqueInput>;
 }
 
 export interface PostImageUpdateWithWhereUniqueWithoutPostInput {
@@ -2807,9 +2932,9 @@ export interface PostImageUpdateWithWhereUniqueWithoutPostInput {
   data: PostImageUpdateWithoutPostDataInput;
 }
 
-export interface AccountCreateOneWithoutReviewsInput {
-  create?: Maybe<AccountCreateWithoutReviewsInput>;
-  connect?: Maybe<AccountWhereUniqueInput>;
+export interface PostCreateOneWithoutPostImagesInput {
+  create?: Maybe<PostCreateWithoutPostImagesInput>;
+  connect?: Maybe<PostWhereUniqueInput>;
 }
 
 export interface PostImageUpdateWithoutPostDataInput {
@@ -2817,9 +2942,9 @@ export interface PostImageUpdateWithoutPostDataInput {
   account?: Maybe<AccountUpdateOneRequiredWithoutPostImagesInput>;
 }
 
-export interface PostImageCreateManyWithoutAccountInput {
-  create?: Maybe<PostImageCreateWithoutAccountInput[] | PostImageCreateWithoutAccountInput>;
-  connect?: Maybe<PostImageWhereUniqueInput[] | PostImageWhereUniqueInput>;
+export interface CommentCreateManyWithoutPostInput {
+  create?: Maybe<CommentCreateWithoutPostInput[] | CommentCreateWithoutPostInput>;
+  connect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
 }
 
 export interface AccountUpdateOneRequiredWithoutPostImagesInput {
@@ -2829,9 +2954,9 @@ export interface AccountUpdateOneRequiredWithoutPostImagesInput {
   connect?: Maybe<AccountWhereUniqueInput>;
 }
 
-export interface PostCreateOneWithoutPostImagesInput {
-  create?: Maybe<PostCreateWithoutPostImagesInput>;
-  connect?: Maybe<PostWhereUniqueInput>;
+export interface AccountCreateOneWithoutCommentsInput {
+  create?: Maybe<AccountCreateWithoutCommentsInput>;
+  connect?: Maybe<AccountWhereUniqueInput>;
 }
 
 export interface AccountUpdateWithoutPostImagesDataInput {
@@ -2852,9 +2977,9 @@ export interface AccountUpdateWithoutPostImagesDataInput {
   reports?: Maybe<ReportUpdateManyWithoutCreatedByInput>;
 }
 
-export interface CommentCreateManyWithoutPostInput {
-  create?: Maybe<CommentCreateWithoutPostInput[] | CommentCreateWithoutPostInput>;
-  connect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
+export interface LikeCreateManyWithoutAccountInput {
+  create?: Maybe<LikeCreateWithoutAccountInput[] | LikeCreateWithoutAccountInput>;
+  connect?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
 }
 
 export interface LikeUpdateManyWithoutAccountInput {
@@ -2866,9 +2991,9 @@ export interface LikeUpdateManyWithoutAccountInput {
   deleteMany?: Maybe<LikeScalarWhereInput[] | LikeScalarWhereInput>;
 }
 
-export interface AccountCreateOneWithoutCommentsInput {
-  create?: Maybe<AccountCreateWithoutCommentsInput>;
-  connect?: Maybe<AccountWhereUniqueInput>;
+export interface ReportCreateManyWithoutCreatedByInput {
+  create?: Maybe<ReportCreateWithoutCreatedByInput[] | ReportCreateWithoutCreatedByInput>;
+  connect?: Maybe<ReportWhereUniqueInput[] | ReportWhereUniqueInput>;
 }
 
 export interface LikeScalarWhereInput {
@@ -2907,9 +3032,9 @@ export interface LikeScalarWhereInput {
   NOT?: Maybe<LikeScalarWhereInput[] | LikeScalarWhereInput>;
 }
 
-export interface LikeCreateManyWithoutAccountInput {
-  create?: Maybe<LikeCreateWithoutAccountInput[] | LikeCreateWithoutAccountInput>;
-  connect?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
+export interface PostCreateOneWithoutReportsInput {
+  create?: Maybe<PostCreateWithoutReportsInput>;
+  connect?: Maybe<PostWhereUniqueInput>;
 }
 
 export interface ReportUpdateManyWithoutCreatedByInput {
@@ -2930,39 +3055,6 @@ export interface ReportUpdateManyWithoutCreatedByInput {
   updateMany?: Maybe<ReportUpdateManyWithWhereNestedInput[] | ReportUpdateManyWithWhereNestedInput>;
 }
 
-export interface ReportCreateManyWithoutCreatedByInput {
-  create?: Maybe<ReportCreateWithoutCreatedByInput[] | ReportCreateWithoutCreatedByInput>;
-  connect?: Maybe<ReportWhereUniqueInput[] | ReportWhereUniqueInput>;
-}
-
-export interface ReportUpdateWithWhereUniqueWithoutCreatedByInput {
-  where: ReportWhereUniqueInput;
-  data: ReportUpdateWithoutCreatedByDataInput;
-}
-
-export interface PostCreateOneWithoutReportsInput {
-  create?: Maybe<PostCreateWithoutReportsInput>;
-  connect?: Maybe<PostWhereUniqueInput>;
-}
-
-export interface ReportUpdateWithoutCreatedByDataInput {
-  content?: Maybe<String>;
-  reason?: Maybe<String>;
-  post?: Maybe<PostUpdateOneRequiredWithoutReportsInput>;
-}
-
-export interface AccountCreateOneWithoutPostsInput {
-  create?: Maybe<AccountCreateWithoutPostsInput>;
-  connect?: Maybe<AccountWhereUniqueInput>;
-}
-
-export interface PostUpdateOneRequiredWithoutReportsInput {
-  create?: Maybe<PostCreateWithoutReportsInput>;
-  update?: Maybe<PostUpdateWithoutReportsDataInput>;
-  upsert?: Maybe<PostUpsertWithoutReportsInput>;
-  connect?: Maybe<PostWhereUniqueInput>;
-}
-
 export interface UserSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
@@ -2974,20 +3066,9 @@ export interface UserSubscriptionWhereInput {
   NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
 }
 
-export interface PostUpdateWithoutReportsDataInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  location?: Maybe<String>;
-  price?: Maybe<Float>;
-  dueDate?: Maybe<DateTimeInput>;
-  pet?: Maybe<PetUpdateOneRequiredInput>;
-  settings?: Maybe<Json>;
-  status?: Maybe<PostStatus>;
-  postImages?: Maybe<PostImageUpdateManyWithoutPostInput>;
-  postTags?: Maybe<PostTagUpdateManyWithoutPostInput>;
-  comments?: Maybe<CommentUpdateManyWithoutPostInput>;
-  reviews?: Maybe<ReviewUpdateManyWithoutPostInput>;
-  account?: Maybe<AccountUpdateOneRequiredWithoutPostsInput>;
+export interface ReportUpdateWithWhereUniqueWithoutCreatedByInput {
+  where: ReportWhereUniqueInput;
+  data: ReportUpdateWithoutCreatedByDataInput;
 }
 
 export interface ReviewImageSubscriptionWhereInput {
@@ -3001,23 +3082,13 @@ export interface ReviewImageSubscriptionWhereInput {
   NOT?: Maybe<ReviewImageSubscriptionWhereInput[] | ReviewImageSubscriptionWhereInput>;
 }
 
-export interface ReviewUpdateManyWithoutPostInput {
-  create?: Maybe<ReviewCreateWithoutPostInput[] | ReviewCreateWithoutPostInput>;
-  delete?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
-  connect?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
-  set?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
-  disconnect?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
-  update?: Maybe<
-    ReviewUpdateWithWhereUniqueWithoutPostInput[] | ReviewUpdateWithWhereUniqueWithoutPostInput
-  >;
-  upsert?: Maybe<
-    ReviewUpsertWithWhereUniqueWithoutPostInput[] | ReviewUpsertWithWhereUniqueWithoutPostInput
-  >;
-  deleteMany?: Maybe<ReviewScalarWhereInput[] | ReviewScalarWhereInput>;
-  updateMany?: Maybe<ReviewUpdateManyWithWhereNestedInput[] | ReviewUpdateManyWithWhereNestedInput>;
+export interface ReportUpdateWithoutCreatedByDataInput {
+  content?: Maybe<String>;
+  reason?: Maybe<String>;
+  post?: Maybe<PostUpdateOneRequiredWithoutReportsInput>;
 }
 
-export interface CommentWhereInput {
+export interface TagWhereInput {
   id?: Maybe<UUID>;
   id_not?: Maybe<UUID>;
   id_in?: Maybe<UUID[] | UUID>;
@@ -3032,25 +3103,37 @@ export interface CommentWhereInput {
   id_not_starts_with?: Maybe<UUID>;
   id_ends_with?: Maybe<UUID>;
   id_not_ends_with?: Maybe<UUID>;
-  message?: Maybe<String>;
-  message_not?: Maybe<String>;
-  message_in?: Maybe<String[] | String>;
-  message_not_in?: Maybe<String[] | String>;
-  message_lt?: Maybe<String>;
-  message_lte?: Maybe<String>;
-  message_gt?: Maybe<String>;
-  message_gte?: Maybe<String>;
-  message_contains?: Maybe<String>;
-  message_not_contains?: Maybe<String>;
-  message_starts_with?: Maybe<String>;
-  message_not_starts_with?: Maybe<String>;
-  message_ends_with?: Maybe<String>;
-  message_not_ends_with?: Maybe<String>;
-  commentImages_every?: Maybe<CommentImageWhereInput>;
-  commentImages_some?: Maybe<CommentImageWhereInput>;
-  commentImages_none?: Maybe<CommentImageWhereInput>;
-  post?: Maybe<PostWhereInput>;
-  createdBy?: Maybe<AccountWhereInput>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  postTags_every?: Maybe<PostTagWhereInput>;
+  postTags_some?: Maybe<PostTagWhereInput>;
+  postTags_none?: Maybe<PostTagWhereInput>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -3067,17 +3150,19 @@ export interface CommentWhereInput {
   updatedAt_lte?: Maybe<DateTimeInput>;
   updatedAt_gt?: Maybe<DateTimeInput>;
   updatedAt_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<CommentWhereInput[] | CommentWhereInput>;
-  OR?: Maybe<CommentWhereInput[] | CommentWhereInput>;
-  NOT?: Maybe<CommentWhereInput[] | CommentWhereInput>;
+  AND?: Maybe<TagWhereInput[] | TagWhereInput>;
+  OR?: Maybe<TagWhereInput[] | TagWhereInput>;
+  NOT?: Maybe<TagWhereInput[] | TagWhereInput>;
 }
 
-export interface ReviewUpdateWithWhereUniqueWithoutPostInput {
-  where: ReviewWhereUniqueInput;
-  data: ReviewUpdateWithoutPostDataInput;
+export interface PostUpdateOneRequiredWithoutReportsInput {
+  create?: Maybe<PostCreateWithoutReportsInput>;
+  update?: Maybe<PostUpdateWithoutReportsDataInput>;
+  upsert?: Maybe<PostUpsertWithoutReportsInput>;
+  connect?: Maybe<PostWhereUniqueInput>;
 }
 
-export interface PostTagWhereInput {
+export interface PostImageWhereInput {
   id?: Maybe<UUID>;
   id_not?: Maybe<UUID>;
   id_in?: Maybe<UUID[] | UUID>;
@@ -3092,8 +3177,9 @@ export interface PostTagWhereInput {
   id_not_starts_with?: Maybe<UUID>;
   id_ends_with?: Maybe<UUID>;
   id_not_ends_with?: Maybe<UUID>;
+  image?: Maybe<ImageWhereInput>;
   post?: Maybe<PostWhereInput>;
-  tag?: Maybe<TagWhereInput>;
+  account?: Maybe<AccountWhereInput>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -3110,16 +3196,26 @@ export interface PostTagWhereInput {
   updatedAt_lte?: Maybe<DateTimeInput>;
   updatedAt_gt?: Maybe<DateTimeInput>;
   updatedAt_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<PostTagWhereInput[] | PostTagWhereInput>;
-  OR?: Maybe<PostTagWhereInput[] | PostTagWhereInput>;
-  NOT?: Maybe<PostTagWhereInput[] | PostTagWhereInput>;
+  AND?: Maybe<PostImageWhereInput[] | PostImageWhereInput>;
+  OR?: Maybe<PostImageWhereInput[] | PostImageWhereInput>;
+  NOT?: Maybe<PostImageWhereInput[] | PostImageWhereInput>;
 }
 
-export interface ReviewUpdateWithoutPostDataInput {
-  message?: Maybe<String>;
-  stars?: Maybe<Int>;
-  reviewImages?: Maybe<ReviewImageUpdateManyWithoutReviewInput>;
-  createdBy?: Maybe<AccountUpdateOneRequiredWithoutReviewsInput>;
+export interface PostUpdateWithoutReportsDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  location?: Maybe<String>;
+  price?: Maybe<Float>;
+  dueDate?: Maybe<DateTimeInput>;
+  pet?: Maybe<PetUpdateOneRequiredInput>;
+  likes?: Maybe<Int>;
+  settings?: Maybe<Json>;
+  status?: Maybe<PostStatus>;
+  postImages?: Maybe<PostImageUpdateManyWithoutPostInput>;
+  postTags?: Maybe<PostTagUpdateManyWithoutPostInput>;
+  comments?: Maybe<CommentUpdateManyWithoutPostInput>;
+  reviews?: Maybe<ReviewUpdateManyWithoutPostInput>;
+  account?: Maybe<AccountUpdateOneRequiredWithoutPostsInput>;
 }
 
 export interface PetCategoryWhereInput {
@@ -3187,11 +3283,20 @@ export interface PetCategoryWhereInput {
   NOT?: Maybe<PetCategoryWhereInput[] | PetCategoryWhereInput>;
 }
 
-export interface AccountUpdateOneRequiredWithoutReviewsInput {
-  create?: Maybe<AccountCreateWithoutReviewsInput>;
-  update?: Maybe<AccountUpdateWithoutReviewsDataInput>;
-  upsert?: Maybe<AccountUpsertWithoutReviewsInput>;
-  connect?: Maybe<AccountWhereUniqueInput>;
+export interface ReviewUpdateManyWithoutPostInput {
+  create?: Maybe<ReviewCreateWithoutPostInput[] | ReviewCreateWithoutPostInput>;
+  delete?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
+  connect?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
+  set?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
+  disconnect?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
+  update?: Maybe<
+    ReviewUpdateWithWhereUniqueWithoutPostInput[] | ReviewUpdateWithWhereUniqueWithoutPostInput
+  >;
+  upsert?: Maybe<
+    ReviewUpsertWithWhereUniqueWithoutPostInput[] | ReviewUpsertWithWhereUniqueWithoutPostInput
+  >;
+  deleteMany?: Maybe<ReviewScalarWhereInput[] | ReviewScalarWhereInput>;
+  updateMany?: Maybe<ReviewUpdateManyWithWhereNestedInput[] | ReviewUpdateManyWithWhereNestedInput>;
 }
 
 export interface PostWhereInput {
@@ -3268,6 +3373,14 @@ export interface PostWhereInput {
   dueDate_gt?: Maybe<DateTimeInput>;
   dueDate_gte?: Maybe<DateTimeInput>;
   pet?: Maybe<PetWhereInput>;
+  likes?: Maybe<Int>;
+  likes_not?: Maybe<Int>;
+  likes_in?: Maybe<Int[] | Int>;
+  likes_not_in?: Maybe<Int[] | Int>;
+  likes_lt?: Maybe<Int>;
+  likes_lte?: Maybe<Int>;
+  likes_gt?: Maybe<Int>;
+  likes_gte?: Maybe<Int>;
   status?: Maybe<PostStatus>;
   status_not?: Maybe<PostStatus>;
   status_in?: Maybe<PostStatus[] | PostStatus>;
@@ -3309,6 +3422,45 @@ export interface PostWhereInput {
   NOT?: Maybe<PostWhereInput[] | PostWhereInput>;
 }
 
+export interface ReviewUpdateWithWhereUniqueWithoutPostInput {
+  where: ReviewWhereUniqueInput;
+  data: ReviewUpdateWithoutPostDataInput;
+}
+
+export interface CommentImageSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<CommentImageWhereInput>;
+  AND?: Maybe<CommentImageSubscriptionWhereInput[] | CommentImageSubscriptionWhereInput>;
+  OR?: Maybe<CommentImageSubscriptionWhereInput[] | CommentImageSubscriptionWhereInput>;
+  NOT?: Maybe<CommentImageSubscriptionWhereInput[] | CommentImageSubscriptionWhereInput>;
+}
+
+export interface ReviewUpdateWithoutPostDataInput {
+  message?: Maybe<String>;
+  stars?: Maybe<Int>;
+  reviewImages?: Maybe<ReviewImageUpdateManyWithoutReviewInput>;
+  likes?: Maybe<Int>;
+  createdBy?: Maybe<AccountUpdateOneRequiredWithoutReviewsInput>;
+}
+
+export type CommentWhereUniqueInput = AtLeastOne<{
+  id: Maybe<UUID>;
+}>;
+
+export interface AccountUpdateOneRequiredWithoutReviewsInput {
+  create?: Maybe<AccountCreateWithoutReviewsInput>;
+  update?: Maybe<AccountUpdateWithoutReviewsDataInput>;
+  upsert?: Maybe<AccountUpsertWithoutReviewsInput>;
+  connect?: Maybe<AccountWhereUniqueInput>;
+}
+
+export type CommentImageWhereUniqueInput = AtLeastOne<{
+  id: Maybe<UUID>;
+}>;
+
 export interface AccountUpdateWithoutReviewsDataInput {
   username?: Maybe<String>;
   password?: Maybe<String>;
@@ -3327,25 +3479,19 @@ export interface AccountUpdateWithoutReviewsDataInput {
   reports?: Maybe<ReportUpdateManyWithoutCreatedByInput>;
 }
 
-export interface CommentLikeSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<CommentLikeWhereInput>;
-  AND?: Maybe<CommentLikeSubscriptionWhereInput[] | CommentLikeSubscriptionWhereInput>;
-  OR?: Maybe<CommentLikeSubscriptionWhereInput[] | CommentLikeSubscriptionWhereInput>;
-  NOT?: Maybe<CommentLikeSubscriptionWhereInput[] | CommentLikeSubscriptionWhereInput>;
-}
+export type CommentLikeWhereUniqueInput = AtLeastOne<{
+  id: Maybe<UUID>;
+}>;
 
 export interface AccountUpsertWithoutReviewsInput {
   update: AccountUpdateWithoutReviewsDataInput;
   create: AccountCreateWithoutReviewsInput;
 }
 
-export type CommentWhereUniqueInput = AtLeastOne<{
-  id: Maybe<UUID>;
-}>;
+export interface TagUpdateManyMutationInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+}
 
 export interface ReviewUpsertWithWhereUniqueWithoutPostInput {
   where: ReviewWhereUniqueInput;
@@ -3353,9 +3499,10 @@ export interface ReviewUpsertWithWhereUniqueWithoutPostInput {
   create: ReviewCreateWithoutPostInput;
 }
 
-export type CommentImageWhereUniqueInput = AtLeastOne<{
-  id: Maybe<UUID>;
-}>;
+export interface PostTagUpdateWithWhereUniqueWithoutTagInput {
+  where: PostTagWhereUniqueInput;
+  data: PostTagUpdateWithoutTagDataInput;
+}
 
 export interface ReviewScalarWhereInput {
   id?: Maybe<UUID>;
@@ -3394,6 +3541,14 @@ export interface ReviewScalarWhereInput {
   stars_lte?: Maybe<Int>;
   stars_gt?: Maybe<Int>;
   stars_gte?: Maybe<Int>;
+  likes?: Maybe<Int>;
+  likes_not?: Maybe<Int>;
+  likes_in?: Maybe<Int[] | Int>;
+  likes_not_in?: Maybe<Int[] | Int>;
+  likes_lt?: Maybe<Int>;
+  likes_lte?: Maybe<Int>;
+  likes_gt?: Maybe<Int>;
+  likes_gte?: Maybe<Int>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -3415,34 +3570,30 @@ export interface ReviewScalarWhereInput {
   NOT?: Maybe<ReviewScalarWhereInput[] | ReviewScalarWhereInput>;
 }
 
-export type CommentLikeWhereUniqueInput = AtLeastOne<{
-  id: Maybe<UUID>;
-}>;
+export interface PostTagCreateWithoutTagInput {
+  id?: Maybe<UUID>;
+  post: PostCreateOneWithoutPostTagsInput;
+}
 
 export interface ReviewUpdateManyWithWhereNestedInput {
   where: ReviewScalarWhereInput;
   data: ReviewUpdateManyDataInput;
 }
 
-export interface UserCreateInput {
-  id?: Maybe<UUID>;
-  name: String;
-  phoneNumber: String;
-  address: Json;
-  bio?: Maybe<String>;
-  dob?: Maybe<DateTimeInput>;
-  avatar?: Maybe<ImageCreateOneInput>;
-  settings?: Maybe<Json>;
-  account: AccountCreateOneWithoutUsersInput;
+export interface ReviewUpsertNestedInput {
+  update: ReviewUpdateDataInput;
+  create: ReviewCreateInput;
 }
 
 export interface ReviewUpdateManyDataInput {
   message?: Maybe<String>;
   stars?: Maybe<Int>;
+  likes?: Maybe<Int>;
 }
 
-export interface PostTagUpdateWithoutTagDataInput {
-  post?: Maybe<PostUpdateOneRequiredWithoutPostTagsInput>;
+export interface ReviewLikeUpdateInput {
+  review?: Maybe<ReviewUpdateOneRequiredInput>;
+  like?: Maybe<LikeUpdateOneRequiredInput>;
 }
 
 export interface AccountUpdateOneRequiredWithoutPostsInput {
@@ -3452,11 +3603,9 @@ export interface AccountUpdateOneRequiredWithoutPostsInput {
   connect?: Maybe<AccountWhereUniqueInput>;
 }
 
-export interface TagUpdateInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  postTags?: Maybe<PostTagUpdateManyWithoutTagInput>;
-}
+export type PostWhereUniqueInput = AtLeastOne<{
+  id: Maybe<UUID>;
+}>;
 
 export interface AccountUpdateWithoutPostsDataInput {
   username?: Maybe<String>;
@@ -3476,34 +3625,32 @@ export interface AccountUpdateWithoutPostsDataInput {
   reports?: Maybe<ReportUpdateManyWithoutCreatedByInput>;
 }
 
-export interface TagCreateInput {
-  id?: Maybe<UUID>;
-  title: String;
-  description?: Maybe<String>;
-  postTags?: Maybe<PostTagCreateManyWithoutTagInput>;
-}
+export type PostImageWhereUniqueInput = AtLeastOne<{
+  id: Maybe<UUID>;
+}>;
 
 export interface AccountUpsertWithoutPostsInput {
   update: AccountUpdateWithoutPostsDataInput;
   create: AccountCreateWithoutPostsInput;
 }
 
-export interface ReviewUpdateDataInput {
-  message?: Maybe<String>;
-  stars?: Maybe<Int>;
-  reviewImages?: Maybe<ReviewImageUpdateManyWithoutReviewInput>;
-  post?: Maybe<PostUpdateOneRequiredWithoutReviewsInput>;
-  createdBy?: Maybe<AccountUpdateOneRequiredWithoutReviewsInput>;
-}
+export type PostLikeWhereUniqueInput = AtLeastOne<{
+  id: Maybe<UUID>;
+}>;
 
 export interface PostUpsertWithoutReportsInput {
   update: PostUpdateWithoutReportsDataInput;
   create: PostCreateWithoutReportsInput;
 }
 
-export type PostWhereUniqueInput = AtLeastOne<{
-  id: Maybe<UUID>;
-}>;
+export interface ReviewUpdateInput {
+  message?: Maybe<String>;
+  stars?: Maybe<Int>;
+  reviewImages?: Maybe<ReviewImageUpdateManyWithoutReviewInput>;
+  post?: Maybe<PostUpdateOneRequiredWithoutReviewsInput>;
+  likes?: Maybe<Int>;
+  createdBy?: Maybe<AccountUpdateOneRequiredWithoutReviewsInput>;
+}
 
 export interface ReportUpsertWithWhereUniqueWithoutCreatedByInput {
   where: ReportWhereUniqueInput;
@@ -3511,9 +3658,12 @@ export interface ReportUpsertWithWhereUniqueWithoutCreatedByInput {
   create: ReportCreateWithoutCreatedByInput;
 }
 
-export type PostImageWhereUniqueInput = AtLeastOne<{
-  id: Maybe<UUID>;
-}>;
+export interface ReportUpdateInput {
+  content?: Maybe<String>;
+  reason?: Maybe<String>;
+  post?: Maybe<PostUpdateOneRequiredWithoutReportsInput>;
+  createdBy?: Maybe<AccountUpdateOneRequiredWithoutReportsInput>;
+}
 
 export interface ReportScalarWhereInput {
   id?: Maybe<UUID>;
@@ -3579,20 +3729,44 @@ export interface ReportScalarWhereInput {
   NOT?: Maybe<ReportScalarWhereInput[] | ReportScalarWhereInput>;
 }
 
-export type PostLikeWhereUniqueInput = AtLeastOne<{
-  id: Maybe<UUID>;
-}>;
+export interface PostUpdateWithoutPostTagsDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  location?: Maybe<String>;
+  price?: Maybe<Float>;
+  dueDate?: Maybe<DateTimeInput>;
+  pet?: Maybe<PetUpdateOneRequiredInput>;
+  likes?: Maybe<Int>;
+  settings?: Maybe<Json>;
+  status?: Maybe<PostStatus>;
+  postImages?: Maybe<PostImageUpdateManyWithoutPostInput>;
+  comments?: Maybe<CommentUpdateManyWithoutPostInput>;
+  reviews?: Maybe<ReviewUpdateManyWithoutPostInput>;
+  reports?: Maybe<ReportUpdateManyWithoutPostInput>;
+  account?: Maybe<AccountUpdateOneRequiredWithoutPostsInput>;
+}
 
 export interface ReportUpdateManyWithWhereNestedInput {
   where: ReportScalarWhereInput;
   data: ReportUpdateManyDataInput;
 }
 
-export interface ReviewImageCreateInput {
+export interface PostCreateWithoutPostTagsInput {
   id?: Maybe<UUID>;
-  image: ImageCreateOneInput;
-  review: ReviewCreateOneWithoutReviewImagesInput;
-  account: AccountCreateOneInput;
+  title: String;
+  description?: Maybe<String>;
+  location: String;
+  price?: Maybe<Float>;
+  dueDate: DateTimeInput;
+  pet: PetCreateOneInput;
+  likes?: Maybe<Int>;
+  settings?: Maybe<Json>;
+  status?: Maybe<PostStatus>;
+  postImages?: Maybe<PostImageCreateManyWithoutPostInput>;
+  comments?: Maybe<CommentCreateManyWithoutPostInput>;
+  reviews?: Maybe<ReviewCreateManyWithoutPostInput>;
+  reports?: Maybe<ReportCreateManyWithoutPostInput>;
+  account: AccountCreateOneWithoutPostsInput;
 }
 
 export interface ReportUpdateManyDataInput {
@@ -3600,13 +3774,9 @@ export interface ReportUpdateManyDataInput {
   reason?: Maybe<String>;
 }
 
-export interface ReviewCreateInput {
-  id?: Maybe<UUID>;
-  message: String;
-  stars: Int;
-  reviewImages?: Maybe<ReviewImageCreateManyWithoutReviewInput>;
-  post: PostCreateOneWithoutReviewsInput;
-  createdBy: AccountCreateOneWithoutReviewsInput;
+export interface PostUpsertNestedInput {
+  update: PostUpdateDataInput;
+  create: PostCreateInput;
 }
 
 export interface AccountUpsertWithoutPostImagesInput {
@@ -3614,12 +3784,9 @@ export interface AccountUpsertWithoutPostImagesInput {
   create: AccountCreateWithoutPostImagesInput;
 }
 
-export interface ReportCreateInput {
-  id?: Maybe<UUID>;
-  content: String;
-  reason: String;
-  post: PostCreateOneWithoutReportsInput;
-  createdBy: AccountCreateOneWithoutReportsInput;
+export interface PostLikeUpdateInput {
+  post?: Maybe<PostUpdateOneRequiredInput>;
+  like?: Maybe<LikeUpdateOneRequiredInput>;
 }
 
 export interface PostImageUpsertWithWhereUniqueWithoutPostInput {
@@ -3628,11 +3795,10 @@ export interface PostImageUpsertWithWhereUniqueWithoutPostInput {
   create: PostImageCreateWithoutPostInput;
 }
 
-export interface PostUpdateOneRequiredWithoutPostTagsInput {
-  create?: Maybe<PostCreateWithoutPostTagsInput>;
-  update?: Maybe<PostUpdateWithoutPostTagsDataInput>;
-  upsert?: Maybe<PostUpsertWithoutPostTagsInput>;
-  connect?: Maybe<PostWhereUniqueInput>;
+export interface PostImageUpdateInput {
+  image?: Maybe<ImageUpdateOneRequiredInput>;
+  post?: Maybe<PostUpdateOneRequiredWithoutPostImagesInput>;
+  account?: Maybe<AccountUpdateOneRequiredWithoutPostImagesInput>;
 }
 
 export interface PostImageScalarWhereInput {
@@ -3671,9 +3837,22 @@ export interface PostImageScalarWhereInput {
   NOT?: Maybe<PostImageScalarWhereInput[] | PostImageScalarWhereInput>;
 }
 
-export interface PostCreateOneWithoutPostTagsInput {
-  create?: Maybe<PostCreateWithoutPostTagsInput>;
-  connect?: Maybe<PostWhereUniqueInput>;
+export interface PostUpdateInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  location?: Maybe<String>;
+  price?: Maybe<Float>;
+  dueDate?: Maybe<DateTimeInput>;
+  pet?: Maybe<PetUpdateOneRequiredInput>;
+  likes?: Maybe<Int>;
+  settings?: Maybe<Json>;
+  status?: Maybe<PostStatus>;
+  postImages?: Maybe<PostImageUpdateManyWithoutPostInput>;
+  postTags?: Maybe<PostTagUpdateManyWithoutPostInput>;
+  comments?: Maybe<CommentUpdateManyWithoutPostInput>;
+  reviews?: Maybe<ReviewUpdateManyWithoutPostInput>;
+  reports?: Maybe<ReportUpdateManyWithoutPostInput>;
+  account?: Maybe<AccountUpdateOneRequiredWithoutPostsInput>;
 }
 
 export interface ReportUpdateManyWithoutPostInput {
@@ -3692,9 +3871,10 @@ export interface ReportUpdateManyWithoutPostInput {
   updateMany?: Maybe<ReportUpdateManyWithWhereNestedInput[] | ReportUpdateManyWithWhereNestedInput>;
 }
 
-export interface PostUpsertNestedInput {
-  update: PostUpdateDataInput;
-  create: PostCreateInput;
+export interface PetCategoryUpdateInput {
+  name?: Maybe<String>;
+  description?: Maybe<String>;
+  image?: Maybe<ImageUpdateOneInput>;
 }
 
 export interface ReportUpdateWithWhereUniqueWithoutPostInput {
@@ -3702,10 +3882,9 @@ export interface ReportUpdateWithWhereUniqueWithoutPostInput {
   data: ReportUpdateWithoutPostDataInput;
 }
 
-export interface PostLikeUpdateInput {
-  count?: Maybe<Int>;
-  post?: Maybe<PostUpdateOneRequiredInput>;
-  like?: Maybe<LikeUpdateOneRequiredInput>;
+export interface ImageCreateOneInput {
+  create?: Maybe<ImageCreateInput>;
+  connect?: Maybe<ImageWhereUniqueInput>;
 }
 
 export interface ReportUpdateWithoutPostDataInput {
@@ -3714,10 +3893,9 @@ export interface ReportUpdateWithoutPostDataInput {
   createdBy?: Maybe<AccountUpdateOneRequiredWithoutReportsInput>;
 }
 
-export interface PostImageUpdateInput {
-  image?: Maybe<ImageUpdateOneRequiredInput>;
-  post?: Maybe<PostUpdateOneRequiredWithoutPostImagesInput>;
-  account?: Maybe<AccountUpdateOneRequiredWithoutPostImagesInput>;
+export interface PostCreateManyWithoutAccountInput {
+  create?: Maybe<PostCreateWithoutAccountInput[] | PostCreateWithoutAccountInput>;
+  connect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
 }
 
 export interface AccountUpdateOneRequiredWithoutReportsInput {
@@ -3727,21 +3905,9 @@ export interface AccountUpdateOneRequiredWithoutReportsInput {
   connect?: Maybe<AccountWhereUniqueInput>;
 }
 
-export interface PostUpdateInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  location?: Maybe<String>;
-  price?: Maybe<Float>;
-  dueDate?: Maybe<DateTimeInput>;
-  pet?: Maybe<PetUpdateOneRequiredInput>;
-  settings?: Maybe<Json>;
-  status?: Maybe<PostStatus>;
-  postImages?: Maybe<PostImageUpdateManyWithoutPostInput>;
-  postTags?: Maybe<PostTagUpdateManyWithoutPostInput>;
-  comments?: Maybe<CommentUpdateManyWithoutPostInput>;
-  reviews?: Maybe<ReviewUpdateManyWithoutPostInput>;
-  reports?: Maybe<ReportUpdateManyWithoutPostInput>;
-  account?: Maybe<AccountUpdateOneRequiredWithoutPostsInput>;
+export interface PetCategoryCreateOneInput {
+  create?: Maybe<PetCategoryCreateInput>;
+  connect?: Maybe<PetCategoryWhereUniqueInput>;
 }
 
 export interface AccountUpdateWithoutReportsDataInput {
@@ -3762,9 +3928,9 @@ export interface AccountUpdateWithoutReportsDataInput {
   like?: Maybe<LikeUpdateManyWithoutAccountInput>;
 }
 
-export interface ImageCreateOneInput {
-  create?: Maybe<ImageCreateInput>;
-  connect?: Maybe<ImageWhereUniqueInput>;
+export interface ImageCreateManyWithoutAccountInput {
+  create?: Maybe<ImageCreateWithoutAccountInput[] | ImageCreateWithoutAccountInput>;
+  connect?: Maybe<ImageWhereUniqueInput[] | ImageWhereUniqueInput>;
 }
 
 export interface AccountUpsertWithoutReportsInput {
@@ -3772,9 +3938,9 @@ export interface AccountUpsertWithoutReportsInput {
   create: AccountCreateWithoutReportsInput;
 }
 
-export interface PostCreateManyWithoutAccountInput {
-  create?: Maybe<PostCreateWithoutAccountInput[] | PostCreateWithoutAccountInput>;
-  connect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
+export interface CommentImageCreateManyWithoutCommentInput {
+  create?: Maybe<CommentImageCreateWithoutCommentInput[] | CommentImageCreateWithoutCommentInput>;
+  connect?: Maybe<CommentImageWhereUniqueInput[] | CommentImageWhereUniqueInput>;
 }
 
 export interface ReportUpsertWithWhereUniqueWithoutPostInput {
@@ -3783,9 +3949,9 @@ export interface ReportUpsertWithWhereUniqueWithoutPostInput {
   create: ReportCreateWithoutPostInput;
 }
 
-export interface PetCategoryCreateOneInput {
-  create?: Maybe<PetCategoryCreateInput>;
-  connect?: Maybe<PetCategoryWhereUniqueInput>;
+export interface PetCreateManyWithoutAccountInput {
+  create?: Maybe<PetCreateWithoutAccountInput[] | PetCreateWithoutAccountInput>;
+  connect?: Maybe<PetWhereUniqueInput[] | PetWhereUniqueInput>;
 }
 
 export interface PostUpsertWithoutCommentsInput {
@@ -3793,9 +3959,9 @@ export interface PostUpsertWithoutCommentsInput {
   create: PostCreateWithoutCommentsInput;
 }
 
-export interface ImageCreateManyWithoutAccountInput {
-  create?: Maybe<ImageCreateWithoutAccountInput[] | ImageCreateWithoutAccountInput>;
-  connect?: Maybe<ImageWhereUniqueInput[] | ImageWhereUniqueInput>;
+export interface ReviewImageCreateManyWithoutReviewInput {
+  create?: Maybe<ReviewImageCreateWithoutReviewInput[] | ReviewImageCreateWithoutReviewInput>;
+  connect?: Maybe<ReviewImageWhereUniqueInput[] | ReviewImageWhereUniqueInput>;
 }
 
 export interface CommentUpsertWithoutCommentImagesInput {
@@ -3803,9 +3969,22 @@ export interface CommentUpsertWithoutCommentImagesInput {
   create: CommentCreateWithoutCommentImagesInput;
 }
 
-export interface CommentImageCreateManyWithoutCommentInput {
-  create?: Maybe<CommentImageCreateWithoutCommentInput[] | CommentImageCreateWithoutCommentInput>;
-  connect?: Maybe<CommentImageWhereUniqueInput[] | CommentImageWhereUniqueInput>;
+export interface PostCreateWithoutReviewsInput {
+  id?: Maybe<UUID>;
+  title: String;
+  description?: Maybe<String>;
+  location: String;
+  price?: Maybe<Float>;
+  dueDate: DateTimeInput;
+  pet: PetCreateOneInput;
+  likes?: Maybe<Int>;
+  settings?: Maybe<Json>;
+  status?: Maybe<PostStatus>;
+  postImages?: Maybe<PostImageCreateManyWithoutPostInput>;
+  postTags?: Maybe<PostTagCreateManyWithoutPostInput>;
+  comments?: Maybe<CommentCreateManyWithoutPostInput>;
+  reports?: Maybe<ReportCreateManyWithoutPostInput>;
+  account: AccountCreateOneWithoutPostsInput;
 }
 
 export interface CommentImageUpsertWithWhereUniqueWithoutAccountInput {
@@ -3814,9 +3993,23 @@ export interface CommentImageUpsertWithWhereUniqueWithoutAccountInput {
   create: CommentImageCreateWithoutAccountInput;
 }
 
-export interface PetCreateManyWithoutAccountInput {
-  create?: Maybe<PetCreateWithoutAccountInput[] | PetCreateWithoutAccountInput>;
-  connect?: Maybe<PetWhereUniqueInput[] | PetWhereUniqueInput>;
+export interface AccountCreateWithoutPostImagesInput {
+  id?: Maybe<UUID>;
+  username: String;
+  password: String;
+  email: String;
+  role?: Maybe<Role>;
+  status?: Maybe<AccountStatus>;
+  settings?: Maybe<Json>;
+  users?: Maybe<UserCreateManyWithoutAccountInput>;
+  posts?: Maybe<PostCreateManyWithoutAccountInput>;
+  pets?: Maybe<PetCreateManyWithoutAccountInput>;
+  images?: Maybe<ImageCreateManyWithoutAccountInput>;
+  comments?: Maybe<CommentCreateManyWithoutCreatedByInput>;
+  reviews?: Maybe<ReviewCreateManyWithoutCreatedByInput>;
+  commentImages?: Maybe<CommentImageCreateManyWithoutAccountInput>;
+  like?: Maybe<LikeCreateManyWithoutAccountInput>;
+  reports?: Maybe<ReportCreateManyWithoutCreatedByInput>;
 }
 
 export interface CommentImageScalarWhereInput {
@@ -3855,9 +4048,12 @@ export interface CommentImageScalarWhereInput {
   NOT?: Maybe<CommentImageScalarWhereInput[] | CommentImageScalarWhereInput>;
 }
 
-export interface ReviewImageCreateManyWithoutReviewInput {
-  create?: Maybe<ReviewImageCreateWithoutReviewInput[] | ReviewImageCreateWithoutReviewInput>;
-  connect?: Maybe<ReviewImageWhereUniqueInput[] | ReviewImageWhereUniqueInput>;
+export interface CommentCreateWithoutCommentImagesInput {
+  id?: Maybe<UUID>;
+  message: String;
+  post: PostCreateOneWithoutCommentsInput;
+  likes?: Maybe<Int>;
+  createdBy: AccountCreateOneWithoutCommentsInput;
 }
 
 export interface AccountUpsertWithoutCommentsInput {
@@ -3865,21 +4061,9 @@ export interface AccountUpsertWithoutCommentsInput {
   create: AccountCreateWithoutCommentsInput;
 }
 
-export interface PostCreateWithoutReviewsInput {
+export interface PostTagCreateWithoutPostInput {
   id?: Maybe<UUID>;
-  title: String;
-  description?: Maybe<String>;
-  location: String;
-  price?: Maybe<Float>;
-  dueDate: DateTimeInput;
-  pet: PetCreateOneInput;
-  settings?: Maybe<Json>;
-  status?: Maybe<PostStatus>;
-  postImages?: Maybe<PostImageCreateManyWithoutPostInput>;
-  postTags?: Maybe<PostTagCreateManyWithoutPostInput>;
-  comments?: Maybe<CommentCreateManyWithoutPostInput>;
-  reports?: Maybe<ReportCreateManyWithoutPostInput>;
-  account: AccountCreateOneWithoutPostsInput;
+  tag: TagCreateOneWithoutPostTagsInput;
 }
 
 export interface CommentUpsertWithWhereUniqueWithoutPostInput {
@@ -3888,23 +4072,13 @@ export interface CommentUpsertWithWhereUniqueWithoutPostInput {
   create: CommentCreateWithoutPostInput;
 }
 
-export interface AccountCreateWithoutPostImagesInput {
+export interface ReviewCreateWithoutPostInput {
   id?: Maybe<UUID>;
-  username: String;
-  password: String;
-  email: String;
-  role?: Maybe<Role>;
-  status?: Maybe<AccountStatus>;
-  settings?: Maybe<Json>;
-  users?: Maybe<UserCreateManyWithoutAccountInput>;
-  posts?: Maybe<PostCreateManyWithoutAccountInput>;
-  pets?: Maybe<PetCreateManyWithoutAccountInput>;
-  images?: Maybe<ImageCreateManyWithoutAccountInput>;
-  comments?: Maybe<CommentCreateManyWithoutCreatedByInput>;
-  reviews?: Maybe<ReviewCreateManyWithoutCreatedByInput>;
-  commentImages?: Maybe<CommentImageCreateManyWithoutAccountInput>;
-  like?: Maybe<LikeCreateManyWithoutAccountInput>;
-  reports?: Maybe<ReportCreateManyWithoutCreatedByInput>;
+  message: String;
+  stars: Int;
+  reviewImages?: Maybe<ReviewImageCreateManyWithoutReviewInput>;
+  likes?: Maybe<Int>;
+  createdBy: AccountCreateOneWithoutReviewsInput;
 }
 
 export interface CommentScalarWhereInput {
@@ -3936,6 +4110,14 @@ export interface CommentScalarWhereInput {
   message_not_starts_with?: Maybe<String>;
   message_ends_with?: Maybe<String>;
   message_not_ends_with?: Maybe<String>;
+  likes?: Maybe<Int>;
+  likes_not?: Maybe<Int>;
+  likes_in?: Maybe<Int[] | Int>;
+  likes_not_in?: Maybe<Int[] | Int>;
+  likes_lt?: Maybe<Int>;
+  likes_lte?: Maybe<Int>;
+  likes_gt?: Maybe<Int>;
+  likes_gte?: Maybe<Int>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -3957,11 +4139,10 @@ export interface CommentScalarWhereInput {
   NOT?: Maybe<CommentScalarWhereInput[] | CommentScalarWhereInput>;
 }
 
-export interface CommentCreateWithoutCommentImagesInput {
+export interface PostImageCreateWithoutAccountInput {
   id?: Maybe<UUID>;
-  message: String;
-  post: PostCreateOneWithoutCommentsInput;
-  createdBy: AccountCreateOneWithoutCommentsInput;
+  image: ImageCreateOneInput;
+  post: PostCreateOneWithoutPostImagesInput;
 }
 
 export interface CommentUpdateManyWithWhereNestedInput {
@@ -3969,60 +4150,26 @@ export interface CommentUpdateManyWithWhereNestedInput {
   data: CommentUpdateManyDataInput;
 }
 
-export interface PostTagCreateWithoutPostInput {
-  id?: Maybe<UUID>;
-  tag: TagCreateOneWithoutPostTagsInput;
-}
-
-export interface CommentUpdateManyDataInput {
-  message?: Maybe<String>;
-}
-
-export interface ReviewCreateWithoutPostInput {
-  id?: Maybe<UUID>;
-  message: String;
-  stars: Int;
-  reviewImages?: Maybe<ReviewImageCreateManyWithoutReviewInput>;
-  createdBy: AccountCreateOneWithoutReviewsInput;
-}
-
-export interface PostUpsertWithoutPostImagesInput {
-  update: PostUpdateWithoutPostImagesDataInput;
-  create: PostCreateWithoutPostImagesInput;
-}
-
-export interface PostImageCreateWithoutAccountInput {
-  id?: Maybe<UUID>;
-  image: ImageCreateOneInput;
-  post: PostCreateOneWithoutPostImagesInput;
-}
-
-export interface PostImageUpsertWithWhereUniqueWithoutAccountInput {
-  where: PostImageWhereUniqueInput;
-  update: PostImageUpdateWithoutAccountDataInput;
-  create: PostImageCreateWithoutAccountInput;
-}
-
 export interface CommentCreateWithoutPostInput {
   id?: Maybe<UUID>;
   message: String;
   commentImages?: Maybe<CommentImageCreateManyWithoutCommentInput>;
+  likes?: Maybe<Int>;
   createdBy: AccountCreateOneWithoutCommentsInput;
 }
 
-export interface AccountUpsertNestedInput {
-  update: AccountUpdateDataInput;
-  create: AccountCreateInput;
+export interface CommentUpdateManyDataInput {
+  message?: Maybe<String>;
+  likes?: Maybe<Int>;
 }
 
 export interface LikeCreateWithoutAccountInput {
   id?: Maybe<UUID>;
 }
 
-export interface ReviewImageUpsertWithWhereUniqueWithoutReviewInput {
-  where: ReviewImageWhereUniqueInput;
-  update: ReviewImageUpdateWithoutReviewDataInput;
-  create: ReviewImageCreateWithoutReviewInput;
+export interface PostUpsertWithoutPostImagesInput {
+  update: PostUpdateWithoutPostImagesDataInput;
+  create: PostCreateWithoutPostImagesInput;
 }
 
 export interface PostCreateWithoutReportsInput {
@@ -4033,6 +4180,7 @@ export interface PostCreateWithoutReportsInput {
   price?: Maybe<Float>;
   dueDate: DateTimeInput;
   pet: PetCreateOneInput;
+  likes?: Maybe<Int>;
   settings?: Maybe<Json>;
   status?: Maybe<PostStatus>;
   postImages?: Maybe<PostImageCreateManyWithoutPostInput>;
@@ -4042,613 +4190,10 @@ export interface PostCreateWithoutReportsInput {
   account: AccountCreateOneWithoutPostsInput;
 }
 
-export interface ReviewImageScalarWhereInput {
-  id?: Maybe<UUID>;
-  id_not?: Maybe<UUID>;
-  id_in?: Maybe<UUID[] | UUID>;
-  id_not_in?: Maybe<UUID[] | UUID>;
-  id_lt?: Maybe<UUID>;
-  id_lte?: Maybe<UUID>;
-  id_gt?: Maybe<UUID>;
-  id_gte?: Maybe<UUID>;
-  id_contains?: Maybe<UUID>;
-  id_not_contains?: Maybe<UUID>;
-  id_starts_with?: Maybe<UUID>;
-  id_not_starts_with?: Maybe<UUID>;
-  id_ends_with?: Maybe<UUID>;
-  id_not_ends_with?: Maybe<UUID>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<ReviewImageScalarWhereInput[] | ReviewImageScalarWhereInput>;
-  OR?: Maybe<ReviewImageScalarWhereInput[] | ReviewImageScalarWhereInput>;
-  NOT?: Maybe<ReviewImageScalarWhereInput[] | ReviewImageScalarWhereInput>;
-}
-
-export interface ReviewLikeSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ReviewLikeWhereInput>;
-  AND?: Maybe<ReviewLikeSubscriptionWhereInput[] | ReviewLikeSubscriptionWhereInput>;
-  OR?: Maybe<ReviewLikeSubscriptionWhereInput[] | ReviewLikeSubscriptionWhereInput>;
-  NOT?: Maybe<ReviewLikeSubscriptionWhereInput[] | ReviewLikeSubscriptionWhereInput>;
-}
-
-export interface PostUpdateOneRequiredWithoutReviewsInput {
-  create?: Maybe<PostCreateWithoutReviewsInput>;
-  update?: Maybe<PostUpdateWithoutReviewsDataInput>;
-  upsert?: Maybe<PostUpsertWithoutReviewsInput>;
-  connect?: Maybe<PostWhereUniqueInput>;
-}
-
-export interface TagWhereInput {
-  id?: Maybe<UUID>;
-  id_not?: Maybe<UUID>;
-  id_in?: Maybe<UUID[] | UUID>;
-  id_not_in?: Maybe<UUID[] | UUID>;
-  id_lt?: Maybe<UUID>;
-  id_lte?: Maybe<UUID>;
-  id_gt?: Maybe<UUID>;
-  id_gte?: Maybe<UUID>;
-  id_contains?: Maybe<UUID>;
-  id_not_contains?: Maybe<UUID>;
-  id_starts_with?: Maybe<UUID>;
-  id_not_starts_with?: Maybe<UUID>;
-  id_ends_with?: Maybe<UUID>;
-  id_not_ends_with?: Maybe<UUID>;
-  title?: Maybe<String>;
-  title_not?: Maybe<String>;
-  title_in?: Maybe<String[] | String>;
-  title_not_in?: Maybe<String[] | String>;
-  title_lt?: Maybe<String>;
-  title_lte?: Maybe<String>;
-  title_gt?: Maybe<String>;
-  title_gte?: Maybe<String>;
-  title_contains?: Maybe<String>;
-  title_not_contains?: Maybe<String>;
-  title_starts_with?: Maybe<String>;
-  title_not_starts_with?: Maybe<String>;
-  title_ends_with?: Maybe<String>;
-  title_not_ends_with?: Maybe<String>;
-  description?: Maybe<String>;
-  description_not?: Maybe<String>;
-  description_in?: Maybe<String[] | String>;
-  description_not_in?: Maybe<String[] | String>;
-  description_lt?: Maybe<String>;
-  description_lte?: Maybe<String>;
-  description_gt?: Maybe<String>;
-  description_gte?: Maybe<String>;
-  description_contains?: Maybe<String>;
-  description_not_contains?: Maybe<String>;
-  description_starts_with?: Maybe<String>;
-  description_not_starts_with?: Maybe<String>;
-  description_ends_with?: Maybe<String>;
-  description_not_ends_with?: Maybe<String>;
-  postTags_every?: Maybe<PostTagWhereInput>;
-  postTags_some?: Maybe<PostTagWhereInput>;
-  postTags_none?: Maybe<PostTagWhereInput>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<TagWhereInput[] | TagWhereInput>;
-  OR?: Maybe<TagWhereInput[] | TagWhereInput>;
-  NOT?: Maybe<TagWhereInput[] | TagWhereInput>;
-}
-
-export interface PostUpdateWithoutReviewsDataInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  location?: Maybe<String>;
-  price?: Maybe<Float>;
-  dueDate?: Maybe<DateTimeInput>;
-  pet?: Maybe<PetUpdateOneRequiredInput>;
-  settings?: Maybe<Json>;
-  status?: Maybe<PostStatus>;
-  postImages?: Maybe<PostImageUpdateManyWithoutPostInput>;
-  postTags?: Maybe<PostTagUpdateManyWithoutPostInput>;
-  comments?: Maybe<CommentUpdateManyWithoutPostInput>;
-  reports?: Maybe<ReportUpdateManyWithoutPostInput>;
-  account?: Maybe<AccountUpdateOneRequiredWithoutPostsInput>;
-}
-
-export interface PetWhereInput {
-  id?: Maybe<UUID>;
-  id_not?: Maybe<UUID>;
-  id_in?: Maybe<UUID[] | UUID>;
-  id_not_in?: Maybe<UUID[] | UUID>;
-  id_lt?: Maybe<UUID>;
-  id_lte?: Maybe<UUID>;
-  id_gt?: Maybe<UUID>;
-  id_gte?: Maybe<UUID>;
-  id_contains?: Maybe<UUID>;
-  id_not_contains?: Maybe<UUID>;
-  id_starts_with?: Maybe<UUID>;
-  id_not_starts_with?: Maybe<UUID>;
-  id_ends_with?: Maybe<UUID>;
-  id_not_ends_with?: Maybe<UUID>;
-  category?: Maybe<PetCategoryWhereInput>;
-  account?: Maybe<AccountWhereInput>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<PetWhereInput[] | PetWhereInput>;
-  OR?: Maybe<PetWhereInput[] | PetWhereInput>;
-  NOT?: Maybe<PetWhereInput[] | PetWhereInput>;
-}
-
-export interface PostUpsertWithoutReviewsInput {
-  update: PostUpdateWithoutReviewsDataInput;
-  create: PostCreateWithoutReviewsInput;
-}
-
-export interface CommentSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<CommentWhereInput>;
-  AND?: Maybe<CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput>;
-  OR?: Maybe<CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput>;
-  NOT?: Maybe<CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput>;
-}
-
-export interface ReviewUpsertWithWhereUniqueWithoutCreatedByInput {
-  where: ReviewWhereUniqueInput;
-  update: ReviewUpdateWithoutCreatedByDataInput;
-  create: ReviewCreateWithoutCreatedByInput;
-}
-
-export interface UserUpdateInput {
-  name?: Maybe<String>;
-  phoneNumber?: Maybe<String>;
-  address?: Maybe<Json>;
-  bio?: Maybe<String>;
-  dob?: Maybe<DateTimeInput>;
-  avatar?: Maybe<ImageUpdateOneInput>;
-  settings?: Maybe<Json>;
-  account?: Maybe<AccountUpdateOneRequiredWithoutUsersInput>;
-}
-
-export interface AccountUpsertWithoutCommentImagesInput {
-  update: AccountUpdateWithoutCommentImagesDataInput;
-  create: AccountCreateWithoutCommentImagesInput;
-}
-
-export interface PostTagUpsertWithWhereUniqueWithoutTagInput {
-  where: PostTagWhereUniqueInput;
-  update: PostTagUpdateWithoutTagDataInput;
-  create: PostTagCreateWithoutTagInput;
-}
-
-export interface CommentImageUpsertWithWhereUniqueWithoutCommentInput {
-  where: CommentImageWhereUniqueInput;
-  update: CommentImageUpdateWithoutCommentDataInput;
-  create: CommentImageCreateWithoutCommentInput;
-}
-
-export interface PostTagCreateManyWithoutTagInput {
-  create?: Maybe<PostTagCreateWithoutTagInput[] | PostTagCreateWithoutTagInput>;
-  connect?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
-}
-
-export interface CommentUpsertWithWhereUniqueWithoutCreatedByInput {
-  where: CommentWhereUniqueInput;
-  update: CommentUpdateWithoutCreatedByDataInput;
-  create: CommentCreateWithoutCreatedByInput;
-}
-
-export interface ReviewLikeUpdateInput {
-  count?: Maybe<Int>;
-  review?: Maybe<ReviewUpdateOneRequiredInput>;
-  like?: Maybe<LikeUpdateOneRequiredInput>;
-}
-
-export interface AccountUpsertWithoutPetsInput {
-  update: AccountUpdateWithoutPetsDataInput;
-  create: AccountCreateWithoutPetsInput;
-}
-
-export interface ReviewImageUpdateInput {
-  image?: Maybe<ImageUpdateOneRequiredInput>;
-  review?: Maybe<ReviewUpdateOneRequiredWithoutReviewImagesInput>;
-  account?: Maybe<AccountUpdateOneRequiredInput>;
-}
-
-export interface PetUpsertNestedInput {
-  update: PetUpdateDataInput;
-  create: PetCreateInput;
-}
-
-export interface ReviewUpdateInput {
-  message?: Maybe<String>;
-  stars?: Maybe<Int>;
-  reviewImages?: Maybe<ReviewImageUpdateManyWithoutReviewInput>;
-  post?: Maybe<PostUpdateOneRequiredWithoutReviewsInput>;
-  createdBy?: Maybe<AccountUpdateOneRequiredWithoutReviewsInput>;
-}
-
-export interface PostUpsertWithWhereUniqueWithoutAccountInput {
-  where: PostWhereUniqueInput;
-  update: PostUpdateWithoutAccountDataInput;
-  create: PostCreateWithoutAccountInput;
-}
-
-export interface PostUpdateWithoutPostTagsDataInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  location?: Maybe<String>;
-  price?: Maybe<Float>;
-  dueDate?: Maybe<DateTimeInput>;
-  pet?: Maybe<PetUpdateOneRequiredInput>;
-  settings?: Maybe<Json>;
-  status?: Maybe<PostStatus>;
-  postImages?: Maybe<PostImageUpdateManyWithoutPostInput>;
-  comments?: Maybe<CommentUpdateManyWithoutPostInput>;
-  reviews?: Maybe<ReviewUpdateManyWithoutPostInput>;
-  reports?: Maybe<ReportUpdateManyWithoutPostInput>;
-  account?: Maybe<AccountUpdateOneRequiredWithoutPostsInput>;
-}
-
-export interface PostScalarWhereInput {
-  id?: Maybe<UUID>;
-  id_not?: Maybe<UUID>;
-  id_in?: Maybe<UUID[] | UUID>;
-  id_not_in?: Maybe<UUID[] | UUID>;
-  id_lt?: Maybe<UUID>;
-  id_lte?: Maybe<UUID>;
-  id_gt?: Maybe<UUID>;
-  id_gte?: Maybe<UUID>;
-  id_contains?: Maybe<UUID>;
-  id_not_contains?: Maybe<UUID>;
-  id_starts_with?: Maybe<UUID>;
-  id_not_starts_with?: Maybe<UUID>;
-  id_ends_with?: Maybe<UUID>;
-  id_not_ends_with?: Maybe<UUID>;
-  title?: Maybe<String>;
-  title_not?: Maybe<String>;
-  title_in?: Maybe<String[] | String>;
-  title_not_in?: Maybe<String[] | String>;
-  title_lt?: Maybe<String>;
-  title_lte?: Maybe<String>;
-  title_gt?: Maybe<String>;
-  title_gte?: Maybe<String>;
-  title_contains?: Maybe<String>;
-  title_not_contains?: Maybe<String>;
-  title_starts_with?: Maybe<String>;
-  title_not_starts_with?: Maybe<String>;
-  title_ends_with?: Maybe<String>;
-  title_not_ends_with?: Maybe<String>;
-  description?: Maybe<String>;
-  description_not?: Maybe<String>;
-  description_in?: Maybe<String[] | String>;
-  description_not_in?: Maybe<String[] | String>;
-  description_lt?: Maybe<String>;
-  description_lte?: Maybe<String>;
-  description_gt?: Maybe<String>;
-  description_gte?: Maybe<String>;
-  description_contains?: Maybe<String>;
-  description_not_contains?: Maybe<String>;
-  description_starts_with?: Maybe<String>;
-  description_not_starts_with?: Maybe<String>;
-  description_ends_with?: Maybe<String>;
-  description_not_ends_with?: Maybe<String>;
-  location?: Maybe<String>;
-  location_not?: Maybe<String>;
-  location_in?: Maybe<String[] | String>;
-  location_not_in?: Maybe<String[] | String>;
-  location_lt?: Maybe<String>;
-  location_lte?: Maybe<String>;
-  location_gt?: Maybe<String>;
-  location_gte?: Maybe<String>;
-  location_contains?: Maybe<String>;
-  location_not_contains?: Maybe<String>;
-  location_starts_with?: Maybe<String>;
-  location_not_starts_with?: Maybe<String>;
-  location_ends_with?: Maybe<String>;
-  location_not_ends_with?: Maybe<String>;
-  price?: Maybe<Float>;
-  price_not?: Maybe<Float>;
-  price_in?: Maybe<Float[] | Float>;
-  price_not_in?: Maybe<Float[] | Float>;
-  price_lt?: Maybe<Float>;
-  price_lte?: Maybe<Float>;
-  price_gt?: Maybe<Float>;
-  price_gte?: Maybe<Float>;
-  dueDate?: Maybe<DateTimeInput>;
-  dueDate_not?: Maybe<DateTimeInput>;
-  dueDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  dueDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  dueDate_lt?: Maybe<DateTimeInput>;
-  dueDate_lte?: Maybe<DateTimeInput>;
-  dueDate_gt?: Maybe<DateTimeInput>;
-  dueDate_gte?: Maybe<DateTimeInput>;
-  status?: Maybe<PostStatus>;
-  status_not?: Maybe<PostStatus>;
-  status_in?: Maybe<PostStatus[] | PostStatus>;
-  status_not_in?: Maybe<PostStatus[] | PostStatus>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<PostScalarWhereInput[] | PostScalarWhereInput>;
-  OR?: Maybe<PostScalarWhereInput[] | PostScalarWhereInput>;
-  NOT?: Maybe<PostScalarWhereInput[] | PostScalarWhereInput>;
-}
-
-export interface PostLikeUpdateManyMutationInput {
-  count?: Maybe<Int>;
-}
-
-export interface PostUpdateManyWithWhereNestedInput {
-  where: PostScalarWhereInput;
-  data: PostUpdateManyDataInput;
-}
-
-export type TagWhereUniqueInput = AtLeastOne<{
-  id: Maybe<UUID>;
-}>;
-
-export interface PostUpdateManyDataInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  location?: Maybe<String>;
-  price?: Maybe<Float>;
-  dueDate?: Maybe<DateTimeInput>;
-  settings?: Maybe<Json>;
-  status?: Maybe<PostStatus>;
-}
-
-export interface PetCategoryUpdateManyMutationInput {
-  name?: Maybe<String>;
-  description?: Maybe<String>;
-}
-
-export interface AccountUpsertWithoutImagesInput {
-  update: AccountUpdateWithoutImagesDataInput;
-  create: AccountCreateWithoutImagesInput;
-}
-
-export interface AccountCreateOneWithoutImagesInput {
-  create?: Maybe<AccountCreateWithoutImagesInput>;
-  connect?: Maybe<AccountWhereUniqueInput>;
-}
-
-export interface UserUpsertWithWhereUniqueWithoutAccountInput {
-  where: UserWhereUniqueInput;
-  update: UserUpdateWithoutAccountDataInput;
-  create: UserCreateWithoutAccountInput;
-}
-
-export interface AccountCreateOneWithoutPetsInput {
-  create?: Maybe<AccountCreateWithoutPetsInput>;
-  connect?: Maybe<AccountWhereUniqueInput>;
-}
-
-export interface UserScalarWhereInput {
-  id?: Maybe<UUID>;
-  id_not?: Maybe<UUID>;
-  id_in?: Maybe<UUID[] | UUID>;
-  id_not_in?: Maybe<UUID[] | UUID>;
-  id_lt?: Maybe<UUID>;
-  id_lte?: Maybe<UUID>;
-  id_gt?: Maybe<UUID>;
-  id_gte?: Maybe<UUID>;
-  id_contains?: Maybe<UUID>;
-  id_not_contains?: Maybe<UUID>;
-  id_starts_with?: Maybe<UUID>;
-  id_not_starts_with?: Maybe<UUID>;
-  id_ends_with?: Maybe<UUID>;
-  id_not_ends_with?: Maybe<UUID>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  phoneNumber?: Maybe<String>;
-  phoneNumber_not?: Maybe<String>;
-  phoneNumber_in?: Maybe<String[] | String>;
-  phoneNumber_not_in?: Maybe<String[] | String>;
-  phoneNumber_lt?: Maybe<String>;
-  phoneNumber_lte?: Maybe<String>;
-  phoneNumber_gt?: Maybe<String>;
-  phoneNumber_gte?: Maybe<String>;
-  phoneNumber_contains?: Maybe<String>;
-  phoneNumber_not_contains?: Maybe<String>;
-  phoneNumber_starts_with?: Maybe<String>;
-  phoneNumber_not_starts_with?: Maybe<String>;
-  phoneNumber_ends_with?: Maybe<String>;
-  phoneNumber_not_ends_with?: Maybe<String>;
-  bio?: Maybe<String>;
-  bio_not?: Maybe<String>;
-  bio_in?: Maybe<String[] | String>;
-  bio_not_in?: Maybe<String[] | String>;
-  bio_lt?: Maybe<String>;
-  bio_lte?: Maybe<String>;
-  bio_gt?: Maybe<String>;
-  bio_gte?: Maybe<String>;
-  bio_contains?: Maybe<String>;
-  bio_not_contains?: Maybe<String>;
-  bio_starts_with?: Maybe<String>;
-  bio_not_starts_with?: Maybe<String>;
-  bio_ends_with?: Maybe<String>;
-  bio_not_ends_with?: Maybe<String>;
-  dob?: Maybe<DateTimeInput>;
-  dob_not?: Maybe<DateTimeInput>;
-  dob_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  dob_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  dob_lt?: Maybe<DateTimeInput>;
-  dob_lte?: Maybe<DateTimeInput>;
-  dob_gt?: Maybe<DateTimeInput>;
-  dob_gte?: Maybe<DateTimeInput>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-}
-
-export interface AccountCreateOneWithoutCommentImagesInput {
-  create?: Maybe<AccountCreateWithoutCommentImagesInput>;
-  connect?: Maybe<AccountWhereUniqueInput>;
-}
-
-export interface UserUpdateManyWithWhereNestedInput {
-  where: UserScalarWhereInput;
-  data: UserUpdateManyDataInput;
-}
-
-export interface AccountCreateOneInput {
-  create?: Maybe<AccountCreateInput>;
-  connect?: Maybe<AccountWhereUniqueInput>;
-}
-
-export interface UserUpdateManyDataInput {
-  name?: Maybe<String>;
-  phoneNumber?: Maybe<String>;
-  address?: Maybe<Json>;
-  bio?: Maybe<String>;
-  dob?: Maybe<DateTimeInput>;
-  settings?: Maybe<Json>;
-}
-
-export interface CommentImageCreateWithoutAccountInput {
-  id?: Maybe<UUID>;
-  image: ImageCreateOneInput;
-  comment: CommentCreateOneWithoutCommentImagesInput;
-}
-
-export interface AccountUpdateManyMutationInput {
-  username?: Maybe<String>;
-  password?: Maybe<String>;
-  email?: Maybe<String>;
-  role?: Maybe<Role>;
-  status?: Maybe<AccountStatus>;
-  settings?: Maybe<Json>;
-}
-
-export interface TagCreateWithoutPostTagsInput {
-  id?: Maybe<UUID>;
-  title: String;
-  description?: Maybe<String>;
-}
-
-export interface ImageUpdateManyMutationInput {
-  publicId?: Maybe<String>;
-  url?: Maybe<String>;
-}
-
-export interface PostCreateWithoutPostImagesInput {
-  id?: Maybe<UUID>;
-  title: String;
-  description?: Maybe<String>;
-  location: String;
-  price?: Maybe<Float>;
-  dueDate: DateTimeInput;
-  pet: PetCreateOneInput;
-  settings?: Maybe<Json>;
-  status?: Maybe<PostStatus>;
-  postTags?: Maybe<PostTagCreateManyWithoutPostInput>;
-  comments?: Maybe<CommentCreateManyWithoutPostInput>;
-  reviews?: Maybe<ReviewCreateManyWithoutPostInput>;
-  reports?: Maybe<ReportCreateManyWithoutPostInput>;
-  account: AccountCreateOneWithoutPostsInput;
-}
-
-export interface ImageUpdateInput {
-  publicId?: Maybe<String>;
-  url?: Maybe<String>;
-  account?: Maybe<AccountUpdateOneRequiredWithoutImagesInput>;
-}
-
-export interface ReportCreateWithoutCreatedByInput {
-  id?: Maybe<UUID>;
-  content: String;
-  reason: String;
-  post: PostCreateOneWithoutReportsInput;
-}
-
-export interface CommentCreateInput {
-  id?: Maybe<UUID>;
-  message: String;
-  commentImages?: Maybe<CommentImageCreateManyWithoutCommentInput>;
-  post: PostCreateOneWithoutCommentsInput;
-  createdBy: AccountCreateOneWithoutCommentsInput;
+export interface PostImageUpsertWithWhereUniqueWithoutAccountInput {
+  where: PostImageWhereUniqueInput;
+  update: PostImageUpdateWithoutAccountDataInput;
+  create: PostImageCreateWithoutAccountInput;
 }
 
 export interface ReviewSubscriptionWhereInput {
@@ -4662,11 +4207,26 @@ export interface ReviewSubscriptionWhereInput {
   NOT?: Maybe<ReviewSubscriptionWhereInput[] | ReviewSubscriptionWhereInput>;
 }
 
-export interface CommentUpdateInput {
-  message?: Maybe<String>;
-  commentImages?: Maybe<CommentImageUpdateManyWithoutCommentInput>;
-  post?: Maybe<PostUpdateOneRequiredWithoutCommentsInput>;
-  createdBy?: Maybe<AccountUpdateOneRequiredWithoutCommentsInput>;
+export interface AccountUpsertNestedInput {
+  update: AccountUpdateDataInput;
+  create: AccountCreateInput;
+}
+
+export interface PostSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<PostWhereInput>;
+  AND?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
+  OR?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
+  NOT?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
+}
+
+export interface ReviewImageUpsertWithWhereUniqueWithoutReviewInput {
+  where: ReviewImageWhereUniqueInput;
+  update: ReviewImageUpdateWithoutReviewDataInput;
+  create: ReviewImageCreateWithoutReviewInput;
 }
 
 export interface AccountWhereInput {
@@ -4785,8 +4345,65 @@ export interface AccountWhereInput {
   NOT?: Maybe<AccountWhereInput[] | AccountWhereInput>;
 }
 
-export interface CommentUpdateManyMutationInput {
-  message?: Maybe<String>;
+export interface ReviewImageScalarWhereInput {
+  id?: Maybe<UUID>;
+  id_not?: Maybe<UUID>;
+  id_in?: Maybe<UUID[] | UUID>;
+  id_not_in?: Maybe<UUID[] | UUID>;
+  id_lt?: Maybe<UUID>;
+  id_lte?: Maybe<UUID>;
+  id_gt?: Maybe<UUID>;
+  id_gte?: Maybe<UUID>;
+  id_contains?: Maybe<UUID>;
+  id_not_contains?: Maybe<UUID>;
+  id_starts_with?: Maybe<UUID>;
+  id_not_starts_with?: Maybe<UUID>;
+  id_ends_with?: Maybe<UUID>;
+  id_not_ends_with?: Maybe<UUID>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<ReviewImageScalarWhereInput[] | ReviewImageScalarWhereInput>;
+  OR?: Maybe<ReviewImageScalarWhereInput[] | ReviewImageScalarWhereInput>;
+  NOT?: Maybe<ReviewImageScalarWhereInput[] | ReviewImageScalarWhereInput>;
+}
+
+export interface AccountUpdateWithoutUsersDataInput {
+  username?: Maybe<String>;
+  password?: Maybe<String>;
+  email?: Maybe<String>;
+  role?: Maybe<Role>;
+  status?: Maybe<AccountStatus>;
+  settings?: Maybe<Json>;
+  posts?: Maybe<PostUpdateManyWithoutAccountInput>;
+  pets?: Maybe<PetUpdateManyWithoutAccountInput>;
+  images?: Maybe<ImageUpdateManyWithoutAccountInput>;
+  comments?: Maybe<CommentUpdateManyWithoutCreatedByInput>;
+  reviews?: Maybe<ReviewUpdateManyWithoutCreatedByInput>;
+  postImages?: Maybe<PostImageUpdateManyWithoutAccountInput>;
+  commentImages?: Maybe<CommentImageUpdateManyWithoutAccountInput>;
+  like?: Maybe<LikeUpdateManyWithoutAccountInput>;
+  reports?: Maybe<ReportUpdateManyWithoutCreatedByInput>;
+}
+
+export interface PostUpdateOneRequiredWithoutReviewsInput {
+  create?: Maybe<PostCreateWithoutReviewsInput>;
+  update?: Maybe<PostUpdateWithoutReviewsDataInput>;
+  upsert?: Maybe<PostUpsertWithoutReviewsInput>;
+  connect?: Maybe<PostWhereUniqueInput>;
 }
 
 export interface CommentLikeWhereInput {
@@ -4804,14 +4421,6 @@ export interface CommentLikeWhereInput {
   id_not_starts_with?: Maybe<UUID>;
   id_ends_with?: Maybe<UUID>;
   id_not_ends_with?: Maybe<UUID>;
-  count?: Maybe<Int>;
-  count_not?: Maybe<Int>;
-  count_in?: Maybe<Int[] | Int>;
-  count_not_in?: Maybe<Int[] | Int>;
-  count_lt?: Maybe<Int>;
-  count_lte?: Maybe<Int>;
-  count_gt?: Maybe<Int>;
-  count_gte?: Maybe<Int>;
   comment?: Maybe<CommentWhereInput>;
   like?: Maybe<LikeWhereInput>;
   createdAt?: Maybe<DateTimeInput>;
@@ -4835,22 +4444,57 @@ export interface CommentLikeWhereInput {
   NOT?: Maybe<CommentLikeWhereInput[] | CommentLikeWhereInput>;
 }
 
-export interface CommentImageCreateInput {
-  id?: Maybe<UUID>;
-  image: ImageCreateOneInput;
-  comment: CommentCreateOneWithoutCommentImagesInput;
-  account: AccountCreateOneWithoutCommentImagesInput;
+export interface PostUpdateWithoutReviewsDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  location?: Maybe<String>;
+  price?: Maybe<Float>;
+  dueDate?: Maybe<DateTimeInput>;
+  pet?: Maybe<PetUpdateOneRequiredInput>;
+  likes?: Maybe<Int>;
+  settings?: Maybe<Json>;
+  status?: Maybe<PostStatus>;
+  postImages?: Maybe<PostImageUpdateManyWithoutPostInput>;
+  postTags?: Maybe<PostTagUpdateManyWithoutPostInput>;
+  comments?: Maybe<CommentUpdateManyWithoutPostInput>;
+  reports?: Maybe<ReportUpdateManyWithoutPostInput>;
+  account?: Maybe<AccountUpdateOneRequiredWithoutPostsInput>;
 }
 
-export interface ReviewUpsertNestedInput {
-  update: ReviewUpdateDataInput;
-  create: ReviewCreateInput;
+export interface TagUpdateInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  postTags?: Maybe<PostTagUpdateManyWithoutTagInput>;
 }
 
-export interface CommentImageUpdateInput {
-  image?: Maybe<ImageUpdateOneRequiredInput>;
-  comment?: Maybe<CommentUpdateOneRequiredWithoutCommentImagesInput>;
-  account?: Maybe<AccountUpdateOneRequiredWithoutCommentImagesInput>;
+export interface PostUpsertWithoutReviewsInput {
+  update: PostUpdateWithoutReviewsDataInput;
+  create: PostCreateWithoutReviewsInput;
+}
+
+export interface ReviewUpdateOneRequiredInput {
+  create?: Maybe<ReviewCreateInput>;
+  update?: Maybe<ReviewUpdateDataInput>;
+  upsert?: Maybe<ReviewUpsertNestedInput>;
+  connect?: Maybe<ReviewWhereUniqueInput>;
+}
+
+export interface ReviewUpsertWithWhereUniqueWithoutCreatedByInput {
+  where: ReviewWhereUniqueInput;
+  update: ReviewUpdateWithoutCreatedByDataInput;
+  create: ReviewCreateWithoutCreatedByInput;
+}
+
+export interface ReviewUpdateOneRequiredWithoutReviewImagesInput {
+  create?: Maybe<ReviewCreateWithoutReviewImagesInput>;
+  update?: Maybe<ReviewUpdateWithoutReviewImagesDataInput>;
+  upsert?: Maybe<ReviewUpsertWithoutReviewImagesInput>;
+  connect?: Maybe<ReviewWhereUniqueInput>;
+}
+
+export interface AccountUpsertWithoutCommentImagesInput {
+  update: AccountUpdateWithoutCommentImagesDataInput;
+  create: AccountCreateWithoutCommentImagesInput;
 }
 
 export interface PostLikeWhereInput {
@@ -4868,14 +4512,6 @@ export interface PostLikeWhereInput {
   id_not_starts_with?: Maybe<UUID>;
   id_ends_with?: Maybe<UUID>;
   id_not_ends_with?: Maybe<UUID>;
-  count?: Maybe<Int>;
-  count_not?: Maybe<Int>;
-  count_in?: Maybe<Int[] | Int>;
-  count_not_in?: Maybe<Int[] | Int>;
-  count_lt?: Maybe<Int>;
-  count_lte?: Maybe<Int>;
-  count_gt?: Maybe<Int>;
-  count_gte?: Maybe<Int>;
   post?: Maybe<PostWhereInput>;
   like?: Maybe<LikeWhereInput>;
   createdAt?: Maybe<DateTimeInput>;
@@ -4899,132 +4535,61 @@ export interface PostLikeWhereInput {
   NOT?: Maybe<PostLikeWhereInput[] | PostLikeWhereInput>;
 }
 
-export interface CommentLikeCreateInput {
-  id?: Maybe<UUID>;
-  count?: Maybe<Int>;
-  comment: CommentCreateOneInput;
-  like: LikeCreateOneInput;
+export interface CommentImageUpsertWithWhereUniqueWithoutCommentInput {
+  where: CommentImageWhereUniqueInput;
+  update: CommentImageUpdateWithoutCommentDataInput;
+  create: CommentImageCreateWithoutCommentInput;
 }
 
-export interface PostCreateWithoutPostTagsInput {
+export interface PostUpsertWithoutPostTagsInput {
+  update: PostUpdateWithoutPostTagsDataInput;
+  create: PostCreateWithoutPostTagsInput;
+}
+
+export interface CommentUpsertWithWhereUniqueWithoutCreatedByInput {
+  where: CommentWhereUniqueInput;
+  update: CommentUpdateWithoutCreatedByDataInput;
+  create: CommentCreateWithoutCreatedByInput;
+}
+
+export interface PostTagCreateInput {
   id?: Maybe<UUID>;
-  title: String;
+  post: PostCreateOneWithoutPostTagsInput;
+  tag: TagCreateOneWithoutPostTagsInput;
+}
+
+export interface AccountUpsertWithoutPetsInput {
+  update: AccountUpdateWithoutPetsDataInput;
+  create: AccountCreateWithoutPetsInput;
+}
+
+export interface PostCreateOneInput {
+  create?: Maybe<PostCreateInput>;
+  connect?: Maybe<PostWhereUniqueInput>;
+}
+
+export interface PetUpsertNestedInput {
+  update: PetUpdateDataInput;
+  create: PetCreateInput;
+}
+
+export interface PetCategoryUpdateManyMutationInput {
+  name?: Maybe<String>;
   description?: Maybe<String>;
-  location: String;
-  price?: Maybe<Float>;
-  dueDate: DateTimeInput;
-  pet: PetCreateOneInput;
-  settings?: Maybe<Json>;
-  status?: Maybe<PostStatus>;
-  postImages?: Maybe<PostImageCreateManyWithoutPostInput>;
-  comments?: Maybe<CommentCreateManyWithoutPostInput>;
-  reviews?: Maybe<ReviewCreateManyWithoutPostInput>;
-  reports?: Maybe<ReportCreateManyWithoutPostInput>;
-  account: AccountCreateOneWithoutPostsInput;
 }
 
-export interface CommentCreateOneInput {
-  create?: Maybe<CommentCreateInput>;
-  connect?: Maybe<CommentWhereUniqueInput>;
+export interface PostUpsertWithWhereUniqueWithoutAccountInput {
+  where: PostWhereUniqueInput;
+  update: PostUpdateWithoutAccountDataInput;
+  create: PostCreateWithoutAccountInput;
 }
 
-export interface PostUpdateManyMutationInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  location?: Maybe<String>;
-  price?: Maybe<Float>;
-  dueDate?: Maybe<DateTimeInput>;
-  settings?: Maybe<Json>;
-  status?: Maybe<PostStatus>;
+export interface UserCreateManyWithoutAccountInput {
+  create?: Maybe<UserCreateWithoutAccountInput[] | UserCreateWithoutAccountInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
 }
 
-export interface LikeCreateOneInput {
-  create?: Maybe<LikeCreateInput>;
-  connect?: Maybe<LikeWhereUniqueInput>;
-}
-
-export interface PetCreateOneInput {
-  create?: Maybe<PetCreateInput>;
-  connect?: Maybe<PetWhereUniqueInput>;
-}
-
-export interface LikeCreateInput {
-  id?: Maybe<UUID>;
-  account: AccountCreateOneWithoutLikeInput;
-}
-
-export interface ReviewCreateManyWithoutCreatedByInput {
-  create?: Maybe<ReviewCreateWithoutCreatedByInput[] | ReviewCreateWithoutCreatedByInput>;
-  connect?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
-}
-
-export interface AccountCreateOneWithoutLikeInput {
-  create?: Maybe<AccountCreateWithoutLikeInput>;
-  connect?: Maybe<AccountWhereUniqueInput>;
-}
-
-export interface PostCreateWithoutCommentsInput {
-  id?: Maybe<UUID>;
-  title: String;
-  description?: Maybe<String>;
-  location: String;
-  price?: Maybe<Float>;
-  dueDate: DateTimeInput;
-  pet: PetCreateOneInput;
-  settings?: Maybe<Json>;
-  status?: Maybe<PostStatus>;
-  postImages?: Maybe<PostImageCreateManyWithoutPostInput>;
-  postTags?: Maybe<PostTagCreateManyWithoutPostInput>;
-  reviews?: Maybe<ReviewCreateManyWithoutPostInput>;
-  reports?: Maybe<ReportCreateManyWithoutPostInput>;
-  account: AccountCreateOneWithoutPostsInput;
-}
-
-export interface AccountCreateWithoutLikeInput {
-  id?: Maybe<UUID>;
-  username: String;
-  password: String;
-  email: String;
-  role?: Maybe<Role>;
-  status?: Maybe<AccountStatus>;
-  settings?: Maybe<Json>;
-  users?: Maybe<UserCreateManyWithoutAccountInput>;
-  posts?: Maybe<PostCreateManyWithoutAccountInput>;
-  pets?: Maybe<PetCreateManyWithoutAccountInput>;
-  images?: Maybe<ImageCreateManyWithoutAccountInput>;
-  comments?: Maybe<CommentCreateManyWithoutCreatedByInput>;
-  reviews?: Maybe<ReviewCreateManyWithoutCreatedByInput>;
-  postImages?: Maybe<PostImageCreateManyWithoutAccountInput>;
-  commentImages?: Maybe<CommentImageCreateManyWithoutAccountInput>;
-  reports?: Maybe<ReportCreateManyWithoutCreatedByInput>;
-}
-
-export interface AccountCreateWithoutCommentsInput {
-  id?: Maybe<UUID>;
-  username: String;
-  password: String;
-  email: String;
-  role?: Maybe<Role>;
-  status?: Maybe<AccountStatus>;
-  settings?: Maybe<Json>;
-  users?: Maybe<UserCreateManyWithoutAccountInput>;
-  posts?: Maybe<PostCreateManyWithoutAccountInput>;
-  pets?: Maybe<PetCreateManyWithoutAccountInput>;
-  images?: Maybe<ImageCreateManyWithoutAccountInput>;
-  reviews?: Maybe<ReviewCreateManyWithoutCreatedByInput>;
-  postImages?: Maybe<PostImageCreateManyWithoutAccountInput>;
-  commentImages?: Maybe<CommentImageCreateManyWithoutAccountInput>;
-  like?: Maybe<LikeCreateManyWithoutAccountInput>;
-  reports?: Maybe<ReportCreateManyWithoutCreatedByInput>;
-}
-
-export interface CommentLikeUpdateInput {
-  count?: Maybe<Int>;
-  comment?: Maybe<CommentUpdateOneRequiredInput>;
-  like?: Maybe<LikeUpdateOneRequiredInput>;
-}
-
-export interface PostImageWhereInput {
+export interface PostScalarWhereInput {
   id?: Maybe<UUID>;
   id_not?: Maybe<UUID>;
   id_in?: Maybe<UUID[] | UUID>;
@@ -5039,9 +4604,76 @@ export interface PostImageWhereInput {
   id_not_starts_with?: Maybe<UUID>;
   id_ends_with?: Maybe<UUID>;
   id_not_ends_with?: Maybe<UUID>;
-  image?: Maybe<ImageWhereInput>;
-  post?: Maybe<PostWhereInput>;
-  account?: Maybe<AccountWhereInput>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  location?: Maybe<String>;
+  location_not?: Maybe<String>;
+  location_in?: Maybe<String[] | String>;
+  location_not_in?: Maybe<String[] | String>;
+  location_lt?: Maybe<String>;
+  location_lte?: Maybe<String>;
+  location_gt?: Maybe<String>;
+  location_gte?: Maybe<String>;
+  location_contains?: Maybe<String>;
+  location_not_contains?: Maybe<String>;
+  location_starts_with?: Maybe<String>;
+  location_not_starts_with?: Maybe<String>;
+  location_ends_with?: Maybe<String>;
+  location_not_ends_with?: Maybe<String>;
+  price?: Maybe<Float>;
+  price_not?: Maybe<Float>;
+  price_in?: Maybe<Float[] | Float>;
+  price_not_in?: Maybe<Float[] | Float>;
+  price_lt?: Maybe<Float>;
+  price_lte?: Maybe<Float>;
+  price_gt?: Maybe<Float>;
+  price_gte?: Maybe<Float>;
+  dueDate?: Maybe<DateTimeInput>;
+  dueDate_not?: Maybe<DateTimeInput>;
+  dueDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  dueDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  dueDate_lt?: Maybe<DateTimeInput>;
+  dueDate_lte?: Maybe<DateTimeInput>;
+  dueDate_gt?: Maybe<DateTimeInput>;
+  dueDate_gte?: Maybe<DateTimeInput>;
+  likes?: Maybe<Int>;
+  likes_not?: Maybe<Int>;
+  likes_in?: Maybe<Int[] | Int>;
+  likes_not_in?: Maybe<Int[] | Int>;
+  likes_lt?: Maybe<Int>;
+  likes_lte?: Maybe<Int>;
+  likes_gt?: Maybe<Int>;
+  likes_gte?: Maybe<Int>;
+  status?: Maybe<PostStatus>;
+  status_not?: Maybe<PostStatus>;
+  status_in?: Maybe<PostStatus[] | PostStatus>;
+  status_not_in?: Maybe<PostStatus[] | PostStatus>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -5058,62 +4690,45 @@ export interface PostImageWhereInput {
   updatedAt_lte?: Maybe<DateTimeInput>;
   updatedAt_gt?: Maybe<DateTimeInput>;
   updatedAt_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<PostImageWhereInput[] | PostImageWhereInput>;
-  OR?: Maybe<PostImageWhereInput[] | PostImageWhereInput>;
-  NOT?: Maybe<PostImageWhereInput[] | PostImageWhereInput>;
+  AND?: Maybe<PostScalarWhereInput[] | PostScalarWhereInput>;
+  OR?: Maybe<PostScalarWhereInput[] | PostScalarWhereInput>;
+  NOT?: Maybe<PostScalarWhereInput[] | PostScalarWhereInput>;
 }
 
-export interface CommentUpdateOneRequiredInput {
-  create?: Maybe<CommentCreateInput>;
-  update?: Maybe<CommentUpdateDataInput>;
-  upsert?: Maybe<CommentUpsertNestedInput>;
-  connect?: Maybe<CommentWhereUniqueInput>;
+export interface PetCreateOneInput {
+  create?: Maybe<PetCreateInput>;
+  connect?: Maybe<PetWhereUniqueInput>;
 }
 
-export interface PostTagUpdateManyWithoutTagInput {
-  create?: Maybe<PostTagCreateWithoutTagInput[] | PostTagCreateWithoutTagInput>;
-  delete?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
-  connect?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
-  set?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
-  disconnect?: Maybe<PostTagWhereUniqueInput[] | PostTagWhereUniqueInput>;
-  update?: Maybe<
-    PostTagUpdateWithWhereUniqueWithoutTagInput[] | PostTagUpdateWithWhereUniqueWithoutTagInput
-  >;
-  upsert?: Maybe<
-    PostTagUpsertWithWhereUniqueWithoutTagInput[] | PostTagUpsertWithWhereUniqueWithoutTagInput
-  >;
-  deleteMany?: Maybe<PostTagScalarWhereInput[] | PostTagScalarWhereInput>;
+export interface PostUpdateManyWithWhereNestedInput {
+  where: PostScalarWhereInput;
+  data: PostUpdateManyDataInput;
 }
 
-export interface CommentUpdateDataInput {
-  message?: Maybe<String>;
-  commentImages?: Maybe<CommentImageUpdateManyWithoutCommentInput>;
-  post?: Maybe<PostUpdateOneRequiredWithoutCommentsInput>;
-  createdBy?: Maybe<AccountUpdateOneRequiredWithoutCommentsInput>;
+export interface CommentCreateManyWithoutCreatedByInput {
+  create?: Maybe<CommentCreateWithoutCreatedByInput[] | CommentCreateWithoutCreatedByInput>;
+  connect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
 }
 
-export interface ReportUpdateInput {
-  content?: Maybe<String>;
-  reason?: Maybe<String>;
-  post?: Maybe<PostUpdateOneRequiredWithoutReportsInput>;
-  createdBy?: Maybe<AccountUpdateOneRequiredWithoutReportsInput>;
+export interface PostUpdateManyDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  location?: Maybe<String>;
+  price?: Maybe<Float>;
+  dueDate?: Maybe<DateTimeInput>;
+  likes?: Maybe<Int>;
+  settings?: Maybe<Json>;
+  status?: Maybe<PostStatus>;
 }
 
-export interface CommentUpsertNestedInput {
-  update: CommentUpdateDataInput;
-  create: CommentCreateInput;
+export interface ReviewCreateManyWithoutCreatedByInput {
+  create?: Maybe<ReviewCreateWithoutCreatedByInput[] | ReviewCreateWithoutCreatedByInput>;
+  connect?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
 }
 
-export interface UserCreateManyWithoutAccountInput {
-  create?: Maybe<UserCreateWithoutAccountInput[] | UserCreateWithoutAccountInput>;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-}
-
-export interface LikeUpdateOneRequiredInput {
-  create?: Maybe<LikeCreateInput>;
-  update?: Maybe<LikeUpdateDataInput>;
-  upsert?: Maybe<LikeUpsertNestedInput>;
-  connect?: Maybe<LikeWhereUniqueInput>;
+export interface AccountUpsertWithoutImagesInput {
+  update: AccountUpdateWithoutImagesDataInput;
+  create: AccountCreateWithoutImagesInput;
 }
 
 export interface PostImageCreateWithoutPostInput {
@@ -5122,67 +4737,114 @@ export interface PostImageCreateWithoutPostInput {
   account: AccountCreateOneWithoutPostImagesInput;
 }
 
-export interface LikeUpdateDataInput {
-  account?: Maybe<AccountUpdateOneRequiredWithoutLikeInput>;
+export interface UserUpsertWithWhereUniqueWithoutAccountInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutAccountDataInput;
+  create: UserCreateWithoutAccountInput;
 }
 
-export interface AccountCreateWithoutPostsInput {
+export interface PostCreateWithoutCommentsInput {
   id?: Maybe<UUID>;
-  username: String;
-  password: String;
-  email: String;
-  role?: Maybe<Role>;
-  status?: Maybe<AccountStatus>;
+  title: String;
+  description?: Maybe<String>;
+  location: String;
+  price?: Maybe<Float>;
+  dueDate: DateTimeInput;
+  pet: PetCreateOneInput;
+  likes?: Maybe<Int>;
   settings?: Maybe<Json>;
-  users?: Maybe<UserCreateManyWithoutAccountInput>;
-  pets?: Maybe<PetCreateManyWithoutAccountInput>;
-  images?: Maybe<ImageCreateManyWithoutAccountInput>;
-  comments?: Maybe<CommentCreateManyWithoutCreatedByInput>;
-  reviews?: Maybe<ReviewCreateManyWithoutCreatedByInput>;
-  postImages?: Maybe<PostImageCreateManyWithoutAccountInput>;
-  commentImages?: Maybe<CommentImageCreateManyWithoutAccountInput>;
-  like?: Maybe<LikeCreateManyWithoutAccountInput>;
-  reports?: Maybe<ReportCreateManyWithoutCreatedByInput>;
+  status?: Maybe<PostStatus>;
+  postImages?: Maybe<PostImageCreateManyWithoutPostInput>;
+  postTags?: Maybe<PostTagCreateManyWithoutPostInput>;
+  reviews?: Maybe<ReviewCreateManyWithoutPostInput>;
+  reports?: Maybe<ReportCreateManyWithoutPostInput>;
+  account: AccountCreateOneWithoutPostsInput;
 }
 
-export interface LikeUpsertNestedInput {
-  update: LikeUpdateDataInput;
-  create: LikeCreateInput;
-}
-
-export interface AccountUpsertWithoutLikeInput {
-  update: AccountUpdateWithoutLikeDataInput;
-  create: AccountCreateWithoutLikeInput;
-}
-
-export interface AccountUpdateWithoutLikeDataInput {
-  username?: Maybe<String>;
-  password?: Maybe<String>;
-  email?: Maybe<String>;
-  role?: Maybe<Role>;
-  status?: Maybe<AccountStatus>;
-  settings?: Maybe<Json>;
-  users?: Maybe<UserUpdateManyWithoutAccountInput>;
-  posts?: Maybe<PostUpdateManyWithoutAccountInput>;
-  pets?: Maybe<PetUpdateManyWithoutAccountInput>;
-  images?: Maybe<ImageUpdateManyWithoutAccountInput>;
-  comments?: Maybe<CommentUpdateManyWithoutCreatedByInput>;
-  reviews?: Maybe<ReviewUpdateManyWithoutCreatedByInput>;
-  postImages?: Maybe<PostImageUpdateManyWithoutAccountInput>;
-  commentImages?: Maybe<CommentImageUpdateManyWithoutAccountInput>;
-  reports?: Maybe<ReportUpdateManyWithoutCreatedByInput>;
-}
-
-export interface AccountUpdateOneRequiredWithoutLikeInput {
-  create?: Maybe<AccountCreateWithoutLikeInput>;
-  update?: Maybe<AccountUpdateWithoutLikeDataInput>;
-  upsert?: Maybe<AccountUpsertWithoutLikeInput>;
-  connect?: Maybe<AccountWhereUniqueInput>;
-}
-
-export interface AccountUpsertWithoutUsersInput {
-  update: AccountUpdateWithoutUsersDataInput;
-  create: AccountCreateWithoutUsersInput;
+export interface UserScalarWhereInput {
+  id?: Maybe<UUID>;
+  id_not?: Maybe<UUID>;
+  id_in?: Maybe<UUID[] | UUID>;
+  id_not_in?: Maybe<UUID[] | UUID>;
+  id_lt?: Maybe<UUID>;
+  id_lte?: Maybe<UUID>;
+  id_gt?: Maybe<UUID>;
+  id_gte?: Maybe<UUID>;
+  id_contains?: Maybe<UUID>;
+  id_not_contains?: Maybe<UUID>;
+  id_starts_with?: Maybe<UUID>;
+  id_not_starts_with?: Maybe<UUID>;
+  id_ends_with?: Maybe<UUID>;
+  id_not_ends_with?: Maybe<UUID>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  phoneNumber?: Maybe<String>;
+  phoneNumber_not?: Maybe<String>;
+  phoneNumber_in?: Maybe<String[] | String>;
+  phoneNumber_not_in?: Maybe<String[] | String>;
+  phoneNumber_lt?: Maybe<String>;
+  phoneNumber_lte?: Maybe<String>;
+  phoneNumber_gt?: Maybe<String>;
+  phoneNumber_gte?: Maybe<String>;
+  phoneNumber_contains?: Maybe<String>;
+  phoneNumber_not_contains?: Maybe<String>;
+  phoneNumber_starts_with?: Maybe<String>;
+  phoneNumber_not_starts_with?: Maybe<String>;
+  phoneNumber_ends_with?: Maybe<String>;
+  phoneNumber_not_ends_with?: Maybe<String>;
+  bio?: Maybe<String>;
+  bio_not?: Maybe<String>;
+  bio_in?: Maybe<String[] | String>;
+  bio_not_in?: Maybe<String[] | String>;
+  bio_lt?: Maybe<String>;
+  bio_lte?: Maybe<String>;
+  bio_gt?: Maybe<String>;
+  bio_gte?: Maybe<String>;
+  bio_contains?: Maybe<String>;
+  bio_not_contains?: Maybe<String>;
+  bio_starts_with?: Maybe<String>;
+  bio_not_starts_with?: Maybe<String>;
+  bio_ends_with?: Maybe<String>;
+  bio_not_ends_with?: Maybe<String>;
+  dob?: Maybe<DateTimeInput>;
+  dob_not?: Maybe<DateTimeInput>;
+  dob_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  dob_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  dob_lt?: Maybe<DateTimeInput>;
+  dob_lte?: Maybe<DateTimeInput>;
+  dob_gt?: Maybe<DateTimeInput>;
+  dob_gte?: Maybe<DateTimeInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
 }
 
 export interface AccountCreateWithoutReviewsInput {
@@ -5204,31 +4866,402 @@ export interface AccountCreateWithoutReviewsInput {
   reports?: Maybe<ReportCreateManyWithoutCreatedByInput>;
 }
 
-export interface CommentCreateManyWithoutCreatedByInput {
-  create?: Maybe<CommentCreateWithoutCreatedByInput[] | CommentCreateWithoutCreatedByInput>;
-  connect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
+export interface UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput;
+  data: UserUpdateManyDataInput;
 }
 
-export interface PostUpdateDataInput {
-  title?: Maybe<String>;
+export interface AccountCreateWithoutCommentsInput {
+  id?: Maybe<UUID>;
+  username: String;
+  password: String;
+  email: String;
+  role?: Maybe<Role>;
+  status?: Maybe<AccountStatus>;
+  settings?: Maybe<Json>;
+  users?: Maybe<UserCreateManyWithoutAccountInput>;
+  posts?: Maybe<PostCreateManyWithoutAccountInput>;
+  pets?: Maybe<PetCreateManyWithoutAccountInput>;
+  images?: Maybe<ImageCreateManyWithoutAccountInput>;
+  reviews?: Maybe<ReviewCreateManyWithoutCreatedByInput>;
+  postImages?: Maybe<PostImageCreateManyWithoutAccountInput>;
+  commentImages?: Maybe<CommentImageCreateManyWithoutAccountInput>;
+  like?: Maybe<LikeCreateManyWithoutAccountInput>;
+  reports?: Maybe<ReportCreateManyWithoutCreatedByInput>;
+}
+
+export interface UserUpdateManyDataInput {
+  name?: Maybe<String>;
+  phoneNumber?: Maybe<String>;
+  address?: Maybe<Json>;
+  bio?: Maybe<String>;
+  dob?: Maybe<DateTimeInput>;
+  settings?: Maybe<Json>;
+}
+
+export interface ReviewLikeSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ReviewLikeWhereInput>;
+  AND?: Maybe<ReviewLikeSubscriptionWhereInput[] | ReviewLikeSubscriptionWhereInput>;
+  OR?: Maybe<ReviewLikeSubscriptionWhereInput[] | ReviewLikeSubscriptionWhereInput>;
+  NOT?: Maybe<ReviewLikeSubscriptionWhereInput[] | ReviewLikeSubscriptionWhereInput>;
+}
+
+export interface AccountUpdateManyMutationInput {
+  username?: Maybe<String>;
+  password?: Maybe<String>;
+  email?: Maybe<String>;
+  role?: Maybe<Role>;
+  status?: Maybe<AccountStatus>;
+  settings?: Maybe<Json>;
+}
+
+export interface PetWhereInput {
+  id?: Maybe<UUID>;
+  id_not?: Maybe<UUID>;
+  id_in?: Maybe<UUID[] | UUID>;
+  id_not_in?: Maybe<UUID[] | UUID>;
+  id_lt?: Maybe<UUID>;
+  id_lte?: Maybe<UUID>;
+  id_gt?: Maybe<UUID>;
+  id_gte?: Maybe<UUID>;
+  id_contains?: Maybe<UUID>;
+  id_not_contains?: Maybe<UUID>;
+  id_starts_with?: Maybe<UUID>;
+  id_not_starts_with?: Maybe<UUID>;
+  id_ends_with?: Maybe<UUID>;
+  id_not_ends_with?: Maybe<UUID>;
+  category?: Maybe<PetCategoryWhereInput>;
+  account?: Maybe<AccountWhereInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<PetWhereInput[] | PetWhereInput>;
+  OR?: Maybe<PetWhereInput[] | PetWhereInput>;
+  NOT?: Maybe<PetWhereInput[] | PetWhereInput>;
+}
+
+export interface LikeUpsertNestedInput {
+  update: LikeUpdateDataInput;
+  create: LikeCreateInput;
+}
+
+export interface AccountCreateWithoutUsersInput {
+  id?: Maybe<UUID>;
+  username: String;
+  password: String;
+  email: String;
+  role?: Maybe<Role>;
+  status?: Maybe<AccountStatus>;
+  settings?: Maybe<Json>;
+  posts?: Maybe<PostCreateManyWithoutAccountInput>;
+  pets?: Maybe<PetCreateManyWithoutAccountInput>;
+  images?: Maybe<ImageCreateManyWithoutAccountInput>;
+  comments?: Maybe<CommentCreateManyWithoutCreatedByInput>;
+  reviews?: Maybe<ReviewCreateManyWithoutCreatedByInput>;
+  postImages?: Maybe<PostImageCreateManyWithoutAccountInput>;
+  commentImages?: Maybe<CommentImageCreateManyWithoutAccountInput>;
+  like?: Maybe<LikeCreateManyWithoutAccountInput>;
+  reports?: Maybe<ReportCreateManyWithoutCreatedByInput>;
+}
+
+export interface AccountUpsertWithoutLikeInput {
+  update: AccountUpdateWithoutLikeDataInput;
+  create: AccountCreateWithoutLikeInput;
+}
+
+export interface TagCreateInput {
+  id?: Maybe<UUID>;
+  title: String;
   description?: Maybe<String>;
-  location?: Maybe<String>;
+  postTags?: Maybe<PostTagCreateManyWithoutTagInput>;
+}
+
+export interface CommentCreateInput {
+  id?: Maybe<UUID>;
+  message: String;
+  commentImages?: Maybe<CommentImageCreateManyWithoutCommentInput>;
+  post: PostCreateOneWithoutCommentsInput;
+  likes?: Maybe<Int>;
+  createdBy: AccountCreateOneWithoutCommentsInput;
+}
+
+export interface ReviewCreateOneWithoutReviewImagesInput {
+  create?: Maybe<ReviewCreateWithoutReviewImagesInput>;
+  connect?: Maybe<ReviewWhereUniqueInput>;
+}
+
+export interface CommentUpdateInput {
+  message?: Maybe<String>;
+  commentImages?: Maybe<CommentImageUpdateManyWithoutCommentInput>;
+  post?: Maybe<PostUpdateOneRequiredWithoutCommentsInput>;
+  likes?: Maybe<Int>;
+  createdBy?: Maybe<AccountUpdateOneRequiredWithoutCommentsInput>;
+}
+
+export interface PostTagUpdateInput {
+  post?: Maybe<PostUpdateOneRequiredWithoutPostTagsInput>;
+  tag?: Maybe<TagUpdateOneRequiredWithoutPostTagsInput>;
+}
+
+export interface CommentUpdateManyMutationInput {
+  message?: Maybe<String>;
+  likes?: Maybe<Int>;
+}
+
+export type TagWhereUniqueInput = AtLeastOne<{
+  id: Maybe<UUID>;
+}>;
+
+export interface CommentImageCreateInput {
+  id?: Maybe<UUID>;
+  image: ImageCreateOneInput;
+  comment: CommentCreateOneWithoutCommentImagesInput;
+  account: AccountCreateOneWithoutCommentImagesInput;
+}
+
+export interface AccountCreateOneWithoutImagesInput {
+  create?: Maybe<AccountCreateWithoutImagesInput>;
+  connect?: Maybe<AccountWhereUniqueInput>;
+}
+
+export interface CommentImageUpdateInput {
+  image?: Maybe<ImageUpdateOneRequiredInput>;
+  comment?: Maybe<CommentUpdateOneRequiredWithoutCommentImagesInput>;
+  account?: Maybe<AccountUpdateOneRequiredWithoutCommentImagesInput>;
+}
+
+export interface AccountCreateOneWithoutCommentImagesInput {
+  create?: Maybe<AccountCreateWithoutCommentImagesInput>;
+  connect?: Maybe<AccountWhereUniqueInput>;
+}
+
+export interface CommentLikeCreateInput {
+  id?: Maybe<UUID>;
+  comment: CommentCreateOneInput;
+  like: LikeCreateOneInput;
+}
+
+export interface CommentImageCreateWithoutAccountInput {
+  id?: Maybe<UUID>;
+  image: ImageCreateOneInput;
+  comment: CommentCreateOneWithoutCommentImagesInput;
+}
+
+export interface CommentCreateOneInput {
+  create?: Maybe<CommentCreateInput>;
+  connect?: Maybe<CommentWhereUniqueInput>;
+}
+
+export interface PostCreateWithoutPostImagesInput {
+  id?: Maybe<UUID>;
+  title: String;
+  description?: Maybe<String>;
+  location: String;
   price?: Maybe<Float>;
-  dueDate?: Maybe<DateTimeInput>;
-  pet?: Maybe<PetUpdateOneRequiredInput>;
+  dueDate: DateTimeInput;
+  pet: PetCreateOneInput;
+  likes?: Maybe<Int>;
   settings?: Maybe<Json>;
   status?: Maybe<PostStatus>;
-  postImages?: Maybe<PostImageUpdateManyWithoutPostInput>;
-  postTags?: Maybe<PostTagUpdateManyWithoutPostInput>;
-  comments?: Maybe<CommentUpdateManyWithoutPostInput>;
-  reviews?: Maybe<ReviewUpdateManyWithoutPostInput>;
-  reports?: Maybe<ReportUpdateManyWithoutPostInput>;
-  account?: Maybe<AccountUpdateOneRequiredWithoutPostsInput>;
+  postTags?: Maybe<PostTagCreateManyWithoutPostInput>;
+  comments?: Maybe<CommentCreateManyWithoutPostInput>;
+  reviews?: Maybe<ReviewCreateManyWithoutPostInput>;
+  reports?: Maybe<ReportCreateManyWithoutPostInput>;
+  account: AccountCreateOneWithoutPostsInput;
 }
 
-export interface ReviewUpsertWithoutReviewImagesInput {
-  update: ReviewUpdateWithoutReviewImagesDataInput;
-  create: ReviewCreateWithoutReviewImagesInput;
+export interface LikeCreateOneInput {
+  create?: Maybe<LikeCreateInput>;
+  connect?: Maybe<LikeWhereUniqueInput>;
+}
+
+export interface PostTagWhereInput {
+  id?: Maybe<UUID>;
+  id_not?: Maybe<UUID>;
+  id_in?: Maybe<UUID[] | UUID>;
+  id_not_in?: Maybe<UUID[] | UUID>;
+  id_lt?: Maybe<UUID>;
+  id_lte?: Maybe<UUID>;
+  id_gt?: Maybe<UUID>;
+  id_gte?: Maybe<UUID>;
+  id_contains?: Maybe<UUID>;
+  id_not_contains?: Maybe<UUID>;
+  id_starts_with?: Maybe<UUID>;
+  id_not_starts_with?: Maybe<UUID>;
+  id_ends_with?: Maybe<UUID>;
+  id_not_ends_with?: Maybe<UUID>;
+  post?: Maybe<PostWhereInput>;
+  tag?: Maybe<TagWhereInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<PostTagWhereInput[] | PostTagWhereInput>;
+  OR?: Maybe<PostTagWhereInput[] | PostTagWhereInput>;
+  NOT?: Maybe<PostTagWhereInput[] | PostTagWhereInput>;
+}
+
+export interface LikeCreateInput {
+  id?: Maybe<UUID>;
+  account: AccountCreateOneWithoutLikeInput;
+}
+
+export interface PostTagUpdateWithoutTagDataInput {
+  post?: Maybe<PostUpdateOneRequiredWithoutPostTagsInput>;
+}
+
+export interface AccountCreateOneWithoutLikeInput {
+  create?: Maybe<AccountCreateWithoutLikeInput>;
+  connect?: Maybe<AccountWhereUniqueInput>;
+}
+
+export interface ReportUpdateManyMutationInput {
+  content?: Maybe<String>;
+  reason?: Maybe<String>;
+}
+
+export interface AccountCreateWithoutLikeInput {
+  id?: Maybe<UUID>;
+  username: String;
+  password: String;
+  email: String;
+  role?: Maybe<Role>;
+  status?: Maybe<AccountStatus>;
+  settings?: Maybe<Json>;
+  users?: Maybe<UserCreateManyWithoutAccountInput>;
+  posts?: Maybe<PostCreateManyWithoutAccountInput>;
+  pets?: Maybe<PetCreateManyWithoutAccountInput>;
+  images?: Maybe<ImageCreateManyWithoutAccountInput>;
+  comments?: Maybe<CommentCreateManyWithoutCreatedByInput>;
+  reviews?: Maybe<ReviewCreateManyWithoutCreatedByInput>;
+  postImages?: Maybe<PostImageCreateManyWithoutAccountInput>;
+  commentImages?: Maybe<CommentImageCreateManyWithoutAccountInput>;
+  reports?: Maybe<ReportCreateManyWithoutCreatedByInput>;
+}
+
+export interface PetUpdateInput {
+  category?: Maybe<PetCategoryUpdateOneRequiredInput>;
+  info?: Maybe<Json>;
+  account?: Maybe<AccountUpdateOneRequiredWithoutPetsInput>;
+}
+
+export interface CommentLikeUpdateInput {
+  comment?: Maybe<CommentUpdateOneRequiredInput>;
+  like?: Maybe<LikeUpdateOneRequiredInput>;
+}
+
+export interface AccountCreateOneInput {
+  create?: Maybe<AccountCreateInput>;
+  connect?: Maybe<AccountWhereUniqueInput>;
+}
+
+export interface CommentUpdateOneRequiredInput {
+  create?: Maybe<CommentCreateInput>;
+  update?: Maybe<CommentUpdateDataInput>;
+  upsert?: Maybe<CommentUpsertNestedInput>;
+  connect?: Maybe<CommentWhereUniqueInput>;
+}
+
+export interface ReportCreateWithoutCreatedByInput {
+  id?: Maybe<UUID>;
+  content: String;
+  reason: String;
+  post: PostCreateOneWithoutReportsInput;
+}
+
+export interface CommentUpdateDataInput {
+  message?: Maybe<String>;
+  commentImages?: Maybe<CommentImageUpdateManyWithoutCommentInput>;
+  post?: Maybe<PostUpdateOneRequiredWithoutCommentsInput>;
+  likes?: Maybe<Int>;
+  createdBy?: Maybe<AccountUpdateOneRequiredWithoutCommentsInput>;
+}
+
+export interface ReviewLikeCreateInput {
+  id?: Maybe<UUID>;
+  review: ReviewCreateOneInput;
+  like: LikeCreateOneInput;
+}
+
+export interface AccountUpdateOneRequiredWithoutLikeInput {
+  create?: Maybe<AccountCreateWithoutLikeInput>;
+  update?: Maybe<AccountUpdateWithoutLikeDataInput>;
+  upsert?: Maybe<AccountUpsertWithoutLikeInput>;
+  connect?: Maybe<AccountWhereUniqueInput>;
+}
+
+export interface LikeUpdateDataInput {
+  account?: Maybe<AccountUpdateOneRequiredWithoutLikeInput>;
+}
+
+export interface LikeUpdateOneRequiredInput {
+  create?: Maybe<LikeCreateInput>;
+  update?: Maybe<LikeUpdateDataInput>;
+  upsert?: Maybe<LikeUpsertNestedInput>;
+  connect?: Maybe<LikeWhereUniqueInput>;
+}
+
+export interface CommentUpsertNestedInput {
+  update: CommentUpdateDataInput;
+  create: CommentCreateInput;
+}
+
+export interface PostUpdateOneRequiredInput {
+  create?: Maybe<PostCreateInput>;
+  update?: Maybe<PostUpdateDataInput>;
+  upsert?: Maybe<PostUpsertNestedInput>;
+  connect?: Maybe<PostWhereUniqueInput>;
+}
+
+export interface AccountSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<AccountWhereInput>;
+  AND?: Maybe<AccountSubscriptionWhereInput[] | AccountSubscriptionWhereInput>;
+  OR?: Maybe<AccountSubscriptionWhereInput[] | AccountSubscriptionWhereInput>;
+  NOT?: Maybe<AccountSubscriptionWhereInput[] | AccountSubscriptionWhereInput>;
+}
+
+export interface TagCreateWithoutPostTagsInput {
+  id?: Maybe<UUID>;
+  title: String;
+  description?: Maybe<String>;
+}
+
+export interface AccountCreateOneWithoutPetsInput {
+  create?: Maybe<AccountCreateWithoutPetsInput>;
+  connect?: Maybe<AccountWhereUniqueInput>;
 }
 
 export interface NodeNode {
@@ -5273,25 +5306,18 @@ export interface UserPreviousValuesSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface CommentImageConnection {
-  pageInfo: PageInfo;
-  edges: CommentImageEdge[];
+export interface AggregateComment {
+  count: Int;
 }
 
-export interface CommentImageConnectionPromise
-  extends Promise<CommentImageConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<CommentImageEdge>>() => T;
-  aggregate: <T = AggregateCommentImagePromise>() => T;
+export interface AggregateCommentPromise extends Promise<AggregateComment>, Fragmentable {
+  count: () => Promise<Int>;
 }
 
-export interface CommentImageConnectionSubscription
-  extends Promise<AsyncIterator<CommentImageConnection>>,
+export interface AggregateCommentSubscription
+  extends Promise<AsyncIterator<AggregateComment>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<CommentImageEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateCommentImageSubscription>() => T;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface Image {
@@ -5329,339 +5355,18 @@ export interface ImageNullablePromise extends Promise<Image | null>, Fragmentabl
   updatedAt: () => Promise<DateTimeOutput>;
 }
 
-export interface CommentLike {
-  id: UUID;
-  count: Int;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface CommentLikePromise extends Promise<CommentLike>, Fragmentable {
-  id: () => Promise<UUID>;
-  count: () => Promise<Int>;
-  comment: <T = CommentPromise>() => T;
-  like: <T = LikePromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface CommentLikeSubscription extends Promise<AsyncIterator<CommentLike>>, Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  count: () => Promise<AsyncIterator<Int>>;
-  comment: <T = CommentSubscription>() => T;
-  like: <T = LikeSubscription>() => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface CommentLikeNullablePromise extends Promise<CommentLike | null>, Fragmentable {
-  id: () => Promise<UUID>;
-  count: () => Promise<Int>;
-  comment: <T = CommentPromise>() => T;
-  like: <T = LikePromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PetCategory {
-  id: UUID;
-  name: String;
-  description?: String;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface PetCategoryPromise extends Promise<PetCategory>, Fragmentable {
-  id: () => Promise<UUID>;
-  name: () => Promise<String>;
-  description: () => Promise<String>;
-  image: <T = ImagePromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PetCategorySubscription extends Promise<AsyncIterator<PetCategory>>, Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  name: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  image: <T = ImageSubscription>() => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface PetCategoryNullablePromise extends Promise<PetCategory | null>, Fragmentable {
-  id: () => Promise<UUID>;
-  name: () => Promise<String>;
-  description: () => Promise<String>;
-  image: <T = ImagePromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface AggregateCommentImage {
-  count: Int;
-}
-
-export interface AggregateCommentImagePromise extends Promise<AggregateCommentImage>, Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateCommentImageSubscription
-  extends Promise<AsyncIterator<AggregateCommentImage>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface AggregateComment {
-  count: Int;
-}
-
-export interface AggregateCommentPromise extends Promise<AggregateComment>, Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateCommentSubscription
-  extends Promise<AsyncIterator<AggregateComment>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface CommentImageEdge {
-  node: CommentImage;
+export interface CommentEdge {
+  node: Comment;
   cursor: String;
 }
 
-export interface CommentImageEdgePromise extends Promise<CommentImageEdge>, Fragmentable {
-  node: <T = CommentImagePromise>() => T;
+export interface CommentEdgePromise extends Promise<CommentEdge>, Fragmentable {
+  node: <T = CommentPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface CommentImageEdgeSubscription
-  extends Promise<AsyncIterator<CommentImageEdge>>,
-    Fragmentable {
-  node: <T = CommentImageSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface Post {
-  id: UUID;
-  title: String;
-  description?: String;
-  location: String;
-  price: Float;
-  dueDate: DateTimeOutput;
-  settings?: Json;
-  status: PostStatus;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface PostPromise extends Promise<Post>, Fragmentable {
-  id: () => Promise<UUID>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-  location: () => Promise<String>;
-  price: () => Promise<Float>;
-  dueDate: () => Promise<DateTimeOutput>;
-  pet: <T = PetPromise>() => T;
-  settings: () => Promise<Json>;
-  status: () => Promise<PostStatus>;
-  postImages: <T = FragmentableArray<PostImage>>(args?: {
-    where?: PostImageWhereInput;
-    orderBy?: PostImageOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  postTags: <T = FragmentableArray<PostTag>>(args?: {
-    where?: PostTagWhereInput;
-    orderBy?: PostTagOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  comments: <T = FragmentableArray<Comment>>(args?: {
-    where?: CommentWhereInput;
-    orderBy?: CommentOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  reviews: <T = FragmentableArray<Review>>(args?: {
-    where?: ReviewWhereInput;
-    orderBy?: ReviewOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  reports: <T = FragmentableArray<Report>>(args?: {
-    where?: ReportWhereInput;
-    orderBy?: ReportOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  account: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PostSubscription extends Promise<AsyncIterator<Post>>, Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  title: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  location: () => Promise<AsyncIterator<String>>;
-  price: () => Promise<AsyncIterator<Float>>;
-  dueDate: () => Promise<AsyncIterator<DateTimeOutput>>;
-  pet: <T = PetSubscription>() => T;
-  settings: () => Promise<AsyncIterator<Json>>;
-  status: () => Promise<AsyncIterator<PostStatus>>;
-  postImages: <T = Promise<AsyncIterator<PostImageSubscription>>>(args?: {
-    where?: PostImageWhereInput;
-    orderBy?: PostImageOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  postTags: <T = Promise<AsyncIterator<PostTagSubscription>>>(args?: {
-    where?: PostTagWhereInput;
-    orderBy?: PostTagOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  comments: <T = Promise<AsyncIterator<CommentSubscription>>>(args?: {
-    where?: CommentWhereInput;
-    orderBy?: CommentOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  reviews: <T = Promise<AsyncIterator<ReviewSubscription>>>(args?: {
-    where?: ReviewWhereInput;
-    orderBy?: ReviewOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  reports: <T = Promise<AsyncIterator<ReportSubscription>>>(args?: {
-    where?: ReportWhereInput;
-    orderBy?: ReportOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  account: <T = AccountSubscription>() => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface PostNullablePromise extends Promise<Post | null>, Fragmentable {
-  id: () => Promise<UUID>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-  location: () => Promise<String>;
-  price: () => Promise<Float>;
-  dueDate: () => Promise<DateTimeOutput>;
-  pet: <T = PetPromise>() => T;
-  settings: () => Promise<Json>;
-  status: () => Promise<PostStatus>;
-  postImages: <T = FragmentableArray<PostImage>>(args?: {
-    where?: PostImageWhereInput;
-    orderBy?: PostImageOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  postTags: <T = FragmentableArray<PostTag>>(args?: {
-    where?: PostTagWhereInput;
-    orderBy?: PostTagOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  comments: <T = FragmentableArray<Comment>>(args?: {
-    where?: CommentWhereInput;
-    orderBy?: CommentOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  reviews: <T = FragmentableArray<Review>>(args?: {
-    where?: ReviewWhereInput;
-    orderBy?: ReviewOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  reports: <T = FragmentableArray<Report>>(args?: {
-    where?: ReportWhereInput;
-    orderBy?: ReportOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  account: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise extends Promise<BatchPayload>, Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface UserEdge {
-  node: User;
-  cursor: String;
-}
-
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription extends Promise<AsyncIterator<UserEdge>>, Fragmentable {
-  node: <T = UserSubscription>() => T;
+export interface CommentEdgeSubscription extends Promise<AsyncIterator<CommentEdge>>, Fragmentable {
+  node: <T = CommentSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
@@ -5719,52 +5424,77 @@ export interface UserNullablePromise extends Promise<User | null>, Fragmentable 
   updatedAt: () => Promise<DateTimeOutput>;
 }
 
-export interface AggregateTag {
-  count: Int;
-}
-
-export interface AggregateTagPromise extends Promise<AggregateTag>, Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateTagSubscription
-  extends Promise<AsyncIterator<AggregateTag>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface CommentEdge {
-  node: Comment;
+export interface CommentImageEdge {
+  node: CommentImage;
   cursor: String;
 }
 
-export interface CommentEdgePromise extends Promise<CommentEdge>, Fragmentable {
-  node: <T = CommentPromise>() => T;
+export interface CommentImageEdgePromise extends Promise<CommentImageEdge>, Fragmentable {
+  node: <T = CommentImagePromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface CommentEdgeSubscription extends Promise<AsyncIterator<CommentEdge>>, Fragmentable {
-  node: <T = CommentSubscription>() => T;
+export interface CommentImageEdgeSubscription
+  extends Promise<AsyncIterator<CommentImageEdge>>,
+    Fragmentable {
+  node: <T = CommentImageSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface TagConnection {
+export interface PetCategory {
+  id: UUID;
+  name: String;
+  description?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface PetCategoryPromise extends Promise<PetCategory>, Fragmentable {
+  id: () => Promise<UUID>;
+  name: () => Promise<String>;
+  description: () => Promise<String>;
+  image: <T = ImagePromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PetCategorySubscription extends Promise<AsyncIterator<PetCategory>>, Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  name: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  image: <T = ImageSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PetCategoryNullablePromise extends Promise<PetCategory | null>, Fragmentable {
+  id: () => Promise<UUID>;
+  name: () => Promise<String>;
+  description: () => Promise<String>;
+  image: <T = ImagePromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface CommentImageConnection {
   pageInfo: PageInfo;
-  edges: TagEdge[];
+  edges: CommentImageEdge[];
 }
 
-export interface TagConnectionPromise extends Promise<TagConnection>, Fragmentable {
+export interface CommentImageConnectionPromise
+  extends Promise<CommentImageConnection>,
+    Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<TagEdge>>() => T;
-  aggregate: <T = AggregateTagPromise>() => T;
+  edges: <T = FragmentableArray<CommentImageEdge>>() => T;
+  aggregate: <T = AggregateCommentImagePromise>() => T;
 }
 
-export interface TagConnectionSubscription
-  extends Promise<AsyncIterator<TagConnection>>,
+export interface CommentImageConnectionSubscription
+  extends Promise<AsyncIterator<CommentImageConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<TagEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateTagSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CommentImageEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCommentImageSubscription>() => T;
 }
 
 export interface CommentConnection {
@@ -5786,1594 +5516,18 @@ export interface CommentConnectionSubscription
   aggregate: <T = AggregateCommentSubscription>() => T;
 }
 
-export interface AggregateReviewLike {
-  count: Int;
+export interface BatchPayload {
+  count: Long;
 }
 
-export interface AggregateReviewLikePromise extends Promise<AggregateReviewLike>, Fragmentable {
-  count: () => Promise<Int>;
+export interface BatchPayloadPromise extends Promise<BatchPayload>, Fragmentable {
+  count: () => Promise<Long>;
 }
 
-export interface AggregateReviewLikeSubscription
-  extends Promise<AsyncIterator<AggregateReviewLike>>,
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface AggregateAccount {
-  count: Int;
-}
-
-export interface AggregateAccountPromise extends Promise<AggregateAccount>, Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateAccountSubscription
-  extends Promise<AsyncIterator<AggregateAccount>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface ReviewLikeConnection {
-  pageInfo: PageInfo;
-  edges: ReviewLikeEdge[];
-}
-
-export interface ReviewLikeConnectionPromise extends Promise<ReviewLikeConnection>, Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ReviewLikeEdge>>() => T;
-  aggregate: <T = AggregateReviewLikePromise>() => T;
-}
-
-export interface ReviewLikeConnectionSubscription
-  extends Promise<AsyncIterator<ReviewLikeConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ReviewLikeEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateReviewLikeSubscription>() => T;
-}
-
-export interface Pet {
-  id: UUID;
-  info?: Json;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface PetPromise extends Promise<Pet>, Fragmentable {
-  id: () => Promise<UUID>;
-  category: <T = PetCategoryPromise>() => T;
-  info: () => Promise<Json>;
-  account: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PetSubscription extends Promise<AsyncIterator<Pet>>, Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  category: <T = PetCategorySubscription>() => T;
-  info: () => Promise<AsyncIterator<Json>>;
-  account: <T = AccountSubscription>() => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface PetNullablePromise extends Promise<Pet | null>, Fragmentable {
-  id: () => Promise<UUID>;
-  category: <T = PetCategoryPromise>() => T;
-  info: () => Promise<Json>;
-  account: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface ReviewLike {
-  id: UUID;
-  count: Int;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface ReviewLikePromise extends Promise<ReviewLike>, Fragmentable {
-  id: () => Promise<UUID>;
-  count: () => Promise<Int>;
-  review: <T = ReviewPromise>() => T;
-  like: <T = LikePromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface ReviewLikeSubscription extends Promise<AsyncIterator<ReviewLike>>, Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  count: () => Promise<AsyncIterator<Int>>;
-  review: <T = ReviewSubscription>() => T;
-  like: <T = LikeSubscription>() => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface ReviewLikeNullablePromise extends Promise<ReviewLike | null>, Fragmentable {
-  id: () => Promise<UUID>;
-  count: () => Promise<Int>;
-  review: <T = ReviewPromise>() => T;
-  like: <T = LikePromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface AccountSubscriptionPayload {
-  mutation: MutationType;
-  node: Account;
-  updatedFields: String[];
-  previousValues: AccountPreviousValues;
-}
-
-export interface AccountSubscriptionPayloadPromise
-  extends Promise<AccountSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = AccountPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = AccountPreviousValuesPromise>() => T;
-}
-
-export interface AccountSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<AccountSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = AccountSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = AccountPreviousValuesSubscription>() => T;
-}
-
-export interface ReviewImageEdge {
-  node: ReviewImage;
-  cursor: String;
-}
-
-export interface ReviewImageEdgePromise extends Promise<ReviewImageEdge>, Fragmentable {
-  node: <T = ReviewImagePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface ReviewImageEdgeSubscription
-  extends Promise<AsyncIterator<ReviewImageEdge>>,
-    Fragmentable {
-  node: <T = ReviewImageSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AccountPreviousValues {
-  id: UUID;
-  username: String;
-  password: String;
-  email: String;
-  role: Role;
-  status?: AccountStatus;
-  settings?: Json;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface AccountPreviousValuesPromise extends Promise<AccountPreviousValues>, Fragmentable {
-  id: () => Promise<UUID>;
-  username: () => Promise<String>;
-  password: () => Promise<String>;
-  email: () => Promise<String>;
-  role: () => Promise<Role>;
-  status: () => Promise<AccountStatus>;
-  settings: () => Promise<Json>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface AccountPreviousValuesSubscription
-  extends Promise<AsyncIterator<AccountPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  username: () => Promise<AsyncIterator<String>>;
-  password: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-  role: () => Promise<AsyncIterator<Role>>;
-  status: () => Promise<AsyncIterator<AccountStatus>>;
-  settings: () => Promise<AsyncIterator<Json>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface AggregateReview {
-  count: Int;
-}
-
-export interface AggregateReviewPromise extends Promise<AggregateReview>, Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateReviewSubscription
-  extends Promise<AsyncIterator<AggregateReview>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface AccountEdge {
-  node: Account;
-  cursor: String;
-}
-
-export interface AccountEdgePromise extends Promise<AccountEdge>, Fragmentable {
-  node: <T = AccountPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface AccountEdgeSubscription extends Promise<AsyncIterator<AccountEdge>>, Fragmentable {
-  node: <T = AccountSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface ReviewConnection {
-  pageInfo: PageInfo;
-  edges: ReviewEdge[];
-}
-
-export interface ReviewConnectionPromise extends Promise<ReviewConnection>, Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ReviewEdge>>() => T;
-  aggregate: <T = AggregateReviewPromise>() => T;
-}
-
-export interface ReviewConnectionSubscription
-  extends Promise<AsyncIterator<ReviewConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ReviewEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateReviewSubscription>() => T;
-}
-
-export interface CommentSubscriptionPayload {
-  mutation: MutationType;
-  node: Comment;
-  updatedFields: String[];
-  previousValues: CommentPreviousValues;
-}
-
-export interface CommentSubscriptionPayloadPromise
-  extends Promise<CommentSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = CommentPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = CommentPreviousValuesPromise>() => T;
-}
-
-export interface CommentSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<CommentSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = CommentSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = CommentPreviousValuesSubscription>() => T;
-}
-
-export interface ReportEdge {
-  node: Report;
-  cursor: String;
-}
-
-export interface ReportEdgePromise extends Promise<ReportEdge>, Fragmentable {
-  node: <T = ReportPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface ReportEdgeSubscription extends Promise<AsyncIterator<ReportEdge>>, Fragmentable {
-  node: <T = ReportSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CommentPreviousValues {
-  id: UUID;
-  message: String;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface CommentPreviousValuesPromise extends Promise<CommentPreviousValues>, Fragmentable {
-  id: () => Promise<UUID>;
-  message: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface CommentPreviousValuesSubscription
-  extends Promise<AsyncIterator<CommentPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  message: () => Promise<AsyncIterator<String>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface AggregatePostTag {
-  count: Int;
-}
-
-export interface AggregatePostTagPromise extends Promise<AggregatePostTag>, Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregatePostTagSubscription
-  extends Promise<AsyncIterator<AggregatePostTag>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface ReviewLikePreviousValues {
-  id: UUID;
-  count: Int;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface ReviewLikePreviousValuesPromise
-  extends Promise<ReviewLikePreviousValues>,
-    Fragmentable {
-  id: () => Promise<UUID>;
-  count: () => Promise<Int>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface ReviewLikePreviousValuesSubscription
-  extends Promise<AsyncIterator<ReviewLikePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  count: () => Promise<AsyncIterator<Int>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface PostTagConnection {
-  pageInfo: PageInfo;
-  edges: PostTagEdge[];
-}
-
-export interface PostTagConnectionPromise extends Promise<PostTagConnection>, Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PostTagEdge>>() => T;
-  aggregate: <T = AggregatePostTagPromise>() => T;
-}
-
-export interface PostTagConnectionSubscription
-  extends Promise<AsyncIterator<PostTagConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PostTagEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePostTagSubscription>() => T;
-}
-
-export interface CommentImageSubscriptionPayload {
-  mutation: MutationType;
-  node: CommentImage;
-  updatedFields: String[];
-  previousValues: CommentImagePreviousValues;
-}
-
-export interface CommentImageSubscriptionPayloadPromise
-  extends Promise<CommentImageSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = CommentImagePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = CommentImagePreviousValuesPromise>() => T;
-}
-
-export interface CommentImageSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<CommentImageSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = CommentImageSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = CommentImagePreviousValuesSubscription>() => T;
-}
-
-export interface PostLikeEdge {
-  node: PostLike;
-  cursor: String;
-}
-
-export interface PostLikeEdgePromise extends Promise<PostLikeEdge>, Fragmentable {
-  node: <T = PostLikePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface PostLikeEdgeSubscription
-  extends Promise<AsyncIterator<PostLikeEdge>>,
-    Fragmentable {
-  node: <T = PostLikeSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CommentImagePreviousValues {
-  id: UUID;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface CommentImagePreviousValuesPromise
-  extends Promise<CommentImagePreviousValues>,
-    Fragmentable {
-  id: () => Promise<UUID>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface CommentImagePreviousValuesSubscription
-  extends Promise<AsyncIterator<CommentImagePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface PostLike {
-  id: UUID;
-  count: Int;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface PostLikePromise extends Promise<PostLike>, Fragmentable {
-  id: () => Promise<UUID>;
-  count: () => Promise<Int>;
-  post: <T = PostPromise>() => T;
-  like: <T = LikePromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PostLikeSubscription extends Promise<AsyncIterator<PostLike>>, Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  count: () => Promise<AsyncIterator<Int>>;
-  post: <T = PostSubscription>() => T;
-  like: <T = LikeSubscription>() => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface PostLikeNullablePromise extends Promise<PostLike | null>, Fragmentable {
-  id: () => Promise<UUID>;
-  count: () => Promise<Int>;
-  post: <T = PostPromise>() => T;
-  like: <T = LikePromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription extends Promise<AsyncIterator<PageInfo>>, Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PostImageEdge {
-  node: PostImage;
-  cursor: String;
-}
-
-export interface PostImageEdgePromise extends Promise<PostImageEdge>, Fragmentable {
-  node: <T = PostImagePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface PostImageEdgeSubscription
-  extends Promise<AsyncIterator<PostImageEdge>>,
-    Fragmentable {
-  node: <T = PostImageSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CommentLikeSubscriptionPayload {
-  mutation: MutationType;
-  node: CommentLike;
-  updatedFields: String[];
-  previousValues: CommentLikePreviousValues;
-}
-
-export interface CommentLikeSubscriptionPayloadPromise
-  extends Promise<CommentLikeSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = CommentLikePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = CommentLikePreviousValuesPromise>() => T;
-}
-
-export interface CommentLikeSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<CommentLikeSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = CommentLikeSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = CommentLikePreviousValuesSubscription>() => T;
-}
-
-export interface AggregatePost {
-  count: Int;
-}
-
-export interface AggregatePostPromise extends Promise<AggregatePost>, Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregatePostSubscription
-  extends Promise<AsyncIterator<AggregatePost>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface CommentLikePreviousValues {
-  id: UUID;
-  count: Int;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface CommentLikePreviousValuesPromise
-  extends Promise<CommentLikePreviousValues>,
-    Fragmentable {
-  id: () => Promise<UUID>;
-  count: () => Promise<Int>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface CommentLikePreviousValuesSubscription
-  extends Promise<AsyncIterator<CommentLikePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  count: () => Promise<AsyncIterator<Int>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface PostConnection {
-  pageInfo: PageInfo;
-  edges: PostEdge[];
-}
-
-export interface PostConnectionPromise extends Promise<PostConnection>, Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PostEdge>>() => T;
-  aggregate: <T = AggregatePostPromise>() => T;
-}
-
-export interface PostConnectionSubscription
-  extends Promise<AsyncIterator<PostConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PostEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePostSubscription>() => T;
-}
-
-export interface AccountConnection {
-  pageInfo: PageInfo;
-  edges: AccountEdge[];
-}
-
-export interface AccountConnectionPromise extends Promise<AccountConnection>, Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<AccountEdge>>() => T;
-  aggregate: <T = AggregateAccountPromise>() => T;
-}
-
-export interface AccountConnectionSubscription
-  extends Promise<AsyncIterator<AccountConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<AccountEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateAccountSubscription>() => T;
-}
-
-export interface PetCategoryEdge {
-  node: PetCategory;
-  cursor: String;
-}
-
-export interface PetCategoryEdgePromise extends Promise<PetCategoryEdge>, Fragmentable {
-  node: <T = PetCategoryPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface PetCategoryEdgeSubscription
-  extends Promise<AsyncIterator<PetCategoryEdge>>,
-    Fragmentable {
-  node: <T = PetCategorySubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface ImageSubscriptionPayload {
-  mutation: MutationType;
-  node: Image;
-  updatedFields: String[];
-  previousValues: ImagePreviousValues;
-}
-
-export interface ImageSubscriptionPayloadPromise
-  extends Promise<ImageSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = ImagePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = ImagePreviousValuesPromise>() => T;
-}
-
-export interface ImageSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<ImageSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = ImageSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = ImagePreviousValuesSubscription>() => T;
-}
-
-export interface TagSubscriptionPayload {
-  mutation: MutationType;
-  node: Tag;
-  updatedFields: String[];
-  previousValues: TagPreviousValues;
-}
-
-export interface TagSubscriptionPayloadPromise
-  extends Promise<TagSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = TagPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = TagPreviousValuesPromise>() => T;
-}
-
-export interface TagSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<TagSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = TagSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = TagPreviousValuesSubscription>() => T;
-}
-
-export interface ImagePreviousValues {
-  id: UUID;
-  publicId: String;
-  url: String;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface ImagePreviousValuesPromise extends Promise<ImagePreviousValues>, Fragmentable {
-  id: () => Promise<UUID>;
-  publicId: () => Promise<String>;
-  url: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface ImagePreviousValuesSubscription
-  extends Promise<AsyncIterator<ImagePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  publicId: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface PetEdge {
-  node: Pet;
-  cursor: String;
-}
-
-export interface PetEdgePromise extends Promise<PetEdge>, Fragmentable {
-  node: <T = PetPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface PetEdgeSubscription extends Promise<AsyncIterator<PetEdge>>, Fragmentable {
-  node: <T = PetSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface Like {
-  id: UUID;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface LikePromise extends Promise<Like>, Fragmentable {
-  id: () => Promise<UUID>;
-  account: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface LikeSubscription extends Promise<AsyncIterator<Like>>, Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  account: <T = AccountSubscription>() => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface LikeNullablePromise extends Promise<Like | null>, Fragmentable {
-  id: () => Promise<UUID>;
-  account: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface AggregateLike {
-  count: Int;
-}
-
-export interface AggregateLikePromise extends Promise<AggregateLike>, Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateLikeSubscription
-  extends Promise<AsyncIterator<AggregateLike>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface LikeSubscriptionPayload {
-  mutation: MutationType;
-  node: Like;
-  updatedFields: String[];
-  previousValues: LikePreviousValues;
-}
-
-export interface LikeSubscriptionPayloadPromise
-  extends Promise<LikeSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = LikePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = LikePreviousValuesPromise>() => T;
-}
-
-export interface LikeSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<LikeSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = LikeSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = LikePreviousValuesSubscription>() => T;
-}
-
-export interface LikeConnection {
-  pageInfo: PageInfo;
-  edges: LikeEdge[];
-}
-
-export interface LikeConnectionPromise extends Promise<LikeConnection>, Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<LikeEdge>>() => T;
-  aggregate: <T = AggregateLikePromise>() => T;
-}
-
-export interface LikeConnectionSubscription
-  extends Promise<AsyncIterator<LikeConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<LikeEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateLikeSubscription>() => T;
-}
-
-export interface LikePreviousValues {
-  id: UUID;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface LikePreviousValuesPromise extends Promise<LikePreviousValues>, Fragmentable {
-  id: () => Promise<UUID>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface LikePreviousValuesSubscription
-  extends Promise<AsyncIterator<LikePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface ImageEdge {
-  node: Image;
-  cursor: String;
-}
-
-export interface ImageEdgePromise extends Promise<ImageEdge>, Fragmentable {
-  node: <T = ImagePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface ImageEdgeSubscription extends Promise<AsyncIterator<ImageEdge>>, Fragmentable {
-  node: <T = ImageSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface ReviewLikeSubscriptionPayload {
-  mutation: MutationType;
-  node: ReviewLike;
-  updatedFields: String[];
-  previousValues: ReviewLikePreviousValues;
-}
-
-export interface ReviewLikeSubscriptionPayloadPromise
-  extends Promise<ReviewLikeSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = ReviewLikePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = ReviewLikePreviousValuesPromise>() => T;
-}
-
-export interface ReviewLikeSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<ReviewLikeSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = ReviewLikeSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = ReviewLikePreviousValuesSubscription>() => T;
-}
-
-export interface AggregateCommentLike {
-  count: Int;
-}
-
-export interface AggregateCommentLikePromise extends Promise<AggregateCommentLike>, Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateCommentLikeSubscription
-  extends Promise<AsyncIterator<AggregateCommentLike>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface PetSubscriptionPayload {
-  mutation: MutationType;
-  node: Pet;
-  updatedFields: String[];
-  previousValues: PetPreviousValues;
-}
-
-export interface PetSubscriptionPayloadPromise
-  extends Promise<PetSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = PetPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = PetPreviousValuesPromise>() => T;
-}
-
-export interface PetSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<PetSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = PetSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = PetPreviousValuesSubscription>() => T;
-}
-
-export interface CommentLikeConnection {
-  pageInfo: PageInfo;
-  edges: CommentLikeEdge[];
-}
-
-export interface CommentLikeConnectionPromise extends Promise<CommentLikeConnection>, Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<CommentLikeEdge>>() => T;
-  aggregate: <T = AggregateCommentLikePromise>() => T;
-}
-
-export interface CommentLikeConnectionSubscription
-  extends Promise<AsyncIterator<CommentLikeConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<CommentLikeEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateCommentLikeSubscription>() => T;
-}
-
-export interface PetPreviousValues {
-  id: UUID;
-  info?: Json;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface PetPreviousValuesPromise extends Promise<PetPreviousValues>, Fragmentable {
-  id: () => Promise<UUID>;
-  info: () => Promise<Json>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PetPreviousValuesSubscription
-  extends Promise<AsyncIterator<PetPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  info: () => Promise<AsyncIterator<Json>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface AggregateUser {
-  count: Int;
-}
-
-export interface AggregateUserPromise extends Promise<AggregateUser>, Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface Report {
-  id: UUID;
-  content: String;
-  reason: String;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface ReportPromise extends Promise<Report>, Fragmentable {
-  id: () => Promise<UUID>;
-  content: () => Promise<String>;
-  reason: () => Promise<String>;
-  post: <T = PostPromise>() => T;
-  createdBy: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface ReportSubscription extends Promise<AsyncIterator<Report>>, Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  content: () => Promise<AsyncIterator<String>>;
-  reason: () => Promise<AsyncIterator<String>>;
-  post: <T = PostSubscription>() => T;
-  createdBy: <T = AccountSubscription>() => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface ReportNullablePromise extends Promise<Report | null>, Fragmentable {
-  id: () => Promise<UUID>;
-  content: () => Promise<String>;
-  reason: () => Promise<String>;
-  post: <T = PostPromise>() => T;
-  createdBy: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface TagEdge {
-  node: Tag;
-  cursor: String;
-}
-
-export interface TagEdgePromise extends Promise<TagEdge>, Fragmentable {
-  node: <T = TagPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface TagEdgeSubscription extends Promise<AsyncIterator<TagEdge>>, Fragmentable {
-  node: <T = TagSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PetCategorySubscriptionPayload {
-  mutation: MutationType;
-  node: PetCategory;
-  updatedFields: String[];
-  previousValues: PetCategoryPreviousValues;
-}
-
-export interface PetCategorySubscriptionPayloadPromise
-  extends Promise<PetCategorySubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = PetCategoryPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = PetCategoryPreviousValuesPromise>() => T;
-}
-
-export interface PetCategorySubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<PetCategorySubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = PetCategorySubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = PetCategoryPreviousValuesSubscription>() => T;
-}
-
-export interface ReviewLikeEdge {
-  node: ReviewLike;
-  cursor: String;
-}
-
-export interface ReviewLikeEdgePromise extends Promise<ReviewLikeEdge>, Fragmentable {
-  node: <T = ReviewLikePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface ReviewLikeEdgeSubscription
-  extends Promise<AsyncIterator<ReviewLikeEdge>>,
-    Fragmentable {
-  node: <T = ReviewLikeSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PetCategoryPreviousValues {
-  id: UUID;
-  name: String;
-  description?: String;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface PetCategoryPreviousValuesPromise
-  extends Promise<PetCategoryPreviousValues>,
-    Fragmentable {
-  id: () => Promise<UUID>;
-  name: () => Promise<String>;
-  description: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PetCategoryPreviousValuesSubscription
-  extends Promise<AsyncIterator<PetCategoryPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  name: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface AggregateReviewImage {
-  count: Int;
-}
-
-export interface AggregateReviewImagePromise extends Promise<AggregateReviewImage>, Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateReviewImageSubscription
-  extends Promise<AsyncIterator<AggregateReviewImage>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface ReviewImage {
-  id: UUID;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface ReviewImagePromise extends Promise<ReviewImage>, Fragmentable {
-  id: () => Promise<UUID>;
-  image: <T = ImagePromise>() => T;
-  review: <T = ReviewPromise>() => T;
-  account: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface ReviewImageSubscription extends Promise<AsyncIterator<ReviewImage>>, Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  image: <T = ImageSubscription>() => T;
-  review: <T = ReviewSubscription>() => T;
-  account: <T = AccountSubscription>() => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface ReviewImageNullablePromise extends Promise<ReviewImage | null>, Fragmentable {
-  id: () => Promise<UUID>;
-  image: <T = ImagePromise>() => T;
-  review: <T = ReviewPromise>() => T;
-  account: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface ReviewEdge {
-  node: Review;
-  cursor: String;
-}
-
-export interface ReviewEdgePromise extends Promise<ReviewEdge>, Fragmentable {
-  node: <T = ReviewPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface ReviewEdgeSubscription extends Promise<AsyncIterator<ReviewEdge>>, Fragmentable {
-  node: <T = ReviewSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PostSubscriptionPayload {
-  mutation: MutationType;
-  node: Post;
-  updatedFields: String[];
-  previousValues: PostPreviousValues;
-}
-
-export interface PostSubscriptionPayloadPromise
-  extends Promise<PostSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = PostPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = PostPreviousValuesPromise>() => T;
-}
-
-export interface PostSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<PostSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = PostSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = PostPreviousValuesSubscription>() => T;
-}
-
-export interface ReportConnection {
-  pageInfo: PageInfo;
-  edges: ReportEdge[];
-}
-
-export interface ReportConnectionPromise extends Promise<ReportConnection>, Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ReportEdge>>() => T;
-  aggregate: <T = AggregateReportPromise>() => T;
-}
-
-export interface ReportConnectionSubscription
-  extends Promise<AsyncIterator<ReportConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ReportEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateReportSubscription>() => T;
-}
-
-export interface PostPreviousValues {
-  id: UUID;
-  title: String;
-  description?: String;
-  location: String;
-  price: Float;
-  dueDate: DateTimeOutput;
-  settings?: Json;
-  status: PostStatus;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface PostPreviousValuesPromise extends Promise<PostPreviousValues>, Fragmentable {
-  id: () => Promise<UUID>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-  location: () => Promise<String>;
-  price: () => Promise<Float>;
-  dueDate: () => Promise<DateTimeOutput>;
-  settings: () => Promise<Json>;
-  status: () => Promise<PostStatus>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PostPreviousValuesSubscription
-  extends Promise<AsyncIterator<PostPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  title: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  location: () => Promise<AsyncIterator<String>>;
-  price: () => Promise<AsyncIterator<Float>>;
-  dueDate: () => Promise<AsyncIterator<DateTimeOutput>>;
-  settings: () => Promise<AsyncIterator<Json>>;
-  status: () => Promise<AsyncIterator<PostStatus>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface AggregatePostLike {
-  count: Int;
-}
-
-export interface AggregatePostLikePromise extends Promise<AggregatePostLike>, Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregatePostLikeSubscription
-  extends Promise<AsyncIterator<AggregatePostLike>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface Review {
-  id: UUID;
-  message: String;
-  stars: Int;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface ReviewPromise extends Promise<Review>, Fragmentable {
-  id: () => Promise<UUID>;
-  message: () => Promise<String>;
-  stars: () => Promise<Int>;
-  reviewImages: <T = FragmentableArray<ReviewImage>>(args?: {
-    where?: ReviewImageWhereInput;
-    orderBy?: ReviewImageOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  post: <T = PostPromise>() => T;
-  createdBy: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface ReviewSubscription extends Promise<AsyncIterator<Review>>, Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  message: () => Promise<AsyncIterator<String>>;
-  stars: () => Promise<AsyncIterator<Int>>;
-  reviewImages: <T = Promise<AsyncIterator<ReviewImageSubscription>>>(args?: {
-    where?: ReviewImageWhereInput;
-    orderBy?: ReviewImageOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  post: <T = PostSubscription>() => T;
-  createdBy: <T = AccountSubscription>() => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface ReviewNullablePromise extends Promise<Review | null>, Fragmentable {
-  id: () => Promise<UUID>;
-  message: () => Promise<String>;
-  stars: () => Promise<Int>;
-  reviewImages: <T = FragmentableArray<ReviewImage>>(args?: {
-    where?: ReviewImageWhereInput;
-    orderBy?: ReviewImageOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  post: <T = PostPromise>() => T;
-  createdBy: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface AggregatePostImage {
-  count: Int;
-}
-
-export interface AggregatePostImagePromise extends Promise<AggregatePostImage>, Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregatePostImageSubscription
-  extends Promise<AsyncIterator<AggregatePostImage>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface PostImageSubscriptionPayload {
-  mutation: MutationType;
-  node: PostImage;
-  updatedFields: String[];
-  previousValues: PostImagePreviousValues;
-}
-
-export interface PostImageSubscriptionPayloadPromise
-  extends Promise<PostImageSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = PostImagePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = PostImagePreviousValuesPromise>() => T;
-}
-
-export interface PostImageSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<PostImageSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = PostImageSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = PostImagePreviousValuesSubscription>() => T;
-}
-
-export interface PostEdge {
-  node: Post;
-  cursor: String;
-}
-
-export interface PostEdgePromise extends Promise<PostEdge>, Fragmentable {
-  node: <T = PostPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface PostEdgeSubscription extends Promise<AsyncIterator<PostEdge>>, Fragmentable {
-  node: <T = PostSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PostImagePreviousValues {
-  id: UUID;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface PostImagePreviousValuesPromise
-  extends Promise<PostImagePreviousValues>,
-    Fragmentable {
-  id: () => Promise<UUID>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PostImagePreviousValuesSubscription
-  extends Promise<AsyncIterator<PostImagePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface PetCategoryConnection {
-  pageInfo: PageInfo;
-  edges: PetCategoryEdge[];
-}
-
-export interface PetCategoryConnectionPromise extends Promise<PetCategoryConnection>, Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PetCategoryEdge>>() => T;
-  aggregate: <T = AggregatePetCategoryPromise>() => T;
-}
-
-export interface PetCategoryConnectionSubscription
-  extends Promise<AsyncIterator<PetCategoryConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PetCategoryEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePetCategorySubscription>() => T;
-}
-
-export interface CommentImage {
-  id: UUID;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface CommentImagePromise extends Promise<CommentImage>, Fragmentable {
-  id: () => Promise<UUID>;
-  image: <T = ImagePromise>() => T;
-  comment: <T = CommentPromise>() => T;
-  account: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface CommentImageSubscription
-  extends Promise<AsyncIterator<CommentImage>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  image: <T = ImageSubscription>() => T;
-  comment: <T = CommentSubscription>() => T;
-  account: <T = AccountSubscription>() => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface CommentImageNullablePromise extends Promise<CommentImage | null>, Fragmentable {
-  id: () => Promise<UUID>;
-  image: <T = ImagePromise>() => T;
-  comment: <T = CommentPromise>() => T;
-  account: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PetConnection {
-  pageInfo: PageInfo;
-  edges: PetEdge[];
-}
-
-export interface PetConnectionPromise extends Promise<PetConnection>, Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PetEdge>>() => T;
-  aggregate: <T = AggregatePetPromise>() => T;
-}
-
-export interface PetConnectionSubscription
-  extends Promise<AsyncIterator<PetConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PetEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePetSubscription>() => T;
-}
-
-export interface PostLikeSubscriptionPayload {
-  mutation: MutationType;
-  node: PostLike;
-  updatedFields: String[];
-  previousValues: PostLikePreviousValues;
-}
-
-export interface PostLikeSubscriptionPayloadPromise
-  extends Promise<PostLikeSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = PostLikePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = PostLikePreviousValuesPromise>() => T;
-}
-
-export interface PostLikeSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<PostLikeSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = PostLikeSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = PostLikePreviousValuesSubscription>() => T;
-}
-
-export interface AggregateImage {
-  count: Int;
-}
-
-export interface AggregateImagePromise extends Promise<AggregateImage>, Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateImageSubscription
-  extends Promise<AsyncIterator<AggregateImage>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface PostLikePreviousValues {
-  id: UUID;
-  count: Int;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface PostLikePreviousValuesPromise
-  extends Promise<PostLikePreviousValues>,
-    Fragmentable {
-  id: () => Promise<UUID>;
-  count: () => Promise<Int>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PostLikePreviousValuesSubscription
-  extends Promise<AsyncIterator<PostLikePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  count: () => Promise<AsyncIterator<Int>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface CommentLikeEdge {
-  node: CommentLike;
-  cursor: String;
-}
-
-export interface CommentLikeEdgePromise extends Promise<CommentLikeEdge>, Fragmentable {
-  node: <T = CommentLikePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface CommentLikeEdgeSubscription
-  extends Promise<AsyncIterator<CommentLikeEdge>>,
-    Fragmentable {
-  node: <T = CommentLikeSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface Comment {
-  id: UUID;
-  message: String;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface CommentPromise extends Promise<Comment>, Fragmentable {
-  id: () => Promise<UUID>;
-  message: () => Promise<String>;
-  commentImages: <T = FragmentableArray<CommentImage>>(args?: {
-    where?: CommentImageWhereInput;
-    orderBy?: CommentImageOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  post: <T = PostPromise>() => T;
-  createdBy: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface CommentSubscription extends Promise<AsyncIterator<Comment>>, Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  message: () => Promise<AsyncIterator<String>>;
-  commentImages: <T = Promise<AsyncIterator<CommentImageSubscription>>>(args?: {
-    where?: CommentImageWhereInput;
-    orderBy?: CommentImageOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  post: <T = PostSubscription>() => T;
-  createdBy: <T = AccountSubscription>() => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface CommentNullablePromise extends Promise<Comment | null>, Fragmentable {
-  id: () => Promise<UUID>;
-  message: () => Promise<String>;
-  commentImages: <T = FragmentableArray<CommentImage>>(args?: {
-    where?: CommentImageWhereInput;
-    orderBy?: CommentImageOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  post: <T = PostPromise>() => T;
-  createdBy: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
+  count: () => Promise<AsyncIterator<Long>>;
 }
 
 export interface UserConnection {
@@ -7393,31 +5547,6 @@ export interface UserConnectionSubscription
   pageInfo: <T = PageInfoSubscription>() => T;
   edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
   aggregate: <T = AggregateUserSubscription>() => T;
-}
-
-export interface PostTagSubscriptionPayload {
-  mutation: MutationType;
-  node: PostTag;
-  updatedFields: String[];
-  previousValues: PostTagPreviousValues;
-}
-
-export interface PostTagSubscriptionPayloadPromise
-  extends Promise<PostTagSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = PostTagPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = PostTagPreviousValuesPromise>() => T;
-}
-
-export interface PostTagSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<PostTagSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = PostTagSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = PostTagPreviousValuesSubscription>() => T;
 }
 
 export interface TagPreviousValues {
@@ -7446,449 +5575,33 @@ export interface TagPreviousValuesSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface PostTagPreviousValues {
-  id: UUID;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface PostTagPreviousValuesPromise extends Promise<PostTagPreviousValues>, Fragmentable {
-  id: () => Promise<UUID>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PostTagPreviousValuesSubscription
-  extends Promise<AsyncIterator<PostTagPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface AggregateReport {
-  count: Int;
-}
-
-export interface AggregateReportPromise extends Promise<AggregateReport>, Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateReportSubscription
-  extends Promise<AsyncIterator<AggregateReport>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface Tag {
-  id: UUID;
-  title: String;
-  description?: String;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface TagPromise extends Promise<Tag>, Fragmentable {
-  id: () => Promise<UUID>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-  postTags: <T = FragmentableArray<PostTag>>(args?: {
-    where?: PostTagWhereInput;
-    orderBy?: PostTagOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface TagSubscription extends Promise<AsyncIterator<Tag>>, Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  title: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  postTags: <T = Promise<AsyncIterator<PostTagSubscription>>>(args?: {
-    where?: PostTagWhereInput;
-    orderBy?: PostTagOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface TagNullablePromise extends Promise<Tag | null>, Fragmentable {
-  id: () => Promise<UUID>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-  postTags: <T = FragmentableArray<PostTag>>(args?: {
-    where?: PostTagWhereInput;
-    orderBy?: PostTagOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PostLikeConnection {
-  pageInfo: PageInfo;
-  edges: PostLikeEdge[];
-}
-
-export interface PostLikeConnectionPromise extends Promise<PostLikeConnection>, Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PostLikeEdge>>() => T;
-  aggregate: <T = AggregatePostLikePromise>() => T;
-}
-
-export interface PostLikeConnectionSubscription
-  extends Promise<AsyncIterator<PostLikeConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PostLikeEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePostLikeSubscription>() => T;
-}
-
-export interface ReportSubscriptionPayload {
-  mutation: MutationType;
-  node: Report;
-  updatedFields: String[];
-  previousValues: ReportPreviousValues;
-}
-
-export interface ReportSubscriptionPayloadPromise
-  extends Promise<ReportSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = ReportPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = ReportPreviousValuesPromise>() => T;
-}
-
-export interface ReportSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<ReportSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = ReportSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = ReportPreviousValuesSubscription>() => T;
-}
-
-export interface AggregatePetCategory {
-  count: Int;
-}
-
-export interface AggregatePetCategoryPromise extends Promise<AggregatePetCategory>, Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregatePetCategorySubscription
-  extends Promise<AsyncIterator<AggregatePetCategory>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface ReportPreviousValues {
-  id: UUID;
-  content: String;
-  reason: String;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface ReportPreviousValuesPromise extends Promise<ReportPreviousValues>, Fragmentable {
-  id: () => Promise<UUID>;
-  content: () => Promise<String>;
-  reason: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface ReportPreviousValuesSubscription
-  extends Promise<AsyncIterator<ReportPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  content: () => Promise<AsyncIterator<String>>;
-  reason: () => Promise<AsyncIterator<String>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface LikeEdge {
-  node: Like;
+export interface TagEdge {
+  node: Tag;
   cursor: String;
 }
 
-export interface LikeEdgePromise extends Promise<LikeEdge>, Fragmentable {
-  node: <T = LikePromise>() => T;
+export interface TagEdgePromise extends Promise<TagEdge>, Fragmentable {
+  node: <T = TagPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface LikeEdgeSubscription extends Promise<AsyncIterator<LikeEdge>>, Fragmentable {
-  node: <T = LikeSubscription>() => T;
+export interface TagEdgeSubscription extends Promise<AsyncIterator<TagEdge>>, Fragmentable {
+  node: <T = TagSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface PostTag {
-  id: UUID;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface PostTagPromise extends Promise<PostTag>, Fragmentable {
-  id: () => Promise<UUID>;
-  post: <T = PostPromise>() => T;
-  tag: <T = TagPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PostTagSubscription extends Promise<AsyncIterator<PostTag>>, Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  post: <T = PostSubscription>() => T;
-  tag: <T = TagSubscription>() => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface PostTagNullablePromise extends Promise<PostTag | null>, Fragmentable {
-  id: () => Promise<UUID>;
-  post: <T = PostPromise>() => T;
-  tag: <T = TagPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
-}
-
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
-}
-
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
-}
-
-export interface ReviewSubscriptionPayload {
-  mutation: MutationType;
-  node: Review;
-  updatedFields: String[];
-  previousValues: ReviewPreviousValues;
-}
-
-export interface ReviewSubscriptionPayloadPromise
-  extends Promise<ReviewSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = ReviewPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = ReviewPreviousValuesPromise>() => T;
-}
-
-export interface ReviewSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<ReviewSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = ReviewSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = ReviewPreviousValuesSubscription>() => T;
-}
-
-export interface ReviewImageConnection {
-  pageInfo: PageInfo;
-  edges: ReviewImageEdge[];
-}
-
-export interface ReviewImageConnectionPromise extends Promise<ReviewImageConnection>, Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ReviewImageEdge>>() => T;
-  aggregate: <T = AggregateReviewImagePromise>() => T;
-}
-
-export interface ReviewImageConnectionSubscription
-  extends Promise<AsyncIterator<ReviewImageConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ReviewImageEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateReviewImageSubscription>() => T;
-}
-
-export interface PostImageConnection {
-  pageInfo: PageInfo;
-  edges: PostImageEdge[];
-}
-
-export interface PostImageConnectionPromise extends Promise<PostImageConnection>, Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PostImageEdge>>() => T;
-  aggregate: <T = AggregatePostImagePromise>() => T;
-}
-
-export interface PostImageConnectionSubscription
-  extends Promise<AsyncIterator<PostImageConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PostImageEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePostImageSubscription>() => T;
-}
-
-export interface ReviewImagePreviousValues {
-  id: UUID;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface ReviewImagePreviousValuesPromise
-  extends Promise<ReviewImagePreviousValues>,
-    Fragmentable {
-  id: () => Promise<UUID>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface ReviewImagePreviousValuesSubscription
-  extends Promise<AsyncIterator<ReviewImagePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface ReviewImageSubscriptionPayload {
-  mutation: MutationType;
-  node: ReviewImage;
-  updatedFields: String[];
-  previousValues: ReviewImagePreviousValues;
-}
-
-export interface ReviewImageSubscriptionPayloadPromise
-  extends Promise<ReviewImageSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = ReviewImagePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = ReviewImagePreviousValuesPromise>() => T;
-}
-
-export interface ReviewImageSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<ReviewImageSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = ReviewImageSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = ReviewImagePreviousValuesSubscription>() => T;
-}
-
-export interface PostImage {
-  id: UUID;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface PostImagePromise extends Promise<PostImage>, Fragmentable {
-  id: () => Promise<UUID>;
-  image: <T = ImagePromise>() => T;
-  post: <T = PostPromise>() => T;
-  account: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PostImageSubscription extends Promise<AsyncIterator<PostImage>>, Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  image: <T = ImageSubscription>() => T;
-  post: <T = PostSubscription>() => T;
-  account: <T = AccountSubscription>() => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface PostImageNullablePromise extends Promise<PostImage | null>, Fragmentable {
-  id: () => Promise<UUID>;
-  image: <T = ImagePromise>() => T;
-  post: <T = PostPromise>() => T;
-  account: <T = AccountPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface ReviewPreviousValues {
-  id: UUID;
-  message: String;
-  stars: Int;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface ReviewPreviousValuesPromise extends Promise<ReviewPreviousValues>, Fragmentable {
-  id: () => Promise<UUID>;
-  message: () => Promise<String>;
-  stars: () => Promise<Int>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface ReviewPreviousValuesSubscription
-  extends Promise<AsyncIterator<ReviewPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<UUID>>;
-  message: () => Promise<AsyncIterator<String>>;
-  stars: () => Promise<AsyncIterator<Int>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface AggregatePet {
+export interface AggregateUser {
   count: Int;
 }
 
-export interface AggregatePetPromise extends Promise<AggregatePet>, Fragmentable {
+export interface AggregateUserPromise extends Promise<AggregateUser>, Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregatePetSubscription
-  extends Promise<AsyncIterator<AggregatePet>>,
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface PostTagEdge {
-  node: PostTag;
-  cursor: String;
-}
-
-export interface PostTagEdgePromise extends Promise<PostTagEdge>, Fragmentable {
-  node: <T = PostTagPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface PostTagEdgeSubscription extends Promise<AsyncIterator<PostTagEdge>>, Fragmentable {
-  node: <T = PostTagSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface Account {
@@ -8209,6 +5922,801 @@ export interface AccountNullablePromise extends Promise<Account | null>, Fragmen
   updatedAt: () => Promise<DateTimeOutput>;
 }
 
+export interface AggregateAccount {
+  count: Int;
+}
+
+export interface AggregateAccountPromise extends Promise<AggregateAccount>, Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateAccountSubscription
+  extends Promise<AsyncIterator<AggregateAccount>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ReviewLikeEdge {
+  node: ReviewLike;
+  cursor: String;
+}
+
+export interface ReviewLikeEdgePromise extends Promise<ReviewLikeEdge>, Fragmentable {
+  node: <T = ReviewLikePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ReviewLikeEdgeSubscription
+  extends Promise<AsyncIterator<ReviewLikeEdge>>,
+    Fragmentable {
+  node: <T = ReviewLikeSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AccountEdge {
+  node: Account;
+  cursor: String;
+}
+
+export interface AccountEdgePromise extends Promise<AccountEdge>, Fragmentable {
+  node: <T = AccountPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface AccountEdgeSubscription extends Promise<AsyncIterator<AccountEdge>>, Fragmentable {
+  node: <T = AccountSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
+}
+
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
+}
+
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
+}
+
+export interface TagSubscriptionPayload {
+  mutation: MutationType;
+  node: Tag;
+  updatedFields: String[];
+  previousValues: TagPreviousValues;
+}
+
+export interface TagSubscriptionPayloadPromise
+  extends Promise<TagSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = TagPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = TagPreviousValuesPromise>() => T;
+}
+
+export interface TagSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<TagSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = TagSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = TagPreviousValuesSubscription>() => T;
+}
+
+export interface AggregateReviewImage {
+  count: Int;
+}
+
+export interface AggregateReviewImagePromise extends Promise<AggregateReviewImage>, Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateReviewImageSubscription
+  extends Promise<AsyncIterator<AggregateReviewImage>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface AccountSubscriptionPayload {
+  mutation: MutationType;
+  node: Account;
+  updatedFields: String[];
+  previousValues: AccountPreviousValues;
+}
+
+export interface AccountSubscriptionPayloadPromise
+  extends Promise<AccountSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = AccountPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = AccountPreviousValuesPromise>() => T;
+}
+
+export interface AccountSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<AccountSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = AccountSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = AccountPreviousValuesSubscription>() => T;
+}
+
+export interface ReviewImageConnection {
+  pageInfo: PageInfo;
+  edges: ReviewImageEdge[];
+}
+
+export interface ReviewImageConnectionPromise extends Promise<ReviewImageConnection>, Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ReviewImageEdge>>() => T;
+  aggregate: <T = AggregateReviewImagePromise>() => T;
+}
+
+export interface ReviewImageConnectionSubscription
+  extends Promise<AsyncIterator<ReviewImageConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ReviewImageEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateReviewImageSubscription>() => T;
+}
+
+export interface AccountPreviousValues {
+  id: UUID;
+  username: String;
+  password: String;
+  email: String;
+  role: Role;
+  status?: AccountStatus;
+  settings?: Json;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface AccountPreviousValuesPromise extends Promise<AccountPreviousValues>, Fragmentable {
+  id: () => Promise<UUID>;
+  username: () => Promise<String>;
+  password: () => Promise<String>;
+  email: () => Promise<String>;
+  role: () => Promise<Role>;
+  status: () => Promise<AccountStatus>;
+  settings: () => Promise<Json>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface AccountPreviousValuesSubscription
+  extends Promise<AsyncIterator<AccountPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  username: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  role: () => Promise<AsyncIterator<Role>>;
+  status: () => Promise<AsyncIterator<AccountStatus>>;
+  settings: () => Promise<AsyncIterator<Json>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface ReviewEdge {
+  node: Review;
+  cursor: String;
+}
+
+export interface ReviewEdgePromise extends Promise<ReviewEdge>, Fragmentable {
+  node: <T = ReviewPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ReviewEdgeSubscription extends Promise<AsyncIterator<ReviewEdge>>, Fragmentable {
+  node: <T = ReviewSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface Pet {
+  id: UUID;
+  info?: Json;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface PetPromise extends Promise<Pet>, Fragmentable {
+  id: () => Promise<UUID>;
+  category: <T = PetCategoryPromise>() => T;
+  info: () => Promise<Json>;
+  account: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PetSubscription extends Promise<AsyncIterator<Pet>>, Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  category: <T = PetCategorySubscription>() => T;
+  info: () => Promise<AsyncIterator<Json>>;
+  account: <T = AccountSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PetNullablePromise extends Promise<Pet | null>, Fragmentable {
+  id: () => Promise<UUID>;
+  category: <T = PetCategoryPromise>() => T;
+  info: () => Promise<Json>;
+  account: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface AggregateReport {
+  count: Int;
+}
+
+export interface AggregateReportPromise extends Promise<AggregateReport>, Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateReportSubscription
+  extends Promise<AsyncIterator<AggregateReport>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface CommentSubscriptionPayload {
+  mutation: MutationType;
+  node: Comment;
+  updatedFields: String[];
+  previousValues: CommentPreviousValues;
+}
+
+export interface CommentSubscriptionPayloadPromise
+  extends Promise<CommentSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = CommentPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CommentPreviousValuesPromise>() => T;
+}
+
+export interface CommentSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CommentSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CommentSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CommentPreviousValuesSubscription>() => T;
+}
+
+export interface ReportConnection {
+  pageInfo: PageInfo;
+  edges: ReportEdge[];
+}
+
+export interface ReportConnectionPromise extends Promise<ReportConnection>, Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ReportEdge>>() => T;
+  aggregate: <T = AggregateReportPromise>() => T;
+}
+
+export interface ReportConnectionSubscription
+  extends Promise<AsyncIterator<ReportConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ReportEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateReportSubscription>() => T;
+}
+
+export interface CommentPreviousValues {
+  id: UUID;
+  message: String;
+  likes: Int;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface CommentPreviousValuesPromise extends Promise<CommentPreviousValues>, Fragmentable {
+  id: () => Promise<UUID>;
+  message: () => Promise<String>;
+  likes: () => Promise<Int>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface CommentPreviousValuesSubscription
+  extends Promise<AsyncIterator<CommentPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  message: () => Promise<AsyncIterator<String>>;
+  likes: () => Promise<AsyncIterator<Int>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PostTagEdge {
+  node: PostTag;
+  cursor: String;
+}
+
+export interface PostTagEdgePromise extends Promise<PostTagEdge>, Fragmentable {
+  node: <T = PostTagPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PostTagEdgeSubscription extends Promise<AsyncIterator<PostTagEdge>>, Fragmentable {
+  node: <T = PostTagSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription extends Promise<AsyncIterator<PageInfo>>, Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregatePostLike {
+  count: Int;
+}
+
+export interface AggregatePostLikePromise extends Promise<AggregatePostLike>, Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePostLikeSubscription
+  extends Promise<AsyncIterator<AggregatePostLike>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface CommentImageSubscriptionPayload {
+  mutation: MutationType;
+  node: CommentImage;
+  updatedFields: String[];
+  previousValues: CommentImagePreviousValues;
+}
+
+export interface CommentImageSubscriptionPayloadPromise
+  extends Promise<CommentImageSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = CommentImagePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CommentImagePreviousValuesPromise>() => T;
+}
+
+export interface CommentImageSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CommentImageSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CommentImageSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CommentImagePreviousValuesSubscription>() => T;
+}
+
+export interface PostLikeConnection {
+  pageInfo: PageInfo;
+  edges: PostLikeEdge[];
+}
+
+export interface PostLikeConnectionPromise extends Promise<PostLikeConnection>, Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PostLikeEdge>>() => T;
+  aggregate: <T = AggregatePostLikePromise>() => T;
+}
+
+export interface PostLikeConnectionSubscription
+  extends Promise<AsyncIterator<PostLikeConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PostLikeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePostLikeSubscription>() => T;
+}
+
+export interface CommentImagePreviousValues {
+  id: UUID;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface CommentImagePreviousValuesPromise
+  extends Promise<CommentImagePreviousValues>,
+    Fragmentable {
+  id: () => Promise<UUID>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface CommentImagePreviousValuesSubscription
+  extends Promise<AsyncIterator<CommentImagePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface AggregatePostImage {
+  count: Int;
+}
+
+export interface AggregatePostImagePromise extends Promise<AggregatePostImage>, Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePostImageSubscription
+  extends Promise<AsyncIterator<AggregatePostImage>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface AccountConnection {
+  pageInfo: PageInfo;
+  edges: AccountEdge[];
+}
+
+export interface AccountConnectionPromise extends Promise<AccountConnection>, Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<AccountEdge>>() => T;
+  aggregate: <T = AggregateAccountPromise>() => T;
+}
+
+export interface AccountConnectionSubscription
+  extends Promise<AsyncIterator<AccountConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<AccountEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateAccountSubscription>() => T;
+}
+
+export interface PostImageConnection {
+  pageInfo: PageInfo;
+  edges: PostImageEdge[];
+}
+
+export interface PostImageConnectionPromise extends Promise<PostImageConnection>, Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PostImageEdge>>() => T;
+  aggregate: <T = AggregatePostImagePromise>() => T;
+}
+
+export interface PostImageConnectionSubscription
+  extends Promise<AsyncIterator<PostImageConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PostImageEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePostImageSubscription>() => T;
+}
+
+export interface CommentLikeSubscriptionPayload {
+  mutation: MutationType;
+  node: CommentLike;
+  updatedFields: String[];
+  previousValues: CommentLikePreviousValues;
+}
+
+export interface CommentLikeSubscriptionPayloadPromise
+  extends Promise<CommentLikeSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = CommentLikePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CommentLikePreviousValuesPromise>() => T;
+}
+
+export interface CommentLikeSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CommentLikeSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CommentLikeSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CommentLikePreviousValuesSubscription>() => T;
+}
+
+export interface PostEdge {
+  node: Post;
+  cursor: String;
+}
+
+export interface PostEdgePromise extends Promise<PostEdge>, Fragmentable {
+  node: <T = PostPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PostEdgeSubscription extends Promise<AsyncIterator<PostEdge>>, Fragmentable {
+  node: <T = PostSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface CommentLikePreviousValues {
+  id: UUID;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface CommentLikePreviousValuesPromise
+  extends Promise<CommentLikePreviousValues>,
+    Fragmentable {
+  id: () => Promise<UUID>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface CommentLikePreviousValuesSubscription
+  extends Promise<AsyncIterator<CommentLikePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface AggregatePetCategory {
+  count: Int;
+}
+
+export interface AggregatePetCategoryPromise extends Promise<AggregatePetCategory>, Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePetCategorySubscription
+  extends Promise<AsyncIterator<AggregatePetCategory>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Like {
+  id: UUID;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface LikePromise extends Promise<Like>, Fragmentable {
+  id: () => Promise<UUID>;
+  account: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface LikeSubscription extends Promise<AsyncIterator<Like>>, Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  account: <T = AccountSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface LikeNullablePromise extends Promise<Like | null>, Fragmentable {
+  id: () => Promise<UUID>;
+  account: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PetCategoryConnection {
+  pageInfo: PageInfo;
+  edges: PetCategoryEdge[];
+}
+
+export interface PetCategoryConnectionPromise extends Promise<PetCategoryConnection>, Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PetCategoryEdge>>() => T;
+  aggregate: <T = AggregatePetCategoryPromise>() => T;
+}
+
+export interface PetCategoryConnectionSubscription
+  extends Promise<AsyncIterator<PetCategoryConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PetCategoryEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePetCategorySubscription>() => T;
+}
+
+export interface ImageSubscriptionPayload {
+  mutation: MutationType;
+  node: Image;
+  updatedFields: String[];
+  previousValues: ImagePreviousValues;
+}
+
+export interface ImageSubscriptionPayloadPromise
+  extends Promise<ImageSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ImagePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ImagePreviousValuesPromise>() => T;
+}
+
+export interface ImageSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ImageSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ImageSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ImagePreviousValuesSubscription>() => T;
+}
+
+export interface AggregatePet {
+  count: Int;
+}
+
+export interface AggregatePetPromise extends Promise<AggregatePet>, Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePetSubscription
+  extends Promise<AsyncIterator<AggregatePet>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ImagePreviousValues {
+  id: UUID;
+  publicId: String;
+  url: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface ImagePreviousValuesPromise extends Promise<ImagePreviousValues>, Fragmentable {
+  id: () => Promise<UUID>;
+  publicId: () => Promise<String>;
+  url: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ImagePreviousValuesSubscription
+  extends Promise<AsyncIterator<ImagePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  publicId: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PetConnection {
+  pageInfo: PageInfo;
+  edges: PetEdge[];
+}
+
+export interface PetConnectionPromise extends Promise<PetConnection>, Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PetEdge>>() => T;
+  aggregate: <T = AggregatePetPromise>() => T;
+}
+
+export interface PetConnectionSubscription
+  extends Promise<AsyncIterator<PetConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PetEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePetSubscription>() => T;
+}
+
+export interface ReviewLikePreviousValues {
+  id: UUID;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface ReviewLikePreviousValuesPromise
+  extends Promise<ReviewLikePreviousValues>,
+    Fragmentable {
+  id: () => Promise<UUID>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ReviewLikePreviousValuesSubscription
+  extends Promise<AsyncIterator<ReviewLikePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface LikeEdge {
+  node: Like;
+  cursor: String;
+}
+
+export interface LikeEdgePromise extends Promise<LikeEdge>, Fragmentable {
+  node: <T = LikePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface LikeEdgeSubscription extends Promise<AsyncIterator<LikeEdge>>, Fragmentable {
+  node: <T = LikeSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface LikeSubscriptionPayload {
+  mutation: MutationType;
+  node: Like;
+  updatedFields: String[];
+  previousValues: LikePreviousValues;
+}
+
+export interface LikeSubscriptionPayloadPromise
+  extends Promise<LikeSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = LikePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = LikePreviousValuesPromise>() => T;
+}
+
+export interface LikeSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<LikeSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = LikeSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = LikePreviousValuesSubscription>() => T;
+}
+
+export interface AggregateImage {
+  count: Int;
+}
+
+export interface AggregateImagePromise extends Promise<AggregateImage>, Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateImageSubscription
+  extends Promise<AsyncIterator<AggregateImage>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface LikePreviousValues {
+  id: UUID;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface LikePreviousValuesPromise extends Promise<LikePreviousValues>, Fragmentable {
+  id: () => Promise<UUID>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface LikePreviousValuesSubscription
+  extends Promise<AsyncIterator<LikePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
 export interface ImageConnection {
   pageInfo: PageInfo;
   edges: ImageEdge[];
@@ -8228,14 +6736,1532 @@ export interface ImageConnectionSubscription
   aggregate: <T = AggregateImageSubscription>() => T;
 }
 
+export interface Report {
+  id: UUID;
+  content: String;
+  reason: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface ReportPromise extends Promise<Report>, Fragmentable {
+  id: () => Promise<UUID>;
+  content: () => Promise<String>;
+  reason: () => Promise<String>;
+  post: <T = PostPromise>() => T;
+  createdBy: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ReportSubscription extends Promise<AsyncIterator<Report>>, Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  content: () => Promise<AsyncIterator<String>>;
+  reason: () => Promise<AsyncIterator<String>>;
+  post: <T = PostSubscription>() => T;
+  createdBy: <T = AccountSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface ReportNullablePromise extends Promise<Report | null>, Fragmentable {
+  id: () => Promise<UUID>;
+  content: () => Promise<String>;
+  reason: () => Promise<String>;
+  post: <T = PostPromise>() => T;
+  createdBy: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface CommentLikeEdge {
+  node: CommentLike;
+  cursor: String;
+}
+
+export interface CommentLikeEdgePromise extends Promise<CommentLikeEdge>, Fragmentable {
+  node: <T = CommentLikePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface CommentLikeEdgeSubscription
+  extends Promise<AsyncIterator<CommentLikeEdge>>,
+    Fragmentable {
+  node: <T = CommentLikeSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PetSubscriptionPayload {
+  mutation: MutationType;
+  node: Pet;
+  updatedFields: String[];
+  previousValues: PetPreviousValues;
+}
+
+export interface PetSubscriptionPayloadPromise
+  extends Promise<PetSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PetPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PetPreviousValuesPromise>() => T;
+}
+
+export interface PetSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PetSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PetSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PetPreviousValuesSubscription>() => T;
+}
+
+export interface CommentLike {
+  id: UUID;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface CommentLikePromise extends Promise<CommentLike>, Fragmentable {
+  id: () => Promise<UUID>;
+  comment: <T = CommentPromise>() => T;
+  like: <T = LikePromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface CommentLikeSubscription extends Promise<AsyncIterator<CommentLike>>, Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  comment: <T = CommentSubscription>() => T;
+  like: <T = LikeSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface CommentLikeNullablePromise extends Promise<CommentLike | null>, Fragmentable {
+  id: () => Promise<UUID>;
+  comment: <T = CommentPromise>() => T;
+  like: <T = LikePromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PetPreviousValues {
+  id: UUID;
+  info?: Json;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface PetPreviousValuesPromise extends Promise<PetPreviousValues>, Fragmentable {
+  id: () => Promise<UUID>;
+  info: () => Promise<Json>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PetPreviousValuesSubscription
+  extends Promise<AsyncIterator<PetPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  info: () => Promise<AsyncIterator<Json>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface UserEdge {
+  node: User;
+  cursor: String;
+}
+
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface UserEdgeSubscription extends Promise<AsyncIterator<UserEdge>>, Fragmentable {
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ReviewImage {
+  id: UUID;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface ReviewImagePromise extends Promise<ReviewImage>, Fragmentable {
+  id: () => Promise<UUID>;
+  image: <T = ImagePromise>() => T;
+  review: <T = ReviewPromise>() => T;
+  account: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ReviewImageSubscription extends Promise<AsyncIterator<ReviewImage>>, Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  image: <T = ImageSubscription>() => T;
+  review: <T = ReviewSubscription>() => T;
+  account: <T = AccountSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface ReviewImageNullablePromise extends Promise<ReviewImage | null>, Fragmentable {
+  id: () => Promise<UUID>;
+  image: <T = ImagePromise>() => T;
+  review: <T = ReviewPromise>() => T;
+  account: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface TagConnection {
+  pageInfo: PageInfo;
+  edges: TagEdge[];
+}
+
+export interface TagConnectionPromise extends Promise<TagConnection>, Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<TagEdge>>() => T;
+  aggregate: <T = AggregateTagPromise>() => T;
+}
+
+export interface TagConnectionSubscription
+  extends Promise<AsyncIterator<TagConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<TagEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateTagSubscription>() => T;
+}
+
+export interface PetCategorySubscriptionPayload {
+  mutation: MutationType;
+  node: PetCategory;
+  updatedFields: String[];
+  previousValues: PetCategoryPreviousValues;
+}
+
+export interface PetCategorySubscriptionPayloadPromise
+  extends Promise<PetCategorySubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PetCategoryPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PetCategoryPreviousValuesPromise>() => T;
+}
+
+export interface PetCategorySubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PetCategorySubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PetCategorySubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PetCategoryPreviousValuesSubscription>() => T;
+}
+
+export interface ReviewLikeConnection {
+  pageInfo: PageInfo;
+  edges: ReviewLikeEdge[];
+}
+
+export interface ReviewLikeConnectionPromise extends Promise<ReviewLikeConnection>, Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ReviewLikeEdge>>() => T;
+  aggregate: <T = AggregateReviewLikePromise>() => T;
+}
+
+export interface ReviewLikeConnectionSubscription
+  extends Promise<AsyncIterator<ReviewLikeConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ReviewLikeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateReviewLikeSubscription>() => T;
+}
+
+export interface PetCategoryPreviousValues {
+  id: UUID;
+  name: String;
+  description?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface PetCategoryPreviousValuesPromise
+  extends Promise<PetCategoryPreviousValues>,
+    Fragmentable {
+  id: () => Promise<UUID>;
+  name: () => Promise<String>;
+  description: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PetCategoryPreviousValuesSubscription
+  extends Promise<AsyncIterator<PetCategoryPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  name: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface ReviewImageEdge {
+  node: ReviewImage;
+  cursor: String;
+}
+
+export interface ReviewImageEdgePromise extends Promise<ReviewImageEdge>, Fragmentable {
+  node: <T = ReviewImagePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ReviewImageEdgeSubscription
+  extends Promise<AsyncIterator<ReviewImageEdge>>,
+    Fragmentable {
+  node: <T = ReviewImageSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ReviewLikeSubscriptionPayload {
+  mutation: MutationType;
+  node: ReviewLike;
+  updatedFields: String[];
+  previousValues: ReviewLikePreviousValues;
+}
+
+export interface ReviewLikeSubscriptionPayloadPromise
+  extends Promise<ReviewLikeSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ReviewLikePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ReviewLikePreviousValuesPromise>() => T;
+}
+
+export interface ReviewLikeSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ReviewLikeSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ReviewLikeSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ReviewLikePreviousValuesSubscription>() => T;
+}
+
+export interface ReviewConnection {
+  pageInfo: PageInfo;
+  edges: ReviewEdge[];
+}
+
+export interface ReviewConnectionPromise extends Promise<ReviewConnection>, Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ReviewEdge>>() => T;
+  aggregate: <T = AggregateReviewPromise>() => T;
+}
+
+export interface ReviewConnectionSubscription
+  extends Promise<AsyncIterator<ReviewConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ReviewEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateReviewSubscription>() => T;
+}
+
+export interface PostSubscriptionPayload {
+  mutation: MutationType;
+  node: Post;
+  updatedFields: String[];
+  previousValues: PostPreviousValues;
+}
+
+export interface PostSubscriptionPayloadPromise
+  extends Promise<PostSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PostPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PostPreviousValuesPromise>() => T;
+}
+
+export interface PostSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PostSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PostSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PostPreviousValuesSubscription>() => T;
+}
+
+export interface AggregatePostTag {
+  count: Int;
+}
+
+export interface AggregatePostTagPromise extends Promise<AggregatePostTag>, Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePostTagSubscription
+  extends Promise<AsyncIterator<AggregatePostTag>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface PostPreviousValues {
+  id: UUID;
+  title: String;
+  description?: String;
+  location: String;
+  price: Float;
+  dueDate: DateTimeOutput;
+  likes: Int;
+  settings?: Json;
+  status: PostStatus;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface PostPreviousValuesPromise extends Promise<PostPreviousValues>, Fragmentable {
+  id: () => Promise<UUID>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  location: () => Promise<String>;
+  price: () => Promise<Float>;
+  dueDate: () => Promise<DateTimeOutput>;
+  likes: () => Promise<Int>;
+  settings: () => Promise<Json>;
+  status: () => Promise<PostStatus>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PostPreviousValuesSubscription
+  extends Promise<AsyncIterator<PostPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  location: () => Promise<AsyncIterator<String>>;
+  price: () => Promise<AsyncIterator<Float>>;
+  dueDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  likes: () => Promise<AsyncIterator<Int>>;
+  settings: () => Promise<AsyncIterator<Json>>;
+  status: () => Promise<AsyncIterator<PostStatus>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PostLikeEdge {
+  node: PostLike;
+  cursor: String;
+}
+
+export interface PostLikeEdgePromise extends Promise<PostLikeEdge>, Fragmentable {
+  node: <T = PostLikePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PostLikeEdgeSubscription
+  extends Promise<AsyncIterator<PostLikeEdge>>,
+    Fragmentable {
+  node: <T = PostLikeSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface Review {
+  id: UUID;
+  message: String;
+  stars: Int;
+  likes: Int;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface ReviewPromise extends Promise<Review>, Fragmentable {
+  id: () => Promise<UUID>;
+  message: () => Promise<String>;
+  stars: () => Promise<Int>;
+  reviewImages: <T = FragmentableArray<ReviewImage>>(args?: {
+    where?: ReviewImageWhereInput;
+    orderBy?: ReviewImageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  post: <T = PostPromise>() => T;
+  likes: () => Promise<Int>;
+  createdBy: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ReviewSubscription extends Promise<AsyncIterator<Review>>, Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  message: () => Promise<AsyncIterator<String>>;
+  stars: () => Promise<AsyncIterator<Int>>;
+  reviewImages: <T = Promise<AsyncIterator<ReviewImageSubscription>>>(args?: {
+    where?: ReviewImageWhereInput;
+    orderBy?: ReviewImageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  post: <T = PostSubscription>() => T;
+  likes: () => Promise<AsyncIterator<Int>>;
+  createdBy: <T = AccountSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface ReviewNullablePromise extends Promise<Review | null>, Fragmentable {
+  id: () => Promise<UUID>;
+  message: () => Promise<String>;
+  stars: () => Promise<Int>;
+  reviewImages: <T = FragmentableArray<ReviewImage>>(args?: {
+    where?: ReviewImageWhereInput;
+    orderBy?: ReviewImageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  post: <T = PostPromise>() => T;
+  likes: () => Promise<Int>;
+  createdBy: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PostImageEdge {
+  node: PostImage;
+  cursor: String;
+}
+
+export interface PostImageEdgePromise extends Promise<PostImageEdge>, Fragmentable {
+  node: <T = PostImagePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PostImageEdgeSubscription
+  extends Promise<AsyncIterator<PostImageEdge>>,
+    Fragmentable {
+  node: <T = PostImageSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PostImageSubscriptionPayload {
+  mutation: MutationType;
+  node: PostImage;
+  updatedFields: String[];
+  previousValues: PostImagePreviousValues;
+}
+
+export interface PostImageSubscriptionPayloadPromise
+  extends Promise<PostImageSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PostImagePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PostImagePreviousValuesPromise>() => T;
+}
+
+export interface PostImageSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PostImageSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PostImageSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PostImagePreviousValuesSubscription>() => T;
+}
+
+export interface PostConnection {
+  pageInfo: PageInfo;
+  edges: PostEdge[];
+}
+
+export interface PostConnectionPromise extends Promise<PostConnection>, Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PostEdge>>() => T;
+  aggregate: <T = AggregatePostPromise>() => T;
+}
+
+export interface PostConnectionSubscription
+  extends Promise<AsyncIterator<PostConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PostEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePostSubscription>() => T;
+}
+
+export interface PostImagePreviousValues {
+  id: UUID;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface PostImagePreviousValuesPromise
+  extends Promise<PostImagePreviousValues>,
+    Fragmentable {
+  id: () => Promise<UUID>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PostImagePreviousValuesSubscription
+  extends Promise<AsyncIterator<PostImagePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface Post {
+  id: UUID;
+  title: String;
+  description?: String;
+  location: String;
+  price: Float;
+  dueDate: DateTimeOutput;
+  likes: Int;
+  settings?: Json;
+  status: PostStatus;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface PostPromise extends Promise<Post>, Fragmentable {
+  id: () => Promise<UUID>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  location: () => Promise<String>;
+  price: () => Promise<Float>;
+  dueDate: () => Promise<DateTimeOutput>;
+  pet: <T = PetPromise>() => T;
+  likes: () => Promise<Int>;
+  settings: () => Promise<Json>;
+  status: () => Promise<PostStatus>;
+  postImages: <T = FragmentableArray<PostImage>>(args?: {
+    where?: PostImageWhereInput;
+    orderBy?: PostImageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  postTags: <T = FragmentableArray<PostTag>>(args?: {
+    where?: PostTagWhereInput;
+    orderBy?: PostTagOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  comments: <T = FragmentableArray<Comment>>(args?: {
+    where?: CommentWhereInput;
+    orderBy?: CommentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  reviews: <T = FragmentableArray<Review>>(args?: {
+    where?: ReviewWhereInput;
+    orderBy?: ReviewOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  reports: <T = FragmentableArray<Report>>(args?: {
+    where?: ReportWhereInput;
+    orderBy?: ReportOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  account: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PostSubscription extends Promise<AsyncIterator<Post>>, Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  location: () => Promise<AsyncIterator<String>>;
+  price: () => Promise<AsyncIterator<Float>>;
+  dueDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  pet: <T = PetSubscription>() => T;
+  likes: () => Promise<AsyncIterator<Int>>;
+  settings: () => Promise<AsyncIterator<Json>>;
+  status: () => Promise<AsyncIterator<PostStatus>>;
+  postImages: <T = Promise<AsyncIterator<PostImageSubscription>>>(args?: {
+    where?: PostImageWhereInput;
+    orderBy?: PostImageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  postTags: <T = Promise<AsyncIterator<PostTagSubscription>>>(args?: {
+    where?: PostTagWhereInput;
+    orderBy?: PostTagOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  comments: <T = Promise<AsyncIterator<CommentSubscription>>>(args?: {
+    where?: CommentWhereInput;
+    orderBy?: CommentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  reviews: <T = Promise<AsyncIterator<ReviewSubscription>>>(args?: {
+    where?: ReviewWhereInput;
+    orderBy?: ReviewOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  reports: <T = Promise<AsyncIterator<ReportSubscription>>>(args?: {
+    where?: ReportWhereInput;
+    orderBy?: ReportOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  account: <T = AccountSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PostNullablePromise extends Promise<Post | null>, Fragmentable {
+  id: () => Promise<UUID>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  location: () => Promise<String>;
+  price: () => Promise<Float>;
+  dueDate: () => Promise<DateTimeOutput>;
+  pet: <T = PetPromise>() => T;
+  likes: () => Promise<Int>;
+  settings: () => Promise<Json>;
+  status: () => Promise<PostStatus>;
+  postImages: <T = FragmentableArray<PostImage>>(args?: {
+    where?: PostImageWhereInput;
+    orderBy?: PostImageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  postTags: <T = FragmentableArray<PostTag>>(args?: {
+    where?: PostTagWhereInput;
+    orderBy?: PostTagOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  comments: <T = FragmentableArray<Comment>>(args?: {
+    where?: CommentWhereInput;
+    orderBy?: CommentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  reviews: <T = FragmentableArray<Review>>(args?: {
+    where?: ReviewWhereInput;
+    orderBy?: ReviewOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  reports: <T = FragmentableArray<Report>>(args?: {
+    where?: ReportWhereInput;
+    orderBy?: ReportOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  account: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface CommentImage {
+  id: UUID;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface CommentImagePromise extends Promise<CommentImage>, Fragmentable {
+  id: () => Promise<UUID>;
+  image: <T = ImagePromise>() => T;
+  comment: <T = CommentPromise>() => T;
+  account: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface CommentImageSubscription
+  extends Promise<AsyncIterator<CommentImage>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  image: <T = ImageSubscription>() => T;
+  comment: <T = CommentSubscription>() => T;
+  account: <T = AccountSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface CommentImageNullablePromise extends Promise<CommentImage | null>, Fragmentable {
+  id: () => Promise<UUID>;
+  image: <T = ImagePromise>() => T;
+  comment: <T = CommentPromise>() => T;
+  account: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface AggregateLike {
+  count: Int;
+}
+
+export interface AggregateLikePromise extends Promise<AggregateLike>, Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateLikeSubscription
+  extends Promise<AsyncIterator<AggregateLike>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface PostLikeSubscriptionPayload {
+  mutation: MutationType;
+  node: PostLike;
+  updatedFields: String[];
+  previousValues: PostLikePreviousValues;
+}
+
+export interface PostLikeSubscriptionPayloadPromise
+  extends Promise<PostLikeSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PostLikePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PostLikePreviousValuesPromise>() => T;
+}
+
+export interface PostLikeSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PostLikeSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PostLikeSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PostLikePreviousValuesSubscription>() => T;
+}
+
+export interface ImageEdge {
+  node: Image;
+  cursor: String;
+}
+
+export interface ImageEdgePromise extends Promise<ImageEdge>, Fragmentable {
+  node: <T = ImagePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ImageEdgeSubscription extends Promise<AsyncIterator<ImageEdge>>, Fragmentable {
+  node: <T = ImageSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PostLikePreviousValues {
+  id: UUID;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface PostLikePreviousValuesPromise
+  extends Promise<PostLikePreviousValues>,
+    Fragmentable {
+  id: () => Promise<UUID>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PostLikePreviousValuesSubscription
+  extends Promise<AsyncIterator<PostLikePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface CommentLikeConnection {
+  pageInfo: PageInfo;
+  edges: CommentLikeEdge[];
+}
+
+export interface CommentLikeConnectionPromise extends Promise<CommentLikeConnection>, Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<CommentLikeEdge>>() => T;
+  aggregate: <T = AggregateCommentLikePromise>() => T;
+}
+
+export interface CommentLikeConnectionSubscription
+  extends Promise<AsyncIterator<CommentLikeConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CommentLikeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCommentLikeSubscription>() => T;
+}
+
+export interface Comment {
+  id: UUID;
+  message: String;
+  likes: Int;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface CommentPromise extends Promise<Comment>, Fragmentable {
+  id: () => Promise<UUID>;
+  message: () => Promise<String>;
+  commentImages: <T = FragmentableArray<CommentImage>>(args?: {
+    where?: CommentImageWhereInput;
+    orderBy?: CommentImageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  post: <T = PostPromise>() => T;
+  likes: () => Promise<Int>;
+  createdBy: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface CommentSubscription extends Promise<AsyncIterator<Comment>>, Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  message: () => Promise<AsyncIterator<String>>;
+  commentImages: <T = Promise<AsyncIterator<CommentImageSubscription>>>(args?: {
+    where?: CommentImageWhereInput;
+    orderBy?: CommentImageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  post: <T = PostSubscription>() => T;
+  likes: () => Promise<AsyncIterator<Int>>;
+  createdBy: <T = AccountSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface CommentNullablePromise extends Promise<Comment | null>, Fragmentable {
+  id: () => Promise<UUID>;
+  message: () => Promise<String>;
+  commentImages: <T = FragmentableArray<CommentImage>>(args?: {
+    where?: CommentImageWhereInput;
+    orderBy?: CommentImageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  post: <T = PostPromise>() => T;
+  likes: () => Promise<Int>;
+  createdBy: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface AggregateTag {
+  count: Int;
+}
+
+export interface AggregateTagPromise extends Promise<AggregateTag>, Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateTagSubscription
+  extends Promise<AsyncIterator<AggregateTag>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface PostTagSubscriptionPayload {
+  mutation: MutationType;
+  node: PostTag;
+  updatedFields: String[];
+  previousValues: PostTagPreviousValues;
+}
+
+export interface PostTagSubscriptionPayloadPromise
+  extends Promise<PostTagSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PostTagPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PostTagPreviousValuesPromise>() => T;
+}
+
+export interface PostTagSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PostTagSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PostTagSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PostTagPreviousValuesSubscription>() => T;
+}
+
+export interface ReviewLike {
+  id: UUID;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface ReviewLikePromise extends Promise<ReviewLike>, Fragmentable {
+  id: () => Promise<UUID>;
+  review: <T = ReviewPromise>() => T;
+  like: <T = LikePromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ReviewLikeSubscription extends Promise<AsyncIterator<ReviewLike>>, Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  review: <T = ReviewSubscription>() => T;
+  like: <T = LikeSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface ReviewLikeNullablePromise extends Promise<ReviewLike | null>, Fragmentable {
+  id: () => Promise<UUID>;
+  review: <T = ReviewPromise>() => T;
+  like: <T = LikePromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PostTagPreviousValues {
+  id: UUID;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface PostTagPreviousValuesPromise extends Promise<PostTagPreviousValues>, Fragmentable {
+  id: () => Promise<UUID>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PostTagPreviousValuesSubscription
+  extends Promise<AsyncIterator<PostTagPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface ReportEdge {
+  node: Report;
+  cursor: String;
+}
+
+export interface ReportEdgePromise extends Promise<ReportEdge>, Fragmentable {
+  node: <T = ReportPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ReportEdgeSubscription extends Promise<AsyncIterator<ReportEdge>>, Fragmentable {
+  node: <T = ReportSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface Tag {
+  id: UUID;
+  title: String;
+  description?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface TagPromise extends Promise<Tag>, Fragmentable {
+  id: () => Promise<UUID>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  postTags: <T = FragmentableArray<PostTag>>(args?: {
+    where?: PostTagWhereInput;
+    orderBy?: PostTagOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface TagSubscription extends Promise<AsyncIterator<Tag>>, Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  postTags: <T = Promise<AsyncIterator<PostTagSubscription>>>(args?: {
+    where?: PostTagWhereInput;
+    orderBy?: PostTagOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface TagNullablePromise extends Promise<Tag | null>, Fragmentable {
+  id: () => Promise<UUID>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  postTags: <T = FragmentableArray<PostTag>>(args?: {
+    where?: PostTagWhereInput;
+    orderBy?: PostTagOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PostLike {
+  id: UUID;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface PostLikePromise extends Promise<PostLike>, Fragmentable {
+  id: () => Promise<UUID>;
+  post: <T = PostPromise>() => T;
+  like: <T = LikePromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PostLikeSubscription extends Promise<AsyncIterator<PostLike>>, Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  post: <T = PostSubscription>() => T;
+  like: <T = LikeSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PostLikeNullablePromise extends Promise<PostLike | null>, Fragmentable {
+  id: () => Promise<UUID>;
+  post: <T = PostPromise>() => T;
+  like: <T = LikePromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ReportSubscriptionPayload {
+  mutation: MutationType;
+  node: Report;
+  updatedFields: String[];
+  previousValues: ReportPreviousValues;
+}
+
+export interface ReportSubscriptionPayloadPromise
+  extends Promise<ReportSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ReportPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ReportPreviousValuesPromise>() => T;
+}
+
+export interface ReportSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ReportSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ReportSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ReportPreviousValuesSubscription>() => T;
+}
+
+export interface PetCategoryEdge {
+  node: PetCategory;
+  cursor: String;
+}
+
+export interface PetCategoryEdgePromise extends Promise<PetCategoryEdge>, Fragmentable {
+  node: <T = PetCategoryPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PetCategoryEdgeSubscription
+  extends Promise<AsyncIterator<PetCategoryEdge>>,
+    Fragmentable {
+  node: <T = PetCategorySubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ReportPreviousValues {
+  id: UUID;
+  content: String;
+  reason: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface ReportPreviousValuesPromise extends Promise<ReportPreviousValues>, Fragmentable {
+  id: () => Promise<UUID>;
+  content: () => Promise<String>;
+  reason: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ReportPreviousValuesSubscription
+  extends Promise<AsyncIterator<ReportPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  content: () => Promise<AsyncIterator<String>>;
+  reason: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface LikeConnection {
+  pageInfo: PageInfo;
+  edges: LikeEdge[];
+}
+
+export interface LikeConnectionPromise extends Promise<LikeConnection>, Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<LikeEdge>>() => T;
+  aggregate: <T = AggregateLikePromise>() => T;
+}
+
+export interface LikeConnectionSubscription
+  extends Promise<AsyncIterator<LikeConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<LikeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateLikeSubscription>() => T;
+}
+
+export interface PostTag {
+  id: UUID;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface PostTagPromise extends Promise<PostTag>, Fragmentable {
+  id: () => Promise<UUID>;
+  post: <T = PostPromise>() => T;
+  tag: <T = TagPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PostTagSubscription extends Promise<AsyncIterator<PostTag>>, Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  post: <T = PostSubscription>() => T;
+  tag: <T = TagSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PostTagNullablePromise extends Promise<PostTag | null>, Fragmentable {
+  id: () => Promise<UUID>;
+  post: <T = PostPromise>() => T;
+  tag: <T = TagPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface AggregateCommentImage {
+  count: Int;
+}
+
+export interface AggregateCommentImagePromise extends Promise<AggregateCommentImage>, Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCommentImageSubscription
+  extends Promise<AsyncIterator<AggregateCommentImage>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ReviewSubscriptionPayload {
+  mutation: MutationType;
+  node: Review;
+  updatedFields: String[];
+  previousValues: ReviewPreviousValues;
+}
+
+export interface ReviewSubscriptionPayloadPromise
+  extends Promise<ReviewSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ReviewPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ReviewPreviousValuesPromise>() => T;
+}
+
+export interface ReviewSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ReviewSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ReviewSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ReviewPreviousValuesSubscription>() => T;
+}
+
+export interface AggregateReview {
+  count: Int;
+}
+
+export interface AggregateReviewPromise extends Promise<AggregateReview>, Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateReviewSubscription
+  extends Promise<AsyncIterator<AggregateReview>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface AggregatePost {
+  count: Int;
+}
+
+export interface AggregatePostPromise extends Promise<AggregatePost>, Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePostSubscription
+  extends Promise<AsyncIterator<AggregatePost>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ReviewImagePreviousValues {
+  id: UUID;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface ReviewImagePreviousValuesPromise
+  extends Promise<ReviewImagePreviousValues>,
+    Fragmentable {
+  id: () => Promise<UUID>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ReviewImagePreviousValuesSubscription
+  extends Promise<AsyncIterator<ReviewImagePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface ReviewImageSubscriptionPayload {
+  mutation: MutationType;
+  node: ReviewImage;
+  updatedFields: String[];
+  previousValues: ReviewImagePreviousValues;
+}
+
+export interface ReviewImageSubscriptionPayloadPromise
+  extends Promise<ReviewImageSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ReviewImagePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ReviewImagePreviousValuesPromise>() => T;
+}
+
+export interface ReviewImageSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ReviewImageSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ReviewImageSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ReviewImagePreviousValuesSubscription>() => T;
+}
+
+export interface PostImage {
+  id: UUID;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface PostImagePromise extends Promise<PostImage>, Fragmentable {
+  id: () => Promise<UUID>;
+  image: <T = ImagePromise>() => T;
+  post: <T = PostPromise>() => T;
+  account: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PostImageSubscription extends Promise<AsyncIterator<PostImage>>, Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  image: <T = ImageSubscription>() => T;
+  post: <T = PostSubscription>() => T;
+  account: <T = AccountSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PostImageNullablePromise extends Promise<PostImage | null>, Fragmentable {
+  id: () => Promise<UUID>;
+  image: <T = ImagePromise>() => T;
+  post: <T = PostPromise>() => T;
+  account: <T = AccountPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ReviewPreviousValues {
+  id: UUID;
+  message: String;
+  stars: Int;
+  likes: Int;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface ReviewPreviousValuesPromise extends Promise<ReviewPreviousValues>, Fragmentable {
+  id: () => Promise<UUID>;
+  message: () => Promise<String>;
+  stars: () => Promise<Int>;
+  likes: () => Promise<Int>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ReviewPreviousValuesSubscription
+  extends Promise<AsyncIterator<ReviewPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<UUID>>;
+  message: () => Promise<AsyncIterator<String>>;
+  stars: () => Promise<AsyncIterator<Int>>;
+  likes: () => Promise<AsyncIterator<Int>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PetEdge {
+  node: Pet;
+  cursor: String;
+}
+
+export interface PetEdgePromise extends Promise<PetEdge>, Fragmentable {
+  node: <T = PetPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PetEdgeSubscription extends Promise<AsyncIterator<PetEdge>>, Fragmentable {
+  node: <T = PetSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PostTagConnection {
+  pageInfo: PageInfo;
+  edges: PostTagEdge[];
+}
+
+export interface PostTagConnectionPromise extends Promise<PostTagConnection>, Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PostTagEdge>>() => T;
+  aggregate: <T = AggregatePostTagPromise>() => T;
+}
+
+export interface PostTagConnectionSubscription
+  extends Promise<AsyncIterator<PostTagConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PostTagEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePostTagSubscription>() => T;
+}
+
+export interface AggregateReviewLike {
+  count: Int;
+}
+
+export interface AggregateReviewLikePromise extends Promise<AggregateReviewLike>, Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateReviewLikeSubscription
+  extends Promise<AsyncIterator<AggregateReviewLike>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface AggregateCommentLike {
+  count: Int;
+}
+
+export interface AggregateCommentLikePromise extends Promise<AggregateCommentLike>, Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCommentLikeSubscription
+  extends Promise<AsyncIterator<AggregateCommentLike>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export type Long = string;
-
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-*/
-export type Int = number;
-
-export type UUID = string;
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
@@ -8255,6 +8281,8 @@ DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
 
+export type UUID = string;
+
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
@@ -8269,6 +8297,11 @@ export type Boolean = boolean;
 The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
 */
 export type Float = number;
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+*/
+export type Int = number;
 
 /**
  * Model Metadata
