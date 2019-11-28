@@ -59,6 +59,7 @@ type Post {
   price: Float! @default(value: 0)
   dueDate: DateTime!
   pet: Pet! @relation(link: INLINE)
+  likes: Int! @default(value: 0)
   settings: Json
   status: PostStatus! @default(value: New)
   postImages: [PostImage!] @relation(name: "Post_PostImage", onDelete: CASCADE)
@@ -172,7 +173,6 @@ type Like {
 
 type PostLike {
   id: UUID! @id
-  count: Int! @default(value: 0)
   post: Post! @relation(link: INLINE)
   like: Like! @relation(link: INLINE)
   createdAt: DateTime! @createdAt
