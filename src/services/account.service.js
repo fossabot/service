@@ -20,7 +20,8 @@ function createMailHtml(codeConfirmation) {
 
 async function sendEmail(email, codeConfirmation) {
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
     auth: {
       user: config.email,
       pass: config.emailPassword,
