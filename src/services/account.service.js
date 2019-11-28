@@ -28,7 +28,7 @@ async function sendEmail(email, codeConfirmation) {
     },
   });
   const mailContent = {
-    from: `"Cuong Duy Nguyen 👻" ${config.email}`,
+    from: `"Đảo Thú Cưng 🐕🐈" ${config.email}`,
     to: email,
     subject: '[Đảo Thú Cưng 🐕🐈] Xác nhận địa chỉ email',
     html: createMailHtml(codeConfirmation),
