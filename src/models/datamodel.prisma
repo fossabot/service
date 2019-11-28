@@ -148,6 +148,7 @@ type Comment {
   message: String!
   commentImages: [CommentImage!] @relation(name: "Comment_CommentImage")
   post: Post! @relation(name: "Post_Comment")
+  likes: Int! @default(value: 0)
   createdBy: Account! @relation(name: "Account_Comment")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
@@ -159,6 +160,7 @@ type Review {
   stars: Int!
   reviewImages: [ReviewImage!] @relation(name: "Review_ReviewImage")
   post: Post! @relation(name: "Post_Review")
+  likes: Int! @default(value: 0)
   createdBy: Account! @relation(name: "Account_Review")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
@@ -181,7 +183,6 @@ type PostLike {
 
 type CommentLike {
   id: UUID! @id
-  count: Int! @default(value: 0)
   comment: Comment! @relation(link: INLINE)
   like: Like! @relation(link: INLINE)
   createdAt: DateTime! @createdAt
@@ -190,7 +191,6 @@ type CommentLike {
 
 type ReviewLike {
   id: UUID! @id
-  count: Int! @default(value: 0)
   review: Review! @relation(link: INLINE)
   like: Like! @relation(link: INLINE)
   createdAt: DateTime! @createdAt
