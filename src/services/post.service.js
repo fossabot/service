@@ -261,7 +261,7 @@ function renderPostTagsSchema(tags) {
       createdTags.push({
         tag: {
           create: {
-            title: tag.title,
+            title: tag.title.toLowerCase(),
             description: tag.description,
           },
         },
