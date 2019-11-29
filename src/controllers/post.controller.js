@@ -1,5 +1,9 @@
 import service from '../services/post.service';
 
+function list(req) {
+  return service.getMultiList(req.query);
+}
+
 function create(req) {
   return service.createPost({
     ...req.body,
@@ -7,4 +11,4 @@ function create(req) {
   });
 }
 
-export default { create };
+export default { list, create };

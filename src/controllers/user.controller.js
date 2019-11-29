@@ -12,7 +12,6 @@ function retrieve(req) {
 function create(req) {
   return service.createUser({
     ...req.body,
-    account: req.user.id,
   });
 }
 
@@ -20,7 +19,6 @@ function update(req) {
   const { id } = req.params;
   return service.updateUser(id, {
     ...req.body,
-    account: req.user.id,
   });
 }
 

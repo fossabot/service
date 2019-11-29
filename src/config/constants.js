@@ -15,16 +15,13 @@ export const postStatus = {
   expired: 'Expired',
 };
 
-export const petCategory = {
-  dog: 'Dog',
-  cat: 'Cat',
-  bird: 'Bird',
-  fish: 'Fish',
-  snake: 'Snake',
-  hare: 'Hare',
-  hamster: 'Hamster',
-  other: 'Other',
-};
+export const categories = [
+  'Trending',
+  'Popularity',
+  'Price higth to low',
+  'Price low to hight',
+  'Pet category',
+];
 
 export const maxImage = 10;
 export const postDueDate = 1; // unit: month

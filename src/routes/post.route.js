@@ -3,10 +3,28 @@ import { celebrate, Joi } from 'celebrate';
 import authorize from '../helpers/authorize';
 import withController from '../helpers/withController';
 import objectToArray from '../helpers/objectToArray';
-import { role, postStatus } from '../config/constants';
+import { role, postStatus, categories } from '../config/constants';
 import controller from '../controllers/post.controller';
 
 const router = express.Router();
+
+router.get(
+  '/',
+  authorize(role.free, role.premium),
+  celebrate({
+    query: {
+      offset: Joi.number()
+        .integer()
+        .min(0),
+      limit: Joi.number()
+        .integer()
+        .min(0),
+      category: Joi.string().valid(categories),
+      petCategoryId: Joi.string().guid(),
+    },
+  }),
+  withController(controller.list),
+);
 
 router.post(
   '/',

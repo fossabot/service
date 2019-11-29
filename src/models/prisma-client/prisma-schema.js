@@ -13,15 +13,7 @@ module.exports = {
         role: Role!
         status: AccountStatus
         settings: Json
-        users(
-          where: UserWhereInput
-          orderBy: UserOrderByInput
-          skip: Int
-          after: String
-          before: String
-          first: Int
-          last: Int
-        ): [User!]
+        user: User
         posts(
           where: PostWhereInput
           orderBy: PostOrderByInput
@@ -121,7 +113,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserCreateManyWithoutAccountInput
+        user: UserCreateOneInput
         posts: PostCreateManyWithoutAccountInput
         pets: PetCreateManyWithoutAccountInput
         images: ImageCreateManyWithoutAccountInput
@@ -183,11 +175,6 @@ module.exports = {
         connect: AccountWhereUniqueInput
       }
 
-      input AccountCreateOneWithoutUsersInput {
-        create: AccountCreateWithoutUsersInput
-        connect: AccountWhereUniqueInput
-      }
-
       input AccountCreateWithoutCommentImagesInput {
         id: UUID
         username: String!
@@ -196,7 +183,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserCreateManyWithoutAccountInput
+        user: UserCreateOneInput
         posts: PostCreateManyWithoutAccountInput
         pets: PetCreateManyWithoutAccountInput
         images: ImageCreateManyWithoutAccountInput
@@ -215,7 +202,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserCreateManyWithoutAccountInput
+        user: UserCreateOneInput
         posts: PostCreateManyWithoutAccountInput
         pets: PetCreateManyWithoutAccountInput
         images: ImageCreateManyWithoutAccountInput
@@ -234,7 +221,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserCreateManyWithoutAccountInput
+        user: UserCreateOneInput
         posts: PostCreateManyWithoutAccountInput
         pets: PetCreateManyWithoutAccountInput
         comments: CommentCreateManyWithoutCreatedByInput
@@ -253,7 +240,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserCreateManyWithoutAccountInput
+        user: UserCreateOneInput
         posts: PostCreateManyWithoutAccountInput
         pets: PetCreateManyWithoutAccountInput
         images: ImageCreateManyWithoutAccountInput
@@ -272,7 +259,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserCreateManyWithoutAccountInput
+        user: UserCreateOneInput
         posts: PostCreateManyWithoutAccountInput
         images: ImageCreateManyWithoutAccountInput
         comments: CommentCreateManyWithoutCreatedByInput
@@ -291,7 +278,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserCreateManyWithoutAccountInput
+        user: UserCreateOneInput
         posts: PostCreateManyWithoutAccountInput
         pets: PetCreateManyWithoutAccountInput
         images: ImageCreateManyWithoutAccountInput
@@ -310,7 +297,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserCreateManyWithoutAccountInput
+        user: UserCreateOneInput
         pets: PetCreateManyWithoutAccountInput
         images: ImageCreateManyWithoutAccountInput
         comments: CommentCreateManyWithoutCreatedByInput
@@ -329,7 +316,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserCreateManyWithoutAccountInput
+        user: UserCreateOneInput
         posts: PostCreateManyWithoutAccountInput
         pets: PetCreateManyWithoutAccountInput
         images: ImageCreateManyWithoutAccountInput
@@ -348,30 +335,11 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserCreateManyWithoutAccountInput
+        user: UserCreateOneInput
         posts: PostCreateManyWithoutAccountInput
         pets: PetCreateManyWithoutAccountInput
         images: ImageCreateManyWithoutAccountInput
         comments: CommentCreateManyWithoutCreatedByInput
-        postImages: PostImageCreateManyWithoutAccountInput
-        commentImages: CommentImageCreateManyWithoutAccountInput
-        like: LikeCreateManyWithoutAccountInput
-        reports: ReportCreateManyWithoutCreatedByInput
-      }
-
-      input AccountCreateWithoutUsersInput {
-        id: UUID
-        username: String!
-        password: String!
-        email: String!
-        role: Role
-        status: AccountStatus
-        settings: Json
-        posts: PostCreateManyWithoutAccountInput
-        pets: PetCreateManyWithoutAccountInput
-        images: ImageCreateManyWithoutAccountInput
-        comments: CommentCreateManyWithoutCreatedByInput
-        reviews: ReviewCreateManyWithoutCreatedByInput
         postImages: PostImageCreateManyWithoutAccountInput
         commentImages: CommentImageCreateManyWithoutAccountInput
         like: LikeCreateManyWithoutAccountInput
@@ -446,7 +414,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserUpdateManyWithoutAccountInput
+        user: UserUpdateOneInput
         posts: PostUpdateManyWithoutAccountInput
         pets: PetUpdateManyWithoutAccountInput
         images: ImageUpdateManyWithoutAccountInput
@@ -465,7 +433,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserUpdateManyWithoutAccountInput
+        user: UserUpdateOneInput
         posts: PostUpdateManyWithoutAccountInput
         pets: PetUpdateManyWithoutAccountInput
         images: ImageUpdateManyWithoutAccountInput
@@ -556,13 +524,6 @@ module.exports = {
         connect: AccountWhereUniqueInput
       }
 
-      input AccountUpdateOneRequiredWithoutUsersInput {
-        create: AccountCreateWithoutUsersInput
-        update: AccountUpdateWithoutUsersDataInput
-        upsert: AccountUpsertWithoutUsersInput
-        connect: AccountWhereUniqueInput
-      }
-
       input AccountUpdateWithoutCommentImagesDataInput {
         username: String
         password: String
@@ -570,7 +531,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserUpdateManyWithoutAccountInput
+        user: UserUpdateOneInput
         posts: PostUpdateManyWithoutAccountInput
         pets: PetUpdateManyWithoutAccountInput
         images: ImageUpdateManyWithoutAccountInput
@@ -588,7 +549,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserUpdateManyWithoutAccountInput
+        user: UserUpdateOneInput
         posts: PostUpdateManyWithoutAccountInput
         pets: PetUpdateManyWithoutAccountInput
         images: ImageUpdateManyWithoutAccountInput
@@ -606,7 +567,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserUpdateManyWithoutAccountInput
+        user: UserUpdateOneInput
         posts: PostUpdateManyWithoutAccountInput
         pets: PetUpdateManyWithoutAccountInput
         comments: CommentUpdateManyWithoutCreatedByInput
@@ -624,7 +585,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserUpdateManyWithoutAccountInput
+        user: UserUpdateOneInput
         posts: PostUpdateManyWithoutAccountInput
         pets: PetUpdateManyWithoutAccountInput
         images: ImageUpdateManyWithoutAccountInput
@@ -642,7 +603,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserUpdateManyWithoutAccountInput
+        user: UserUpdateOneInput
         posts: PostUpdateManyWithoutAccountInput
         images: ImageUpdateManyWithoutAccountInput
         comments: CommentUpdateManyWithoutCreatedByInput
@@ -660,7 +621,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserUpdateManyWithoutAccountInput
+        user: UserUpdateOneInput
         posts: PostUpdateManyWithoutAccountInput
         pets: PetUpdateManyWithoutAccountInput
         images: ImageUpdateManyWithoutAccountInput
@@ -678,7 +639,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserUpdateManyWithoutAccountInput
+        user: UserUpdateOneInput
         pets: PetUpdateManyWithoutAccountInput
         images: ImageUpdateManyWithoutAccountInput
         comments: CommentUpdateManyWithoutCreatedByInput
@@ -696,7 +657,7 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserUpdateManyWithoutAccountInput
+        user: UserUpdateOneInput
         posts: PostUpdateManyWithoutAccountInput
         pets: PetUpdateManyWithoutAccountInput
         images: ImageUpdateManyWithoutAccountInput
@@ -714,29 +675,11 @@ module.exports = {
         role: Role
         status: AccountStatus
         settings: Json
-        users: UserUpdateManyWithoutAccountInput
+        user: UserUpdateOneInput
         posts: PostUpdateManyWithoutAccountInput
         pets: PetUpdateManyWithoutAccountInput
         images: ImageUpdateManyWithoutAccountInput
         comments: CommentUpdateManyWithoutCreatedByInput
-        postImages: PostImageUpdateManyWithoutAccountInput
-        commentImages: CommentImageUpdateManyWithoutAccountInput
-        like: LikeUpdateManyWithoutAccountInput
-        reports: ReportUpdateManyWithoutCreatedByInput
-      }
-
-      input AccountUpdateWithoutUsersDataInput {
-        username: String
-        password: String
-        email: String
-        role: Role
-        status: AccountStatus
-        settings: Json
-        posts: PostUpdateManyWithoutAccountInput
-        pets: PetUpdateManyWithoutAccountInput
-        images: ImageUpdateManyWithoutAccountInput
-        comments: CommentUpdateManyWithoutCreatedByInput
-        reviews: ReviewUpdateManyWithoutCreatedByInput
         postImages: PostImageUpdateManyWithoutAccountInput
         commentImages: CommentImageUpdateManyWithoutAccountInput
         like: LikeUpdateManyWithoutAccountInput
@@ -791,11 +734,6 @@ module.exports = {
       input AccountUpsertWithoutReviewsInput {
         update: AccountUpdateWithoutReviewsDataInput!
         create: AccountCreateWithoutReviewsInput!
-      }
-
-      input AccountUpsertWithoutUsersInput {
-        update: AccountUpdateWithoutUsersDataInput!
-        create: AccountCreateWithoutUsersInput!
       }
 
       input AccountWhereInput {
@@ -863,9 +801,7 @@ module.exports = {
         status_not: AccountStatus
         status_in: [AccountStatus!]
         status_not_in: [AccountStatus!]
-        users_every: UserWhereInput
-        users_some: UserWhereInput
-        users_none: UserWhereInput
+        user: UserWhereInput
         posts_every: PostWhereInput
         posts_some: PostWhereInput
         posts_none: PostWhereInput
@@ -999,6 +935,15 @@ module.exports = {
       type Comment {
         id: UUID!
         message: String!
+        commentLikes(
+          where: CommentLikeWhereInput
+          orderBy: CommentLikeOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [CommentLike!]
         commentImages(
           where: CommentImageWhereInput
           orderBy: CommentImageOrderByInput
@@ -1024,6 +969,7 @@ module.exports = {
       input CommentCreateInput {
         id: UUID
         message: String!
+        commentLikes: CommentLikeCreateManyWithoutCommentInput
         commentImages: CommentImageCreateManyWithoutCommentInput
         post: PostCreateOneWithoutCommentsInput!
         likes: Int
@@ -1040,19 +986,29 @@ module.exports = {
         connect: [CommentWhereUniqueInput!]
       }
 
-      input CommentCreateOneInput {
-        create: CommentCreateInput
+      input CommentCreateOneWithoutCommentImagesInput {
+        create: CommentCreateWithoutCommentImagesInput
         connect: CommentWhereUniqueInput
       }
 
-      input CommentCreateOneWithoutCommentImagesInput {
-        create: CommentCreateWithoutCommentImagesInput
+      input CommentCreateOneWithoutCommentLikesInput {
+        create: CommentCreateWithoutCommentLikesInput
         connect: CommentWhereUniqueInput
       }
 
       input CommentCreateWithoutCommentImagesInput {
         id: UUID
         message: String!
+        commentLikes: CommentLikeCreateManyWithoutCommentInput
+        post: PostCreateOneWithoutCommentsInput!
+        likes: Int
+        createdBy: AccountCreateOneWithoutCommentsInput!
+      }
+
+      input CommentCreateWithoutCommentLikesInput {
+        id: UUID
+        message: String!
+        commentImages: CommentImageCreateManyWithoutCommentInput
         post: PostCreateOneWithoutCommentsInput!
         likes: Int
         createdBy: AccountCreateOneWithoutCommentsInput!
@@ -1061,6 +1017,7 @@ module.exports = {
       input CommentCreateWithoutCreatedByInput {
         id: UUID
         message: String!
+        commentLikes: CommentLikeCreateManyWithoutCommentInput
         commentImages: CommentImageCreateManyWithoutCommentInput
         post: PostCreateOneWithoutCommentsInput!
         likes: Int
@@ -1069,6 +1026,7 @@ module.exports = {
       input CommentCreateWithoutPostInput {
         id: UUID
         message: String!
+        commentLikes: CommentLikeCreateManyWithoutCommentInput
         commentImages: CommentImageCreateManyWithoutCommentInput
         likes: Int
         createdBy: AccountCreateOneWithoutCommentsInput!
@@ -1316,7 +1274,17 @@ module.exports = {
 
       input CommentLikeCreateInput {
         id: UUID
-        comment: CommentCreateOneInput!
+        comment: CommentCreateOneWithoutCommentLikesInput!
+        like: LikeCreateOneInput!
+      }
+
+      input CommentLikeCreateManyWithoutCommentInput {
+        create: [CommentLikeCreateWithoutCommentInput!]
+        connect: [CommentLikeWhereUniqueInput!]
+      }
+
+      input CommentLikeCreateWithoutCommentInput {
+        id: UUID
         like: LikeCreateOneInput!
       }
 
@@ -1340,6 +1308,42 @@ module.exports = {
         updatedAt: DateTime!
       }
 
+      input CommentLikeScalarWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [CommentLikeScalarWhereInput!]
+        OR: [CommentLikeScalarWhereInput!]
+        NOT: [CommentLikeScalarWhereInput!]
+      }
+
       type CommentLikeSubscriptionPayload {
         mutation: MutationType!
         node: CommentLike
@@ -1359,8 +1363,34 @@ module.exports = {
       }
 
       input CommentLikeUpdateInput {
-        comment: CommentUpdateOneRequiredInput
+        comment: CommentUpdateOneRequiredWithoutCommentLikesInput
         like: LikeUpdateOneRequiredInput
+      }
+
+      input CommentLikeUpdateManyWithoutCommentInput {
+        create: [CommentLikeCreateWithoutCommentInput!]
+        delete: [CommentLikeWhereUniqueInput!]
+        connect: [CommentLikeWhereUniqueInput!]
+        set: [CommentLikeWhereUniqueInput!]
+        disconnect: [CommentLikeWhereUniqueInput!]
+        update: [CommentLikeUpdateWithWhereUniqueWithoutCommentInput!]
+        upsert: [CommentLikeUpsertWithWhereUniqueWithoutCommentInput!]
+        deleteMany: [CommentLikeScalarWhereInput!]
+      }
+
+      input CommentLikeUpdateWithoutCommentDataInput {
+        like: LikeUpdateOneRequiredInput
+      }
+
+      input CommentLikeUpdateWithWhereUniqueWithoutCommentInput {
+        where: CommentLikeWhereUniqueInput!
+        data: CommentLikeUpdateWithoutCommentDataInput!
+      }
+
+      input CommentLikeUpsertWithWhereUniqueWithoutCommentInput {
+        where: CommentLikeWhereUniqueInput!
+        update: CommentLikeUpdateWithoutCommentDataInput!
+        create: CommentLikeCreateWithoutCommentInput!
       }
 
       input CommentLikeWhereInput {
@@ -1502,16 +1532,9 @@ module.exports = {
         NOT: [CommentSubscriptionWhereInput!]
       }
 
-      input CommentUpdateDataInput {
-        message: String
-        commentImages: CommentImageUpdateManyWithoutCommentInput
-        post: PostUpdateOneRequiredWithoutCommentsInput
-        likes: Int
-        createdBy: AccountUpdateOneRequiredWithoutCommentsInput
-      }
-
       input CommentUpdateInput {
         message: String
+        commentLikes: CommentLikeUpdateManyWithoutCommentInput
         commentImages: CommentImageUpdateManyWithoutCommentInput
         post: PostUpdateOneRequiredWithoutCommentsInput
         likes: Int
@@ -1557,13 +1580,6 @@ module.exports = {
         data: CommentUpdateManyDataInput!
       }
 
-      input CommentUpdateOneRequiredInput {
-        create: CommentCreateInput
-        update: CommentUpdateDataInput
-        upsert: CommentUpsertNestedInput
-        connect: CommentWhereUniqueInput
-      }
-
       input CommentUpdateOneRequiredWithoutCommentImagesInput {
         create: CommentCreateWithoutCommentImagesInput
         update: CommentUpdateWithoutCommentImagesDataInput
@@ -1571,8 +1587,24 @@ module.exports = {
         connect: CommentWhereUniqueInput
       }
 
+      input CommentUpdateOneRequiredWithoutCommentLikesInput {
+        create: CommentCreateWithoutCommentLikesInput
+        update: CommentUpdateWithoutCommentLikesDataInput
+        upsert: CommentUpsertWithoutCommentLikesInput
+        connect: CommentWhereUniqueInput
+      }
+
       input CommentUpdateWithoutCommentImagesDataInput {
         message: String
+        commentLikes: CommentLikeUpdateManyWithoutCommentInput
+        post: PostUpdateOneRequiredWithoutCommentsInput
+        likes: Int
+        createdBy: AccountUpdateOneRequiredWithoutCommentsInput
+      }
+
+      input CommentUpdateWithoutCommentLikesDataInput {
+        message: String
+        commentImages: CommentImageUpdateManyWithoutCommentInput
         post: PostUpdateOneRequiredWithoutCommentsInput
         likes: Int
         createdBy: AccountUpdateOneRequiredWithoutCommentsInput
@@ -1580,6 +1612,7 @@ module.exports = {
 
       input CommentUpdateWithoutCreatedByDataInput {
         message: String
+        commentLikes: CommentLikeUpdateManyWithoutCommentInput
         commentImages: CommentImageUpdateManyWithoutCommentInput
         post: PostUpdateOneRequiredWithoutCommentsInput
         likes: Int
@@ -1587,6 +1620,7 @@ module.exports = {
 
       input CommentUpdateWithoutPostDataInput {
         message: String
+        commentLikes: CommentLikeUpdateManyWithoutCommentInput
         commentImages: CommentImageUpdateManyWithoutCommentInput
         likes: Int
         createdBy: AccountUpdateOneRequiredWithoutCommentsInput
@@ -1602,14 +1636,14 @@ module.exports = {
         data: CommentUpdateWithoutPostDataInput!
       }
 
-      input CommentUpsertNestedInput {
-        update: CommentUpdateDataInput!
-        create: CommentCreateInput!
-      }
-
       input CommentUpsertWithoutCommentImagesInput {
         update: CommentUpdateWithoutCommentImagesDataInput!
         create: CommentCreateWithoutCommentImagesInput!
+      }
+
+      input CommentUpsertWithoutCommentLikesInput {
+        update: CommentUpdateWithoutCommentLikesDataInput!
+        create: CommentCreateWithoutCommentLikesInput!
       }
 
       input CommentUpsertWithWhereUniqueWithoutCreatedByInput {
@@ -1653,6 +1687,9 @@ module.exports = {
         message_not_starts_with: String
         message_ends_with: String
         message_not_ends_with: String
+        commentLikes_every: CommentLikeWhereInput
+        commentLikes_some: CommentLikeWhereInput
+        commentLikes_none: CommentLikeWhereInput
         commentImages_every: CommentImageWhereInput
         commentImages_some: CommentImageWhereInput
         commentImages_none: CommentImageWhereInput
@@ -2789,6 +2826,15 @@ module.exports = {
         likes: Int!
         settings: Json
         status: PostStatus!
+        postLikes(
+          where: PostLikeWhereInput
+          orderBy: PostLikeOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [PostLike!]
         postImages(
           where: PostImageWhereInput
           orderBy: PostImageOrderByInput
@@ -2856,6 +2902,7 @@ module.exports = {
         likes: Int
         settings: Json
         status: PostStatus
+        postLikes: PostLikeCreateManyWithoutPostInput
         postImages: PostImageCreateManyWithoutPostInput
         postTags: PostTagCreateManyWithoutPostInput
         comments: CommentCreateManyWithoutPostInput
@@ -2869,11 +2916,6 @@ module.exports = {
         connect: [PostWhereUniqueInput!]
       }
 
-      input PostCreateOneInput {
-        create: PostCreateInput
-        connect: PostWhereUniqueInput
-      }
-
       input PostCreateOneWithoutCommentsInput {
         create: PostCreateWithoutCommentsInput
         connect: PostWhereUniqueInput
@@ -2881,6 +2923,11 @@ module.exports = {
 
       input PostCreateOneWithoutPostImagesInput {
         create: PostCreateWithoutPostImagesInput
+        connect: PostWhereUniqueInput
+      }
+
+      input PostCreateOneWithoutPostLikesInput {
+        create: PostCreateWithoutPostLikesInput
         connect: PostWhereUniqueInput
       }
 
@@ -2910,6 +2957,7 @@ module.exports = {
         likes: Int
         settings: Json
         status: PostStatus
+        postLikes: PostLikeCreateManyWithoutPostInput
         postImages: PostImageCreateManyWithoutPostInput
         postTags: PostTagCreateManyWithoutPostInput
         comments: CommentCreateManyWithoutPostInput
@@ -2928,6 +2976,7 @@ module.exports = {
         likes: Int
         settings: Json
         status: PostStatus
+        postLikes: PostLikeCreateManyWithoutPostInput
         postImages: PostImageCreateManyWithoutPostInput
         postTags: PostTagCreateManyWithoutPostInput
         reviews: ReviewCreateManyWithoutPostInput
@@ -2946,6 +2995,26 @@ module.exports = {
         likes: Int
         settings: Json
         status: PostStatus
+        postLikes: PostLikeCreateManyWithoutPostInput
+        postTags: PostTagCreateManyWithoutPostInput
+        comments: CommentCreateManyWithoutPostInput
+        reviews: ReviewCreateManyWithoutPostInput
+        reports: ReportCreateManyWithoutPostInput
+        account: AccountCreateOneWithoutPostsInput!
+      }
+
+      input PostCreateWithoutPostLikesInput {
+        id: UUID
+        title: String!
+        description: String
+        location: String!
+        price: Float
+        dueDate: DateTime!
+        pet: PetCreateOneInput!
+        likes: Int
+        settings: Json
+        status: PostStatus
+        postImages: PostImageCreateManyWithoutPostInput
         postTags: PostTagCreateManyWithoutPostInput
         comments: CommentCreateManyWithoutPostInput
         reviews: ReviewCreateManyWithoutPostInput
@@ -2964,6 +3033,7 @@ module.exports = {
         likes: Int
         settings: Json
         status: PostStatus
+        postLikes: PostLikeCreateManyWithoutPostInput
         postImages: PostImageCreateManyWithoutPostInput
         comments: CommentCreateManyWithoutPostInput
         reviews: ReviewCreateManyWithoutPostInput
@@ -2982,6 +3052,7 @@ module.exports = {
         likes: Int
         settings: Json
         status: PostStatus
+        postLikes: PostLikeCreateManyWithoutPostInput
         postImages: PostImageCreateManyWithoutPostInput
         postTags: PostTagCreateManyWithoutPostInput
         comments: CommentCreateManyWithoutPostInput
@@ -3000,6 +3071,7 @@ module.exports = {
         likes: Int
         settings: Json
         status: PostStatus
+        postLikes: PostLikeCreateManyWithoutPostInput
         postImages: PostImageCreateManyWithoutPostInput
         postTags: PostTagCreateManyWithoutPostInput
         comments: CommentCreateManyWithoutPostInput
@@ -3249,7 +3321,17 @@ module.exports = {
 
       input PostLikeCreateInput {
         id: UUID
-        post: PostCreateOneInput!
+        post: PostCreateOneWithoutPostLikesInput!
+        like: LikeCreateOneInput!
+      }
+
+      input PostLikeCreateManyWithoutPostInput {
+        create: [PostLikeCreateWithoutPostInput!]
+        connect: [PostLikeWhereUniqueInput!]
+      }
+
+      input PostLikeCreateWithoutPostInput {
+        id: UUID
         like: LikeCreateOneInput!
       }
 
@@ -3273,6 +3355,42 @@ module.exports = {
         updatedAt: DateTime!
       }
 
+      input PostLikeScalarWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [PostLikeScalarWhereInput!]
+        OR: [PostLikeScalarWhereInput!]
+        NOT: [PostLikeScalarWhereInput!]
+      }
+
       type PostLikeSubscriptionPayload {
         mutation: MutationType!
         node: PostLike
@@ -3292,8 +3410,34 @@ module.exports = {
       }
 
       input PostLikeUpdateInput {
-        post: PostUpdateOneRequiredInput
+        post: PostUpdateOneRequiredWithoutPostLikesInput
         like: LikeUpdateOneRequiredInput
+      }
+
+      input PostLikeUpdateManyWithoutPostInput {
+        create: [PostLikeCreateWithoutPostInput!]
+        delete: [PostLikeWhereUniqueInput!]
+        connect: [PostLikeWhereUniqueInput!]
+        set: [PostLikeWhereUniqueInput!]
+        disconnect: [PostLikeWhereUniqueInput!]
+        update: [PostLikeUpdateWithWhereUniqueWithoutPostInput!]
+        upsert: [PostLikeUpsertWithWhereUniqueWithoutPostInput!]
+        deleteMany: [PostLikeScalarWhereInput!]
+      }
+
+      input PostLikeUpdateWithoutPostDataInput {
+        like: LikeUpdateOneRequiredInput
+      }
+
+      input PostLikeUpdateWithWhereUniqueWithoutPostInput {
+        where: PostLikeWhereUniqueInput!
+        data: PostLikeUpdateWithoutPostDataInput!
+      }
+
+      input PostLikeUpsertWithWhereUniqueWithoutPostInput {
+        where: PostLikeWhereUniqueInput!
+        update: PostLikeUpdateWithoutPostDataInput!
+        create: PostLikeCreateWithoutPostInput!
       }
 
       input PostLikeWhereInput {
@@ -3721,24 +3865,6 @@ module.exports = {
         id: UUID
       }
 
-      input PostUpdateDataInput {
-        title: String
-        description: String
-        location: String
-        price: Float
-        dueDate: DateTime
-        pet: PetUpdateOneRequiredInput
-        likes: Int
-        settings: Json
-        status: PostStatus
-        postImages: PostImageUpdateManyWithoutPostInput
-        postTags: PostTagUpdateManyWithoutPostInput
-        comments: CommentUpdateManyWithoutPostInput
-        reviews: ReviewUpdateManyWithoutPostInput
-        reports: ReportUpdateManyWithoutPostInput
-        account: AccountUpdateOneRequiredWithoutPostsInput
-      }
-
       input PostUpdateInput {
         title: String
         description: String
@@ -3749,6 +3875,7 @@ module.exports = {
         likes: Int
         settings: Json
         status: PostStatus
+        postLikes: PostLikeUpdateManyWithoutPostInput
         postImages: PostImageUpdateManyWithoutPostInput
         postTags: PostTagUpdateManyWithoutPostInput
         comments: CommentUpdateManyWithoutPostInput
@@ -3796,13 +3923,6 @@ module.exports = {
         data: PostUpdateManyDataInput!
       }
 
-      input PostUpdateOneRequiredInput {
-        create: PostCreateInput
-        update: PostUpdateDataInput
-        upsert: PostUpsertNestedInput
-        connect: PostWhereUniqueInput
-      }
-
       input PostUpdateOneRequiredWithoutCommentsInput {
         create: PostCreateWithoutCommentsInput
         update: PostUpdateWithoutCommentsDataInput
@@ -3814,6 +3934,13 @@ module.exports = {
         create: PostCreateWithoutPostImagesInput
         update: PostUpdateWithoutPostImagesDataInput
         upsert: PostUpsertWithoutPostImagesInput
+        connect: PostWhereUniqueInput
+      }
+
+      input PostUpdateOneRequiredWithoutPostLikesInput {
+        create: PostCreateWithoutPostLikesInput
+        update: PostUpdateWithoutPostLikesDataInput
+        upsert: PostUpsertWithoutPostLikesInput
         connect: PostWhereUniqueInput
       }
 
@@ -3848,6 +3975,7 @@ module.exports = {
         likes: Int
         settings: Json
         status: PostStatus
+        postLikes: PostLikeUpdateManyWithoutPostInput
         postImages: PostImageUpdateManyWithoutPostInput
         postTags: PostTagUpdateManyWithoutPostInput
         comments: CommentUpdateManyWithoutPostInput
@@ -3865,6 +3993,7 @@ module.exports = {
         likes: Int
         settings: Json
         status: PostStatus
+        postLikes: PostLikeUpdateManyWithoutPostInput
         postImages: PostImageUpdateManyWithoutPostInput
         postTags: PostTagUpdateManyWithoutPostInput
         reviews: ReviewUpdateManyWithoutPostInput
@@ -3882,6 +4011,25 @@ module.exports = {
         likes: Int
         settings: Json
         status: PostStatus
+        postLikes: PostLikeUpdateManyWithoutPostInput
+        postTags: PostTagUpdateManyWithoutPostInput
+        comments: CommentUpdateManyWithoutPostInput
+        reviews: ReviewUpdateManyWithoutPostInput
+        reports: ReportUpdateManyWithoutPostInput
+        account: AccountUpdateOneRequiredWithoutPostsInput
+      }
+
+      input PostUpdateWithoutPostLikesDataInput {
+        title: String
+        description: String
+        location: String
+        price: Float
+        dueDate: DateTime
+        pet: PetUpdateOneRequiredInput
+        likes: Int
+        settings: Json
+        status: PostStatus
+        postImages: PostImageUpdateManyWithoutPostInput
         postTags: PostTagUpdateManyWithoutPostInput
         comments: CommentUpdateManyWithoutPostInput
         reviews: ReviewUpdateManyWithoutPostInput
@@ -3899,6 +4047,7 @@ module.exports = {
         likes: Int
         settings: Json
         status: PostStatus
+        postLikes: PostLikeUpdateManyWithoutPostInput
         postImages: PostImageUpdateManyWithoutPostInput
         comments: CommentUpdateManyWithoutPostInput
         reviews: ReviewUpdateManyWithoutPostInput
@@ -3916,6 +4065,7 @@ module.exports = {
         likes: Int
         settings: Json
         status: PostStatus
+        postLikes: PostLikeUpdateManyWithoutPostInput
         postImages: PostImageUpdateManyWithoutPostInput
         postTags: PostTagUpdateManyWithoutPostInput
         comments: CommentUpdateManyWithoutPostInput
@@ -3933,6 +4083,7 @@ module.exports = {
         likes: Int
         settings: Json
         status: PostStatus
+        postLikes: PostLikeUpdateManyWithoutPostInput
         postImages: PostImageUpdateManyWithoutPostInput
         postTags: PostTagUpdateManyWithoutPostInput
         comments: CommentUpdateManyWithoutPostInput
@@ -3945,11 +4096,6 @@ module.exports = {
         data: PostUpdateWithoutAccountDataInput!
       }
 
-      input PostUpsertNestedInput {
-        update: PostUpdateDataInput!
-        create: PostCreateInput!
-      }
-
       input PostUpsertWithoutCommentsInput {
         update: PostUpdateWithoutCommentsDataInput!
         create: PostCreateWithoutCommentsInput!
@@ -3958,6 +4104,11 @@ module.exports = {
       input PostUpsertWithoutPostImagesInput {
         update: PostUpdateWithoutPostImagesDataInput!
         create: PostCreateWithoutPostImagesInput!
+      }
+
+      input PostUpsertWithoutPostLikesInput {
+        update: PostUpdateWithoutPostLikesDataInput!
+        create: PostCreateWithoutPostLikesInput!
       }
 
       input PostUpsertWithoutPostTagsInput {
@@ -4067,6 +4218,9 @@ module.exports = {
         status_not: PostStatus
         status_in: [PostStatus!]
         status_not_in: [PostStatus!]
+        postLikes_every: PostLikeWhereInput
+        postLikes_some: PostLikeWhereInput
+        postLikes_none: PostLikeWhereInput
         postImages_every: PostImageWhereInput
         postImages_some: PostImageWhereInput
         postImages_none: PostImageWhereInput
@@ -4764,6 +4918,15 @@ module.exports = {
         id: UUID!
         message: String!
         stars: Int!
+        reviewLikes(
+          where: ReviewLikeWhereInput
+          orderBy: ReviewLikeOrderByInput
+          skip: Int
+          after: String
+          before: String
+          first: Int
+          last: Int
+        ): [ReviewLike!]
         reviewImages(
           where: ReviewImageWhereInput
           orderBy: ReviewImageOrderByInput
@@ -4790,6 +4953,7 @@ module.exports = {
         id: UUID
         message: String!
         stars: Int!
+        reviewLikes: ReviewLikeCreateManyWithoutReviewInput
         reviewImages: ReviewImageCreateManyWithoutReviewInput
         post: PostCreateOneWithoutReviewsInput!
         likes: Int
@@ -4806,13 +4970,13 @@ module.exports = {
         connect: [ReviewWhereUniqueInput!]
       }
 
-      input ReviewCreateOneInput {
-        create: ReviewCreateInput
+      input ReviewCreateOneWithoutReviewImagesInput {
+        create: ReviewCreateWithoutReviewImagesInput
         connect: ReviewWhereUniqueInput
       }
 
-      input ReviewCreateOneWithoutReviewImagesInput {
-        create: ReviewCreateWithoutReviewImagesInput
+      input ReviewCreateOneWithoutReviewLikesInput {
+        create: ReviewCreateWithoutReviewLikesInput
         connect: ReviewWhereUniqueInput
       }
 
@@ -4820,6 +4984,7 @@ module.exports = {
         id: UUID
         message: String!
         stars: Int!
+        reviewLikes: ReviewLikeCreateManyWithoutReviewInput
         reviewImages: ReviewImageCreateManyWithoutReviewInput
         post: PostCreateOneWithoutReviewsInput!
         likes: Int
@@ -4829,6 +4994,7 @@ module.exports = {
         id: UUID
         message: String!
         stars: Int!
+        reviewLikes: ReviewLikeCreateManyWithoutReviewInput
         reviewImages: ReviewImageCreateManyWithoutReviewInput
         likes: Int
         createdBy: AccountCreateOneWithoutReviewsInput!
@@ -4838,6 +5004,17 @@ module.exports = {
         id: UUID
         message: String!
         stars: Int!
+        reviewLikes: ReviewLikeCreateManyWithoutReviewInput
+        post: PostCreateOneWithoutReviewsInput!
+        likes: Int
+        createdBy: AccountCreateOneWithoutReviewsInput!
+      }
+
+      input ReviewCreateWithoutReviewLikesInput {
+        id: UUID
+        message: String!
+        stars: Int!
+        reviewImages: ReviewImageCreateManyWithoutReviewInput
         post: PostCreateOneWithoutReviewsInput!
         likes: Int
         createdBy: AccountCreateOneWithoutReviewsInput!
@@ -5047,7 +5224,17 @@ module.exports = {
 
       input ReviewLikeCreateInput {
         id: UUID
-        review: ReviewCreateOneInput!
+        review: ReviewCreateOneWithoutReviewLikesInput!
+        like: LikeCreateOneInput!
+      }
+
+      input ReviewLikeCreateManyWithoutReviewInput {
+        create: [ReviewLikeCreateWithoutReviewInput!]
+        connect: [ReviewLikeWhereUniqueInput!]
+      }
+
+      input ReviewLikeCreateWithoutReviewInput {
+        id: UUID
         like: LikeCreateOneInput!
       }
 
@@ -5071,6 +5258,42 @@ module.exports = {
         updatedAt: DateTime!
       }
 
+      input ReviewLikeScalarWhereInput {
+        id: UUID
+        id_not: UUID
+        id_in: [UUID!]
+        id_not_in: [UUID!]
+        id_lt: UUID
+        id_lte: UUID
+        id_gt: UUID
+        id_gte: UUID
+        id_contains: UUID
+        id_not_contains: UUID
+        id_starts_with: UUID
+        id_not_starts_with: UUID
+        id_ends_with: UUID
+        id_not_ends_with: UUID
+        createdAt: DateTime
+        createdAt_not: DateTime
+        createdAt_in: [DateTime!]
+        createdAt_not_in: [DateTime!]
+        createdAt_lt: DateTime
+        createdAt_lte: DateTime
+        createdAt_gt: DateTime
+        createdAt_gte: DateTime
+        updatedAt: DateTime
+        updatedAt_not: DateTime
+        updatedAt_in: [DateTime!]
+        updatedAt_not_in: [DateTime!]
+        updatedAt_lt: DateTime
+        updatedAt_lte: DateTime
+        updatedAt_gt: DateTime
+        updatedAt_gte: DateTime
+        AND: [ReviewLikeScalarWhereInput!]
+        OR: [ReviewLikeScalarWhereInput!]
+        NOT: [ReviewLikeScalarWhereInput!]
+      }
+
       type ReviewLikeSubscriptionPayload {
         mutation: MutationType!
         node: ReviewLike
@@ -5090,8 +5313,34 @@ module.exports = {
       }
 
       input ReviewLikeUpdateInput {
-        review: ReviewUpdateOneRequiredInput
+        review: ReviewUpdateOneRequiredWithoutReviewLikesInput
         like: LikeUpdateOneRequiredInput
+      }
+
+      input ReviewLikeUpdateManyWithoutReviewInput {
+        create: [ReviewLikeCreateWithoutReviewInput!]
+        delete: [ReviewLikeWhereUniqueInput!]
+        connect: [ReviewLikeWhereUniqueInput!]
+        set: [ReviewLikeWhereUniqueInput!]
+        disconnect: [ReviewLikeWhereUniqueInput!]
+        update: [ReviewLikeUpdateWithWhereUniqueWithoutReviewInput!]
+        upsert: [ReviewLikeUpsertWithWhereUniqueWithoutReviewInput!]
+        deleteMany: [ReviewLikeScalarWhereInput!]
+      }
+
+      input ReviewLikeUpdateWithoutReviewDataInput {
+        like: LikeUpdateOneRequiredInput
+      }
+
+      input ReviewLikeUpdateWithWhereUniqueWithoutReviewInput {
+        where: ReviewLikeWhereUniqueInput!
+        data: ReviewLikeUpdateWithoutReviewDataInput!
+      }
+
+      input ReviewLikeUpsertWithWhereUniqueWithoutReviewInput {
+        where: ReviewLikeWhereUniqueInput!
+        update: ReviewLikeUpdateWithoutReviewDataInput!
+        create: ReviewLikeCreateWithoutReviewInput!
       }
 
       input ReviewLikeWhereInput {
@@ -5244,18 +5493,10 @@ module.exports = {
         NOT: [ReviewSubscriptionWhereInput!]
       }
 
-      input ReviewUpdateDataInput {
-        message: String
-        stars: Int
-        reviewImages: ReviewImageUpdateManyWithoutReviewInput
-        post: PostUpdateOneRequiredWithoutReviewsInput
-        likes: Int
-        createdBy: AccountUpdateOneRequiredWithoutReviewsInput
-      }
-
       input ReviewUpdateInput {
         message: String
         stars: Int
+        reviewLikes: ReviewLikeUpdateManyWithoutReviewInput
         reviewImages: ReviewImageUpdateManyWithoutReviewInput
         post: PostUpdateOneRequiredWithoutReviewsInput
         likes: Int
@@ -5303,13 +5544,6 @@ module.exports = {
         data: ReviewUpdateManyDataInput!
       }
 
-      input ReviewUpdateOneRequiredInput {
-        create: ReviewCreateInput
-        update: ReviewUpdateDataInput
-        upsert: ReviewUpsertNestedInput
-        connect: ReviewWhereUniqueInput
-      }
-
       input ReviewUpdateOneRequiredWithoutReviewImagesInput {
         create: ReviewCreateWithoutReviewImagesInput
         update: ReviewUpdateWithoutReviewImagesDataInput
@@ -5317,9 +5551,17 @@ module.exports = {
         connect: ReviewWhereUniqueInput
       }
 
+      input ReviewUpdateOneRequiredWithoutReviewLikesInput {
+        create: ReviewCreateWithoutReviewLikesInput
+        update: ReviewUpdateWithoutReviewLikesDataInput
+        upsert: ReviewUpsertWithoutReviewLikesInput
+        connect: ReviewWhereUniqueInput
+      }
+
       input ReviewUpdateWithoutCreatedByDataInput {
         message: String
         stars: Int
+        reviewLikes: ReviewLikeUpdateManyWithoutReviewInput
         reviewImages: ReviewImageUpdateManyWithoutReviewInput
         post: PostUpdateOneRequiredWithoutReviewsInput
         likes: Int
@@ -5328,6 +5570,7 @@ module.exports = {
       input ReviewUpdateWithoutPostDataInput {
         message: String
         stars: Int
+        reviewLikes: ReviewLikeUpdateManyWithoutReviewInput
         reviewImages: ReviewImageUpdateManyWithoutReviewInput
         likes: Int
         createdBy: AccountUpdateOneRequiredWithoutReviewsInput
@@ -5336,6 +5579,16 @@ module.exports = {
       input ReviewUpdateWithoutReviewImagesDataInput {
         message: String
         stars: Int
+        reviewLikes: ReviewLikeUpdateManyWithoutReviewInput
+        post: PostUpdateOneRequiredWithoutReviewsInput
+        likes: Int
+        createdBy: AccountUpdateOneRequiredWithoutReviewsInput
+      }
+
+      input ReviewUpdateWithoutReviewLikesDataInput {
+        message: String
+        stars: Int
+        reviewImages: ReviewImageUpdateManyWithoutReviewInput
         post: PostUpdateOneRequiredWithoutReviewsInput
         likes: Int
         createdBy: AccountUpdateOneRequiredWithoutReviewsInput
@@ -5351,14 +5604,14 @@ module.exports = {
         data: ReviewUpdateWithoutPostDataInput!
       }
 
-      input ReviewUpsertNestedInput {
-        update: ReviewUpdateDataInput!
-        create: ReviewCreateInput!
-      }
-
       input ReviewUpsertWithoutReviewImagesInput {
         update: ReviewUpdateWithoutReviewImagesDataInput!
         create: ReviewCreateWithoutReviewImagesInput!
+      }
+
+      input ReviewUpsertWithoutReviewLikesInput {
+        update: ReviewUpdateWithoutReviewLikesDataInput!
+        create: ReviewCreateWithoutReviewLikesInput!
       }
 
       input ReviewUpsertWithWhereUniqueWithoutCreatedByInput {
@@ -5410,6 +5663,9 @@ module.exports = {
         stars_lte: Int
         stars_gt: Int
         stars_gte: Int
+        reviewLikes_every: ReviewLikeWhereInput
+        reviewLikes_some: ReviewLikeWhereInput
+        reviewLikes_none: ReviewLikeWhereInput
         reviewImages_every: ReviewImageWhereInput
         reviewImages_some: ReviewImageWhereInput
         reviewImages_none: ReviewImageWhereInput
@@ -5667,7 +5923,6 @@ module.exports = {
         dob: DateTime
         avatar: Image
         settings: Json
-        account: Account!
         createdAt: DateTime!
         updatedAt: DateTime!
       }
@@ -5687,23 +5942,11 @@ module.exports = {
         dob: DateTime
         avatar: ImageCreateOneInput
         settings: Json
-        account: AccountCreateOneWithoutUsersInput!
       }
 
-      input UserCreateManyWithoutAccountInput {
-        create: [UserCreateWithoutAccountInput!]
-        connect: [UserWhereUniqueInput!]
-      }
-
-      input UserCreateWithoutAccountInput {
-        id: UUID
-        name: String!
-        phoneNumber: String!
-        address: Json!
-        bio: String
-        dob: DateTime
-        avatar: ImageCreateOneInput
-        settings: Json
+      input UserCreateOneInput {
+        create: UserCreateInput
+        connect: UserWhereUniqueInput
       }
 
       type UserEdge {
@@ -5744,92 +5987,6 @@ module.exports = {
         updatedAt: DateTime!
       }
 
-      input UserScalarWhereInput {
-        id: UUID
-        id_not: UUID
-        id_in: [UUID!]
-        id_not_in: [UUID!]
-        id_lt: UUID
-        id_lte: UUID
-        id_gt: UUID
-        id_gte: UUID
-        id_contains: UUID
-        id_not_contains: UUID
-        id_starts_with: UUID
-        id_not_starts_with: UUID
-        id_ends_with: UUID
-        id_not_ends_with: UUID
-        name: String
-        name_not: String
-        name_in: [String!]
-        name_not_in: [String!]
-        name_lt: String
-        name_lte: String
-        name_gt: String
-        name_gte: String
-        name_contains: String
-        name_not_contains: String
-        name_starts_with: String
-        name_not_starts_with: String
-        name_ends_with: String
-        name_not_ends_with: String
-        phoneNumber: String
-        phoneNumber_not: String
-        phoneNumber_in: [String!]
-        phoneNumber_not_in: [String!]
-        phoneNumber_lt: String
-        phoneNumber_lte: String
-        phoneNumber_gt: String
-        phoneNumber_gte: String
-        phoneNumber_contains: String
-        phoneNumber_not_contains: String
-        phoneNumber_starts_with: String
-        phoneNumber_not_starts_with: String
-        phoneNumber_ends_with: String
-        phoneNumber_not_ends_with: String
-        bio: String
-        bio_not: String
-        bio_in: [String!]
-        bio_not_in: [String!]
-        bio_lt: String
-        bio_lte: String
-        bio_gt: String
-        bio_gte: String
-        bio_contains: String
-        bio_not_contains: String
-        bio_starts_with: String
-        bio_not_starts_with: String
-        bio_ends_with: String
-        bio_not_ends_with: String
-        dob: DateTime
-        dob_not: DateTime
-        dob_in: [DateTime!]
-        dob_not_in: [DateTime!]
-        dob_lt: DateTime
-        dob_lte: DateTime
-        dob_gt: DateTime
-        dob_gte: DateTime
-        createdAt: DateTime
-        createdAt_not: DateTime
-        createdAt_in: [DateTime!]
-        createdAt_not_in: [DateTime!]
-        createdAt_lt: DateTime
-        createdAt_lte: DateTime
-        createdAt_gt: DateTime
-        createdAt_gte: DateTime
-        updatedAt: DateTime
-        updatedAt_not: DateTime
-        updatedAt_in: [DateTime!]
-        updatedAt_not_in: [DateTime!]
-        updatedAt_lt: DateTime
-        updatedAt_lte: DateTime
-        updatedAt_gt: DateTime
-        updatedAt_gte: DateTime
-        AND: [UserScalarWhereInput!]
-        OR: [UserScalarWhereInput!]
-        NOT: [UserScalarWhereInput!]
-      }
-
       type UserSubscriptionPayload {
         mutation: MutationType!
         node: User
@@ -5848,7 +6005,7 @@ module.exports = {
         NOT: [UserSubscriptionWhereInput!]
       }
 
-      input UserUpdateInput {
+      input UserUpdateDataInput {
         name: String
         phoneNumber: String
         address: Json
@@ -5856,15 +6013,15 @@ module.exports = {
         dob: DateTime
         avatar: ImageUpdateOneInput
         settings: Json
-        account: AccountUpdateOneRequiredWithoutUsersInput
       }
 
-      input UserUpdateManyDataInput {
+      input UserUpdateInput {
         name: String
         phoneNumber: String
         address: Json
         bio: String
         dob: DateTime
+        avatar: ImageUpdateOneInput
         settings: Json
       }
 
@@ -5877,42 +6034,18 @@ module.exports = {
         settings: Json
       }
 
-      input UserUpdateManyWithoutAccountInput {
-        create: [UserCreateWithoutAccountInput!]
-        delete: [UserWhereUniqueInput!]
-        connect: [UserWhereUniqueInput!]
-        set: [UserWhereUniqueInput!]
-        disconnect: [UserWhereUniqueInput!]
-        update: [UserUpdateWithWhereUniqueWithoutAccountInput!]
-        upsert: [UserUpsertWithWhereUniqueWithoutAccountInput!]
-        deleteMany: [UserScalarWhereInput!]
-        updateMany: [UserUpdateManyWithWhereNestedInput!]
+      input UserUpdateOneInput {
+        create: UserCreateInput
+        update: UserUpdateDataInput
+        upsert: UserUpsertNestedInput
+        delete: Boolean
+        disconnect: Boolean
+        connect: UserWhereUniqueInput
       }
 
-      input UserUpdateManyWithWhereNestedInput {
-        where: UserScalarWhereInput!
-        data: UserUpdateManyDataInput!
-      }
-
-      input UserUpdateWithoutAccountDataInput {
-        name: String
-        phoneNumber: String
-        address: Json
-        bio: String
-        dob: DateTime
-        avatar: ImageUpdateOneInput
-        settings: Json
-      }
-
-      input UserUpdateWithWhereUniqueWithoutAccountInput {
-        where: UserWhereUniqueInput!
-        data: UserUpdateWithoutAccountDataInput!
-      }
-
-      input UserUpsertWithWhereUniqueWithoutAccountInput {
-        where: UserWhereUniqueInput!
-        update: UserUpdateWithoutAccountDataInput!
-        create: UserCreateWithoutAccountInput!
+      input UserUpsertNestedInput {
+        update: UserUpdateDataInput!
+        create: UserCreateInput!
       }
 
       input UserWhereInput {
@@ -5981,7 +6114,6 @@ module.exports = {
         dob_gt: DateTime
         dob_gte: DateTime
         avatar: ImageWhereInput
-        account: AccountWhereInput
         createdAt: DateTime
         createdAt_not: DateTime
         createdAt_in: [DateTime!]

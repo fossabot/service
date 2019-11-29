@@ -16,7 +16,7 @@ type Account {
   role: Role! @default(value: Free)
   status: AccountStatus @default(value: Active)
   settings: Json
-  users: [User!] @relation(name: "Account_User", onDelete: CASCADE)
+  user: User @relation(onDelete: CASCADE)
   posts: [Post!] @relation(name: "Account_Post", onDelete: CASCADE)
   pets: [Pet!] @relation(name: "Account_Pet", onDelete: CASCADE)
   images: [Image!] @relation(name: "Account_Image", onDelete: CASCADE)
@@ -37,9 +37,8 @@ type User {
   address: Json!
   bio: String
   dob: DateTime
-  avatar: Image @relation(link: INLINE)
+  avatar: Image @relation(onDelete: CASCADE)
   settings: Json
-  account: Account! @relation(name: "Account_User")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
@@ -58,10 +57,11 @@ type Post {
   location: String!
   price: Float! @default(value: 0)
   dueDate: DateTime!
-  pet: Pet! @relation(link: INLINE)
+  pet: Pet! @relation(onDelete: CASCADE)
   likes: Int! @default(value: 0)
   settings: Json
   status: PostStatus! @default(value: New)
+  postLikes: [PostLike!] @relation(name: "Post_PostLike", onDelete: CASCADE)
   postImages: [PostImage!] @relation(name: "Post_PostImage", onDelete: CASCADE)
   postTags: [PostTag!] @relation(name: "PostTag_Post", onDelete: CASCADE)
   comments: [Comment!] @relation(name: "Post_Comment", onDelete: CASCADE)
@@ -146,7 +146,8 @@ type ReviewImage {
 type Comment {
   id: UUID! @id
   message: String!
-  commentImages: [CommentImage!] @relation(name: "Comment_CommentImage")
+  commentLikes: [CommentLike!] @relation(name: "Comment_CommentLike", onDelete: CASCADE)
+  commentImages: [CommentImage!] @relation(name: "Comment_CommentImage", onDelete: CASCADE)
   post: Post! @relation(name: "Post_Comment")
   likes: Int! @default(value: 0)
   createdBy: Account! @relation(name: "Account_Comment")
@@ -158,7 +159,8 @@ type Review {
   id: UUID! @id
   message: String!
   stars: Int!
-  reviewImages: [ReviewImage!] @relation(name: "Review_ReviewImage")
+  reviewLikes: [ReviewLike!] @relation(name: "Review_ReviewLike", onDelete: CASCADE)
+  reviewImages: [ReviewImage!] @relation(name: "Review_ReviewImage", onDelete: CASCADE)
   post: Post! @relation(name: "Post_Review")
   likes: Int! @default(value: 0)
   createdBy: Account! @relation(name: "Account_Review")
@@ -175,7 +177,7 @@ type Like {
 
 type PostLike {
   id: UUID! @id
-  post: Post! @relation(link: INLINE)
+  post: Post! @relation(name: "Post_PostLike")
   like: Like! @relation(link: INLINE, onDelete: CASCADE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
@@ -183,7 +185,7 @@ type PostLike {
 
 type CommentLike {
   id: UUID! @id
-  comment: Comment! @relation(link: INLINE)
+  comment: Comment! @relation(name: "Comment_CommentLike")
   like: Like! @relation(link: INLINE, onDelete: CASCADE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
@@ -191,7 +193,7 @@ type CommentLike {
 
 type ReviewLike {
   id: UUID! @id
-  review: Review! @relation(link: INLINE)
+  review: Review! @relation(name: "Review_ReviewLike")
   like: Like! @relation(link: INLINE, onDelete: CASCADE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
