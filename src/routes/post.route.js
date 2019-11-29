@@ -64,4 +64,17 @@ router.post(
   withController(controller.create),
 );
 
+router.get(
+  '/:id/react',
+  authorize(role.free, role.premium),
+  celebrate({
+    params: {
+      id: Joi.string()
+        .guid()
+        .required(),
+    },
+  }),
+  withController(controller.reactPost),
+);
+
 export default router;

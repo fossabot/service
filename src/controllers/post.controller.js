@@ -11,4 +11,15 @@ function create(req) {
   });
 }
 
-export default { list, create };
+function reactPost(req) {
+  const {
+    user: { id: accountId },
+    params: { id },
+  } = req;
+  return service.reactPost({
+    id,
+    accountId,
+  });
+}
+
+export default { list, create, reactPost };
