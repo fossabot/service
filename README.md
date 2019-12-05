@@ -5,7 +5,7 @@
 
 🚀🌌 Powerful service for PetIsland.
 
-![cat](./images/cat.gif)
+<img src="./images/cat.gif" width=300 />
 
 ## Features
 
