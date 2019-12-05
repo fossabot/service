@@ -219,13 +219,9 @@ async function getMultiList({ offset: skip = 0, limit: first = 10, category, pet
   });
   const randomIndex = random(categories.length);
   const specialList = await pickOneList({ skip, selectedIndex: randomIndex });
-  return [
-    {
-      type: 'Standard',
-      data: [...standardPosts],
-    },
-    specialList,
-  ];
+  const specialListIndex = random(first);
+  standardPosts.splice(specialListIndex, 0, specialList);
+  return [...standardPosts];
 }
 
 function renderPostImagesSchema(images, account) {
