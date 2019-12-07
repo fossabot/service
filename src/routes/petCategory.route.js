@@ -15,7 +15,7 @@ router.post(
   celebrate({
     body: {
       name: Joi.string().required(),
-      desscription: Joi.string(),
+      description: Joi.string(),
       image: Joi.string().guid(),
     },
   }),
