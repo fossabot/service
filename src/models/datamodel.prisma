@@ -118,7 +118,7 @@ type Image {
 
 type PostImage {
   id: UUID! @id
-  image: Image! @relation(link: INLINE)
+  image: Image! @relation(onDelete: CASCADE)
   post: Post! @relation(name: "Post_PostImage")
   account: Account! @relation(name: "Account_PostImage")
   createdAt: DateTime! @createdAt
