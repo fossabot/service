@@ -19,6 +19,10 @@ function update(req) {
   });
 }
 
+function destroy(req) {
+  return service.deletePost(req.params.id);
+}
+
 function reactPost(req) {
   const {
     user: { id: accountId },
@@ -30,4 +34,4 @@ function reactPost(req) {
   });
 }
 
-export default { list, create, update, reactPost };
+export default { list, create, update, destroy, reactPost };

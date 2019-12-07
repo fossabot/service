@@ -114,6 +114,19 @@ router.put(
   withController(controller.update),
 );
 
+router.delete(
+  '/:id',
+  authorize(role.free, role.premium),
+  celebrate({
+    params: {
+      id: Joi.string()
+        .guid()
+        .required(),
+    },
+  }),
+  withController(controller.destroy),
+);
+
 router.get(
   '/:id/react',
   authorize(role.free, role.premium),

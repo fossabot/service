@@ -416,6 +416,10 @@ async function updatePost(data) {
     .$fragment(fragment);
 }
 
+function deletePost(id) {
+  return prisma.deletePost({ id });
+}
+
 async function reactPost(data) {
   let postResult = {};
   const { id, accountId } = data;
@@ -476,4 +480,4 @@ async function reactPost(data) {
   return { ...postResult, doReacted: !doReacted };
 }
 
-export default { createPost, updatePost, getMultiList, reactPost };
+export default { createPost, updatePost, getMultiList, deletePost, reactPost };
