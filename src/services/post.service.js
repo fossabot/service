@@ -7,8 +7,12 @@ function random(length) {
 }
 
 function pickTwoItemsFromArray(array) {
+  if (array.length <= 0) {
+    return [];
+  }
   const firstIndex = random(array.length);
   let secondIndex = random(array.length);
+  // eslint-disable-next-line fp/no-loops
   while (firstIndex === secondIndex) {
     secondIndex = random(array.length);
   }
