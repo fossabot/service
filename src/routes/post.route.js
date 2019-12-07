@@ -64,6 +64,56 @@ router.post(
   withController(controller.create),
 );
 
+router.put(
+  '/:id',
+  authorize(role.free, role.premium),
+  celebrate({
+    params: {
+      id: Joi.string()
+        .guid()
+        .required(),
+    },
+    body: Joi.object().keys({
+      title: Joi.string(),
+      description: Joi.string(),
+      location: Joi.string(),
+      settings: Joi.object(),
+      status: Joi.string()
+        .valid(objectToArray(postStatus))
+        .default(postStatus.new),
+      price: Joi.number(),
+      pet: Joi.object().keys({
+        info: Joi.object(),
+        category: Joi.string().guid(),
+      }),
+      images: Joi.object().keys({
+        newImages: Joi.array().items(
+          Joi.string()
+            .guid()
+            .required(),
+        ),
+        deleteImages: Joi.array().items(
+          Joi.string()
+            .guid()
+            .required(),
+        ),
+      }),
+      tags: Joi.object().keys({
+        newTags: Joi.array().items({
+          title: Joi.string().required(),
+          description: Joi.string(),
+        }),
+        deleteTags: Joi.array().items(
+          Joi.string()
+            .guid()
+            .required(),
+        ),
+      }),
+    }),
+  }),
+  withController(controller.update),
+);
+
 router.get(
   '/:id/react',
   authorize(role.free, role.premium),

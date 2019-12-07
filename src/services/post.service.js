@@ -278,7 +278,7 @@ function renderPostTagsSchema(tags) {
 }
 
 function createPost(data) {
-  const { account, pet, tags, images, category, ...otherData } = data;
+  const { account, pet, tags, images, ...otherData } = data;
   const dueDate = moment().add(postDueDate, 'months');
   return prisma.createPost({
     ...otherData,
@@ -310,6 +310,110 @@ function createPost(data) {
       },
     },
   });
+}
+
+async function updatePost(data) {
+  const { account, id, pet = {}, tags = {}, images = {}, ...otherData } = data;
+  const { newTags = [], deleteTags = [] } = tags;
+  const { newImages = [], deleteImages = [] } = images;
+  await prisma.deleteManyPostTags({ id_in: deleteTags });
+  await prisma.deleteManyPostImages({ id_in: deleteImages });
+  const fragment = `
+  fragment PostFullProps on Post {
+    id
+    title
+    description
+    location
+    price
+    dueDate
+    pet {
+      id
+      category {
+        id
+        name
+        description
+        image {
+          id
+          publicId
+          url
+        }
+      }
+      info
+    }
+    likes
+    settings
+    status
+    postImages {
+      id
+      image {
+        id
+        publicId
+        url
+      }
+    }
+    postTags {
+      id
+      tag {
+        id
+        title
+        description
+      }
+    }
+    postLikes {
+      id
+      like {
+        id
+        account {
+          id
+        }
+      }
+    }
+    account {
+      id
+      username
+      email
+      role
+      user {
+        id
+        name
+        phoneNumber
+        address
+        bio
+        dob
+        avatar {
+          id
+          publicId
+          url
+        }
+        settings
+      }
+    }
+  }
+  `;
+  return prisma
+    .updatePost({
+      data: {
+        ...otherData,
+        pet: {
+          update: {
+            ...pet,
+            category: {
+              connect: {
+                id: pet.category,
+              },
+            },
+          },
+        },
+        postImages: {
+          ...renderPostImagesSchema(newImages, account),
+        },
+        postTags: {
+          ...renderPostTagsSchema(newTags),
+        },
+      },
+      where: { id },
+    })
+    .$fragment(fragment);
 }
 
 async function reactPost(data) {
@@ -372,4 +476,4 @@ async function reactPost(data) {
   return { ...postResult, doReacted: !doReacted };
 }
 
-export default { createPost, getMultiList, reactPost };
+export default { createPost, updatePost, getMultiList, reactPost };

@@ -11,6 +11,14 @@ function create(req) {
   });
 }
 
+function update(req) {
+  return service.updatePost({
+    ...req.body,
+    id: req.params.id,
+    account: req.user.id,
+  });
+}
+
 function reactPost(req) {
   const {
     user: { id: accountId },
@@ -22,4 +30,4 @@ function reactPost(req) {
   });
 }
 
-export default { list, create, reactPost };
+export default { list, create, update, reactPost };
