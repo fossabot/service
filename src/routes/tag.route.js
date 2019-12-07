@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get(
   '/',
-  authorize(role.free, role.premium),
+  authorize(role.admin, role.free, role.premium),
   celebrate({
     params: Joi.object().keys({
       title: Joi.string().default(''),

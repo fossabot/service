@@ -798,7 +798,7 @@ export type CommentOrderByInput =
   | 'updatedAt_ASC'
   | 'updatedAt_DESC';
 
-export type Role = 'Free' | 'Premium';
+export type Role = 'Admin' | 'Free' | 'Premium';
 
 export type PostOrderByInput =
   | 'id_ASC'

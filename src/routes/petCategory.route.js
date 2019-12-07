@@ -7,11 +7,11 @@ import controller from '../controllers/petCategory.controller';
 
 const router = express.Router();
 
-router.get('/', authorize(role.free, role.premium), withController(controller.list));
+router.get('/', authorize(role.admin, role.free, role.premium), withController(controller.list));
 
 router.post(
   '/',
-  authorize(role.free, role.premium),
+  authorize(role.admin, role.free, role.premium),
   celebrate({
     body: {
       name: Joi.string().required(),

@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get(
   '/',
-  authorize(role.free, role.premium),
+  authorize(role.admin, role.free, role.premium),
   celebrate({
     query: {
       offset: Joi.number()
@@ -116,7 +116,7 @@ router.put(
 
 router.delete(
   '/:id',
-  authorize(role.free, role.premium),
+  authorize(role.admin, role.free, role.premium),
   celebrate({
     params: {
       id: Joi.string()

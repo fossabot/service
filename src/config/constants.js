@@ -1,4 +1,5 @@
 export const role = {
+  admin: 'Admin',
   free: 'Free',
   premium: 'Premium',
 };

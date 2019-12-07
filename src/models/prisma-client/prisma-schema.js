@@ -5705,6 +5705,7 @@ module.exports = {
       }
 
       enum Role {
+        Admin
         Free
         Premium
       }

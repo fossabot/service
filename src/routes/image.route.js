@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post(
   '/',
-  authorize(role.free, role.premium),
+  authorize(role.admin, role.free, role.premium),
   upload.array('images', maxImage),
   withController(controller.create),
 );
