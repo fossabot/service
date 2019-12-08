@@ -3,7 +3,7 @@ import { celebrate, Joi } from 'celebrate';
 import authorize from '@/helpers/authorize';
 import withController from '@/helpers/withController';
 import { role } from '@/config/constants';
-import controller from '@/controllers/user.controller';
+import controller from '../controllers/user.controller';
 
 const router = express.Router();
 
@@ -33,7 +33,7 @@ router.post(
       bio: Joi.string(),
       dob: Joi.string().isoDate(),
       settings: Joi.object(),
-      avatar: Joi.string(),
+      avatar: Joi.string().guid(),
     }),
   }),
   withController(controller.create),
@@ -55,7 +55,10 @@ router.put(
       bio: Joi.string(),
       dob: Joi.string().isoDate(),
       settings: Joi.object(),
-      avatar: Joi.string(),
+      avatar: Joi.object().keys({
+        newImage: Joi.string().guid(),
+        deleteImage: Joi.string().guid(),
+      }),
     }),
   }),
   withController(controller.update),

@@ -9,16 +9,34 @@ function getUser(id) {
 }
 
 function createUser(data) {
+  const { avatar, ...otherData } = data;
   return prisma.createUser({
-    ...data,
+    ...otherData,
+    avatar: avatar
+      ? {
+          connect: {
+            id: avatar,
+          },
+        }
+      : {},
   });
 }
 
-function updateUser(id, data) {
+async function updateUser(id, data) {
+  const { avatar = {}, ...otherData } = data;
+  const { newImage, deleteImage } = avatar;
+  await prisma.deleteImage({ id: deleteImage });
   return prisma.updateUser({
     where: { id },
     data: {
-      ...data,
+      ...otherData,
+      avatar: newImage
+        ? {
+            connect: {
+              id: newImage,
+            },
+          }
+        : {},
     },
   });
 }
