@@ -64,6 +64,63 @@ router.post(
   withController(controller.login),
 );
 
+router.get(
+  '/',
+  authenticate,
+  authorize(role.admin, role.free, role.premium),
+  celebrate({
+    query: {
+      offset: Joi.number()
+        .integer()
+        .min(0),
+      limit: Joi.number()
+        .integer()
+        .min(0),
+    },
+  }),
+  withController(controller.list),
+);
+
+// Update username, email, password.
+router.put(
+  '/:id',
+  authenticate,
+  authorize(role.admin, role.free, role.premium),
+  celebrate({
+    params: {
+      id: Joi.string()
+        .guid()
+        .required(),
+    },
+    body: Joi.object().keys({
+      username: Joi.string(),
+      password: Joi.string(),
+      newPassword: Joi.string(),
+      email: Joi.string(),
+    }),
+  }),
+  withController(controller.update),
+);
+
+router.put(
+  '/:id/status',
+  authenticate,
+  authorize(role.admin, role.free, role.premium),
+  celebrate({
+    params: {
+      id: Joi.string()
+        .guid()
+        .required(),
+    },
+    body: Joi.object().keys({
+      status: Joi.string()
+        .valid(objectToArray(accountStatus))
+        .required(),
+    }),
+  }),
+  withController(controller.updateStatus),
+);
+
 router.delete(
   '/:id',
   authenticate,

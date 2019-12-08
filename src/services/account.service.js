@@ -130,6 +130,136 @@ async function login(data) {
   };
 }
 
+function getAccountList(data) {
+  const { offset: skip = 0, limit: first = 10 } = data;
+  const fragment = `
+    fragment AccountFullProps on Account {
+      id
+      username
+      email
+      role
+      settings
+      status
+      user {
+        id
+        name
+        phoneNumber
+        address
+        bio
+        dob
+        settings
+        avatar {
+          id
+          url
+          publicId
+        }
+      }
+    }
+  `;
+  return prisma
+    .accounts({
+      skip,
+      first,
+    })
+    .$fragment(fragment);
+}
+
+async function updateAccount(data) {
+  const { id, newPassword, password, ...otherData } = data;
+  let updatedData = {
+    ...otherData,
+  };
+  const accountByEmail = await prisma.account({ email: otherData.email });
+  if (accountByEmail) {
+    throw Boom.conflict('email is exists');
+  }
+  const accountByUsername = await prisma.account({ username: otherData.username });
+  if (accountByUsername) {
+    throw Boom.conflict('username is exists');
+  }
+  if (password && newPassword) {
+    const account = await prisma.account({ id });
+    const match = await bcrypt.compare(password, account.password);
+    if (!match) {
+      throw Boom.forbidden('incorrect password');
+    } else {
+      const hashPassword = await bcrypt.hash(newPassword, 10);
+      updatedData = {
+        ...updatedData,
+        password: hashPassword,
+      };
+    }
+  }
+  const fragment = `
+    fragment AccountFullProps on Account {
+      id
+      username
+      email
+      role
+      settings
+      status
+      user {
+        id
+        name
+        phoneNumber
+        address
+        bio
+        dob
+        settings
+        avatar {
+          id
+          url
+          publicId
+        }
+      }
+    }
+  `;
+  return prisma
+    .updateAccount({
+      data: { ...updatedData },
+      where: { id },
+    })
+    .$fragment(fragment);
+}
+
+function updateAccountStatus(data) {
+  const { status, id } = data;
+  const fragment = `
+    fragment AccountFullProps on Account {
+      id
+      username
+      email
+      role
+      settings
+      status
+      user {
+        id
+        name
+        phoneNumber
+        address
+        bio
+        dob
+        settings
+        avatar {
+          id
+          url
+          publicId
+        }
+      }
+    }
+  `;
+  return prisma
+    .updateAccount({
+      data: {
+        status,
+      },
+      where: {
+        id,
+      },
+    })
+    .$fragment(fragment);
+}
+
 function deleteAccount(id) {
   return prisma.updateAccount({
     data: {
@@ -159,6 +289,9 @@ export default {
   requireCode,
   register,
   login,
+  getAccountList,
+  updateAccount,
+  updateAccountStatus,
   deleteAccount,
   checkToken,
 };
