@@ -221,6 +221,9 @@ async function getMultiList({ offset: skip = 0, limit: first = 10, category, pet
     skip,
     first,
   });
+  if (standardPosts.length === 0) {
+    return [];
+  }
   const randomIndex = random(categories.length);
   const specialList = await pickOneList({ skip, selectedIndex: randomIndex });
   const specialListIndex = random(first);
