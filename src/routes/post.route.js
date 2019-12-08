@@ -28,7 +28,7 @@ router.get(
 
 router.post(
   '/',
-  authorize(role.free, role.premium),
+  authorize(role.admin, role.free, role.premium),
   celebrate({
     body: Joi.object().keys({
       title: Joi.string().required(),
@@ -66,7 +66,7 @@ router.post(
 
 router.put(
   '/:id',
-  authorize(role.free, role.premium),
+  authorize(role.admin, role.free, role.premium),
   celebrate({
     params: {
       id: Joi.string()
@@ -129,7 +129,7 @@ router.delete(
 
 router.get(
   '/:id/react',
-  authorize(role.free, role.premium),
+  authorize(role.admin, role.free, role.premium),
   celebrate({
     params: {
       id: Joi.string()

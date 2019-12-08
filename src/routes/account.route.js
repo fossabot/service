@@ -1,6 +1,8 @@
 import express from 'express';
 import { celebrate, Joi } from 'celebrate';
-import withController from '@/helpers/withController';
+import withController from '../helpers/withController';
+import authenticate from '../helpers/authenticate';
+import authorize from '../helpers/authorize';
 import controller from '../controllers/account.controller';
 import objectToArray from '../helpers/objectToArray';
 import { role, accountStatus } from '../config/constants';
@@ -33,6 +35,15 @@ router.post(
       role: Joi.string()
         .valid(objectToArray(role))
         .default(role.free),
+      user: Joi.object().keys({
+        name: Joi.string().required(),
+        phoneNumber: Joi.string().required(),
+        address: Joi.object(),
+        bio: Joi.string(),
+        dob: Joi.date(),
+        settings: Joi.object(),
+        avatar: Joi.string().guid(),
+      }),
       status: Joi.string()
         .valid(objectToArray(accountStatus))
         .default(accountStatus.active),
@@ -51,6 +62,20 @@ router.post(
     }),
   }),
   withController(controller.login),
+);
+
+router.delete(
+  '/:id',
+  authenticate,
+  authorize(role.admin, role.free, role.premium),
+  celebrate({
+    params: {
+      id: Joi.string()
+        .guid()
+        .required(),
+    },
+  }),
+  withController(controller.destroy),
 );
 
 router.get('/check-token', withController(controller.checkToken));

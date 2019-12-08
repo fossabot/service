@@ -8,7 +8,8 @@ import fs from 'fs';
 import { JSDOM } from 'jsdom';
 import { promisify } from 'util';
 import { prisma } from '../models/prisma-client';
-import config from '@/config';
+import config from '../config';
+import { accountStatus } from '../config/constants';
 
 function createMailHtml(codeConfirmation) {
   const html = fs.readFileSync(`${__dirname}/../templates/codeConfirmation.html`, 'utf8');
@@ -65,7 +66,7 @@ async function checkCode(redis, data) {
 }
 
 async function register(redis, query, body) {
-  const { password, username } = body;
+  const { password, username, user } = body;
   const { email } = query;
   const accountByEmail = await prisma.account({ email });
   if (accountByEmail) {
@@ -82,13 +83,33 @@ async function register(redis, query, body) {
     password: hashPassword,
     email,
   };
-  const newAccount = await prisma.createAccount(newData);
+  const newAccount = await prisma.createAccount({
+    ...newData,
+    user: user
+      ? {
+          create: {
+            ...user,
+            avatar:
+              user && user.avatar
+                ? {
+                    connect: {
+                      id: user.avatar,
+                    },
+                  }
+                : {},
+          },
+        }
+      : {},
+  });
   return _.omit(newAccount, ['password']);
 }
 
 async function login(data) {
   const { username, password } = data;
   const account = await prisma.account({ username });
+  if (account.status === accountStatus.deactive) {
+    throw Boom.notFound('account is deactive');
+  }
   if (!account) {
     throw Boom.notFound('username does not exists');
   }
@@ -109,6 +130,17 @@ async function login(data) {
   };
 }
 
+function deleteAccount(id) {
+  return prisma.updateAccount({
+    data: {
+      status: accountStatus.deactive,
+    },
+    where: {
+      id,
+    },
+  });
+}
+
 function checkToken(data) {
   const { 'x-access-token': token } = data;
   if (!token) {
@@ -127,5 +159,6 @@ export default {
   requireCode,
   register,
   login,
+  deleteAccount,
   checkToken,
 };

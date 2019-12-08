@@ -7,11 +7,11 @@ import controller from '@/controllers/user.controller';
 
 const router = express.Router();
 
-router.get('/', authorize(role.free, role.premium), withController(controller.list));
+router.get('/', authorize(role.admin, role.free, role.premium), withController(controller.list));
 
 router.get(
   '/:id',
-  authorize(role.free, role.premium),
+  authorize(role.admin, role.free, role.premium),
   celebrate({
     params: Joi.object().keys({
       id: Joi.string()
@@ -24,7 +24,7 @@ router.get(
 
 router.post(
   '/',
-  authorize(role.free, role.premium),
+  authorize(role.admin, role.free, role.premium),
   celebrate({
     body: Joi.object().keys({
       name: Joi.string().required(),
@@ -41,7 +41,7 @@ router.post(
 
 router.put(
   '/:id',
-  authorize(role.free, role.premium),
+  authorize(role.admin, role.free, role.premium),
   celebrate({
     params: Joi.object().keys({
       id: Joi.string()
@@ -63,7 +63,7 @@ router.put(
 
 router.delete(
   '/:id',
-  authorize(role.free, role.premium),
+  authorize(role.admin, role.free, role.premium),
   celebrate({
     params: Joi.object().keys({
       id: Joi.string()

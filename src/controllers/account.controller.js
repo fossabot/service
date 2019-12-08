@@ -25,6 +25,10 @@ function login(req) {
   return service.login(req.body);
 }
 
+function destroy(req) {
+  return service.deleteAccount(req.params.id);
+}
+
 function checkToken(req) {
   return service.checkToken(req.headers);
 }
@@ -33,5 +37,6 @@ export default {
   requireCode,
   register,
   login,
+  destroy,
   checkToken,
 };
