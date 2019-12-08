@@ -20,7 +20,18 @@ function createPetCategory(data) {
   });
 }
 
+function updatePetCategory(data) {
+  const { id, ...otherData } = data;
+  return prisma.updatePetCategory({ data: { ...otherData }, where: { id } });
+}
+
+function deletePetCategory(id) {
+  return prisma.deletePetCategory({ id });
+}
+
 export default {
   getPetCategoryList,
   createPetCategory,
+  updatePetCategory,
+  deletePetCategory,
 };

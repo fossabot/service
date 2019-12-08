@@ -22,4 +22,35 @@ router.post(
   withController(controller.create),
 );
 
+router.put(
+  '/:id',
+  authorize(role.admin, role.free, role.premium),
+  celebrate({
+    params: {
+      id: Joi.string()
+        .guid()
+        .required(),
+    },
+    body: {
+      name: Joi.string().required(),
+      description: Joi.string(),
+      image: Joi.string().guid(),
+    },
+  }),
+  withController(controller.update),
+);
+
+router.delete(
+  '/:id',
+  authorize(role.admin, role.free, role.premium),
+  celebrate({
+    params: {
+      id: Joi.string()
+        .guid()
+        .required(),
+    },
+  }),
+  withController(controller.destroy),
+);
+
 export default router;
