@@ -10,6 +10,7 @@ export default {
     port: process.env.REDIS_PORT || 6379,
     password: process.env.REDIS_PASSWORD || 'test',
   },
+  mongodbConnection: process.env.MONGODB_CONNECTION,
   registerExpiration: process.env.REGISTER_EXPIRATION || 300000,
   email: process.env.EMAIL || 'ndc07.it@gmail.com',
   emailPassword: process.env.EMAIL_PASSWORD || 'test',
