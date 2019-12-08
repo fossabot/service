@@ -202,8 +202,8 @@ type ReviewLike {
 
 type Report {
   id: UUID! @id
-  content: String!
   reason: String!
+  description: String
   post: Post! @relation(name: "Post_Report")
   createdBy: Account! @relation(name: "Account_Report")
   createdAt: DateTime! @createdAt

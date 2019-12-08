@@ -4610,8 +4610,8 @@ module.exports = {
 
       type Report {
         id: UUID!
-        content: String!
         reason: String!
+        description: String
         post: Post!
         createdBy: Account!
         createdAt: DateTime!
@@ -4626,8 +4626,8 @@ module.exports = {
 
       input ReportCreateInput {
         id: UUID
-        content: String!
         reason: String!
+        description: String
         post: PostCreateOneWithoutReportsInput!
         createdBy: AccountCreateOneWithoutReportsInput!
       }
@@ -4644,15 +4644,15 @@ module.exports = {
 
       input ReportCreateWithoutCreatedByInput {
         id: UUID
-        content: String!
         reason: String!
+        description: String
         post: PostCreateOneWithoutReportsInput!
       }
 
       input ReportCreateWithoutPostInput {
         id: UUID
-        content: String!
         reason: String!
+        description: String
         createdBy: AccountCreateOneWithoutReportsInput!
       }
 
@@ -4664,10 +4664,10 @@ module.exports = {
       enum ReportOrderByInput {
         id_ASC
         id_DESC
-        content_ASC
-        content_DESC
         reason_ASC
         reason_DESC
+        description_ASC
+        description_DESC
         createdAt_ASC
         createdAt_DESC
         updatedAt_ASC
@@ -4676,8 +4676,8 @@ module.exports = {
 
       type ReportPreviousValues {
         id: UUID!
-        content: String!
         reason: String!
+        description: String
         createdAt: DateTime!
         updatedAt: DateTime!
       }
@@ -4697,20 +4697,6 @@ module.exports = {
         id_not_starts_with: UUID
         id_ends_with: UUID
         id_not_ends_with: UUID
-        content: String
-        content_not: String
-        content_in: [String!]
-        content_not_in: [String!]
-        content_lt: String
-        content_lte: String
-        content_gt: String
-        content_gte: String
-        content_contains: String
-        content_not_contains: String
-        content_starts_with: String
-        content_not_starts_with: String
-        content_ends_with: String
-        content_not_ends_with: String
         reason: String
         reason_not: String
         reason_in: [String!]
@@ -4725,6 +4711,20 @@ module.exports = {
         reason_not_starts_with: String
         reason_ends_with: String
         reason_not_ends_with: String
+        description: String
+        description_not: String
+        description_in: [String!]
+        description_not_in: [String!]
+        description_lt: String
+        description_lte: String
+        description_gt: String
+        description_gte: String
+        description_contains: String
+        description_not_contains: String
+        description_starts_with: String
+        description_not_starts_with: String
+        description_ends_with: String
+        description_not_ends_with: String
         createdAt: DateTime
         createdAt_not: DateTime
         createdAt_in: [DateTime!]
@@ -4765,20 +4765,20 @@ module.exports = {
       }
 
       input ReportUpdateInput {
-        content: String
         reason: String
+        description: String
         post: PostUpdateOneRequiredWithoutReportsInput
         createdBy: AccountUpdateOneRequiredWithoutReportsInput
       }
 
       input ReportUpdateManyDataInput {
-        content: String
         reason: String
+        description: String
       }
 
       input ReportUpdateManyMutationInput {
-        content: String
         reason: String
+        description: String
       }
 
       input ReportUpdateManyWithoutCreatedByInput {
@@ -4811,14 +4811,14 @@ module.exports = {
       }
 
       input ReportUpdateWithoutCreatedByDataInput {
-        content: String
         reason: String
+        description: String
         post: PostUpdateOneRequiredWithoutReportsInput
       }
 
       input ReportUpdateWithoutPostDataInput {
-        content: String
         reason: String
+        description: String
         createdBy: AccountUpdateOneRequiredWithoutReportsInput
       }
 
@@ -4859,20 +4859,6 @@ module.exports = {
         id_not_starts_with: UUID
         id_ends_with: UUID
         id_not_ends_with: UUID
-        content: String
-        content_not: String
-        content_in: [String!]
-        content_not_in: [String!]
-        content_lt: String
-        content_lte: String
-        content_gt: String
-        content_gte: String
-        content_contains: String
-        content_not_contains: String
-        content_starts_with: String
-        content_not_starts_with: String
-        content_ends_with: String
-        content_not_ends_with: String
         reason: String
         reason_not: String
         reason_in: [String!]
@@ -4887,6 +4873,20 @@ module.exports = {
         reason_not_starts_with: String
         reason_ends_with: String
         reason_not_ends_with: String
+        description: String
+        description_not: String
+        description_in: [String!]
+        description_not_in: [String!]
+        description_lt: String
+        description_lte: String
+        description_gt: String
+        description_gte: String
+        description_contains: String
+        description_not_contains: String
+        description_starts_with: String
+        description_not_starts_with: String
+        description_ends_with: String
+        description_not_ends_with: String
         post: PostWhereInput
         createdBy: AccountWhereInput
         createdAt: DateTime

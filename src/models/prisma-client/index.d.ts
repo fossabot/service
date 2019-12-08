@@ -677,10 +677,10 @@ export interface ClientConstructor<T> {
 export type ReportOrderByInput =
   | 'id_ASC'
   | 'id_DESC'
-  | 'content_ASC'
-  | 'content_DESC'
   | 'reason_ASC'
   | 'reason_DESC'
+  | 'description_ASC'
+  | 'description_DESC'
   | 'createdAt_ASC'
   | 'createdAt_DESC'
   | 'updatedAt_ASC'
@@ -1012,20 +1012,6 @@ export interface ReportWhereInput {
   id_not_starts_with?: Maybe<UUID>;
   id_ends_with?: Maybe<UUID>;
   id_not_ends_with?: Maybe<UUID>;
-  content?: Maybe<String>;
-  content_not?: Maybe<String>;
-  content_in?: Maybe<String[] | String>;
-  content_not_in?: Maybe<String[] | String>;
-  content_lt?: Maybe<String>;
-  content_lte?: Maybe<String>;
-  content_gt?: Maybe<String>;
-  content_gte?: Maybe<String>;
-  content_contains?: Maybe<String>;
-  content_not_contains?: Maybe<String>;
-  content_starts_with?: Maybe<String>;
-  content_not_starts_with?: Maybe<String>;
-  content_ends_with?: Maybe<String>;
-  content_not_ends_with?: Maybe<String>;
   reason?: Maybe<String>;
   reason_not?: Maybe<String>;
   reason_in?: Maybe<String[] | String>;
@@ -1040,6 +1026,20 @@ export interface ReportWhereInput {
   reason_not_starts_with?: Maybe<String>;
   reason_ends_with?: Maybe<String>;
   reason_not_ends_with?: Maybe<String>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
   post?: Maybe<PostWhereInput>;
   createdBy?: Maybe<AccountWhereInput>;
   createdAt?: Maybe<DateTimeInput>;
@@ -1263,8 +1263,8 @@ export interface ReviewImageSubscriptionWhereInput {
 
 export interface ReportCreateWithoutPostInput {
   id?: Maybe<UUID>;
-  content: String;
   reason: String;
+  description?: Maybe<String>;
   createdBy: AccountCreateOneWithoutReportsInput;
 }
 
@@ -2296,8 +2296,8 @@ export interface CommentLikeUpdateWithWhereUniqueWithoutCommentInput {
 
 export interface ReportCreateInput {
   id?: Maybe<UUID>;
-  content: String;
   reason: String;
+  description?: Maybe<String>;
   post: PostCreateOneWithoutReportsInput;
   createdBy: AccountCreateOneWithoutReportsInput;
 }
@@ -3523,8 +3523,8 @@ export interface LikeWhereInput {
 }
 
 export interface ReportUpdateWithoutCreatedByDataInput {
-  content?: Maybe<String>;
   reason?: Maybe<String>;
+  description?: Maybe<String>;
   post?: Maybe<PostUpdateOneRequiredWithoutReportsInput>;
 }
 
@@ -3781,8 +3781,8 @@ export interface PostUpdateWithoutCommentsDataInput {
 }
 
 export interface ReportUpdateInput {
-  content?: Maybe<String>;
   reason?: Maybe<String>;
+  description?: Maybe<String>;
   post?: Maybe<PostUpdateOneRequiredWithoutReportsInput>;
   createdBy?: Maybe<AccountUpdateOneRequiredWithoutReportsInput>;
 }
@@ -4045,8 +4045,8 @@ export interface PetCreateOneInput {
 }
 
 export interface ReportUpdateWithoutPostDataInput {
-  content?: Maybe<String>;
   reason?: Maybe<String>;
+  description?: Maybe<String>;
   createdBy?: Maybe<AccountUpdateOneRequiredWithoutReportsInput>;
 }
 
@@ -4126,20 +4126,6 @@ export interface ReportScalarWhereInput {
   id_not_starts_with?: Maybe<UUID>;
   id_ends_with?: Maybe<UUID>;
   id_not_ends_with?: Maybe<UUID>;
-  content?: Maybe<String>;
-  content_not?: Maybe<String>;
-  content_in?: Maybe<String[] | String>;
-  content_not_in?: Maybe<String[] | String>;
-  content_lt?: Maybe<String>;
-  content_lte?: Maybe<String>;
-  content_gt?: Maybe<String>;
-  content_gte?: Maybe<String>;
-  content_contains?: Maybe<String>;
-  content_not_contains?: Maybe<String>;
-  content_starts_with?: Maybe<String>;
-  content_not_starts_with?: Maybe<String>;
-  content_ends_with?: Maybe<String>;
-  content_not_ends_with?: Maybe<String>;
   reason?: Maybe<String>;
   reason_not?: Maybe<String>;
   reason_in?: Maybe<String[] | String>;
@@ -4154,6 +4140,20 @@ export interface ReportScalarWhereInput {
   reason_not_starts_with?: Maybe<String>;
   reason_ends_with?: Maybe<String>;
   reason_not_ends_with?: Maybe<String>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -4191,8 +4191,8 @@ export interface PostLikeCreateWithoutPostInput {
 }
 
 export interface ReportUpdateManyDataInput {
-  content?: Maybe<String>;
   reason?: Maybe<String>;
+  description?: Maybe<String>;
 }
 
 export interface AccountCreateWithoutPostImagesInput {
@@ -4339,8 +4339,8 @@ export interface AccountUpsertWithoutCommentsInput {
 
 export interface ReportCreateWithoutCreatedByInput {
   id?: Maybe<UUID>;
-  content: String;
   reason: String;
+  description?: Maybe<String>;
   post: PostCreateOneWithoutReportsInput;
 }
 
@@ -4630,8 +4630,8 @@ export interface AccountUpsertWithoutCommentImagesInput {
 }
 
 export interface ReportUpdateManyMutationInput {
-  content?: Maybe<String>;
   reason?: Maybe<String>;
+  description?: Maybe<String>;
 }
 
 export interface CommentImageUpsertWithWhereUniqueWithoutCommentInput {
@@ -6465,16 +6465,16 @@ export interface PetCategoryConnectionSubscription
 
 export interface Report {
   id: UUID;
-  content: String;
   reason: String;
+  description?: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
 
 export interface ReportPromise extends Promise<Report>, Fragmentable {
   id: () => Promise<UUID>;
-  content: () => Promise<String>;
   reason: () => Promise<String>;
+  description: () => Promise<String>;
   post: <T = PostPromise>() => T;
   createdBy: <T = AccountPromise>() => T;
   createdAt: () => Promise<DateTimeOutput>;
@@ -6483,8 +6483,8 @@ export interface ReportPromise extends Promise<Report>, Fragmentable {
 
 export interface ReportSubscription extends Promise<AsyncIterator<Report>>, Fragmentable {
   id: () => Promise<AsyncIterator<UUID>>;
-  content: () => Promise<AsyncIterator<String>>;
   reason: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
   post: <T = PostSubscription>() => T;
   createdBy: <T = AccountSubscription>() => T;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -6493,8 +6493,8 @@ export interface ReportSubscription extends Promise<AsyncIterator<Report>>, Frag
 
 export interface ReportNullablePromise extends Promise<Report | null>, Fragmentable {
   id: () => Promise<UUID>;
-  content: () => Promise<String>;
   reason: () => Promise<String>;
+  description: () => Promise<String>;
   post: <T = PostPromise>() => T;
   createdBy: <T = AccountPromise>() => T;
   createdAt: () => Promise<DateTimeOutput>;
@@ -8079,16 +8079,16 @@ export interface AggregatePostSubscription
 
 export interface ReportPreviousValues {
   id: UUID;
-  content: String;
   reason: String;
+  description?: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
 
 export interface ReportPreviousValuesPromise extends Promise<ReportPreviousValues>, Fragmentable {
   id: () => Promise<UUID>;
-  content: () => Promise<String>;
   reason: () => Promise<String>;
+  description: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -8097,8 +8097,8 @@ export interface ReportPreviousValuesSubscription
   extends Promise<AsyncIterator<ReportPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<UUID>>;
-  content: () => Promise<AsyncIterator<String>>;
   reason: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
