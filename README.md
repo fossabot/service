@@ -2,6 +2,7 @@
 
 [![Hits-of-Code](https://hitsofcode.com/github/PetIsland/service)](https://hitsofcode.com/view/github/PetIsland/service)
 [![GitHub](https://img.shields.io/github/license/PetIsland/service.svg)](https://github.com/PetIsland/service/blob/master/LICENSE)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPetIsland%2Fservice.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FPetIsland%2Fservice?ref=badge_shield)
 
 🚀🌌 Powerful service for PetIsland.
 
@@ -58,3 +59,6 @@ Build with 🙌 and ❤️
 ## License
 
 Apache © [cuongw](https://github.com/cuongw)
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPetIsland%2Fservice.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FPetIsland%2Fservice?ref=badge_large)
